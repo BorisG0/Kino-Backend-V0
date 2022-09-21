@@ -1,4 +1,4 @@
-DROP SCHEMA cinedb;
+DROP SCHEMA IF EXISTS cinedb;
 CREATE SCHEMA IF NOT EXISTS cinedb;
 USE cinedb;
 
