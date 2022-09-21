@@ -195,6 +195,7 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
+
 insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (1, 'Melchior', 'Daniel', 83, 'd.melchior@sap.com', '66292', 'Saarland', 'Salbacher Straße 20', 'DE', '+49 157 178 9855', 'GOloNs9PtS', 'danny.melchior');
 insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (2, 'Attlee', 'Lyle', 11, 'lattlee1@sphinn.com', '40591', 'Nordrhein-Westfalen', '956 Sycamore Alley', 'DE', '+49 824 261 2230', 'mNDtfnNnXL', 'lattlee1');
 insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (3, 'Dunbabin', 'Lolita', 82, 'ldunbabin2@digg.com', '09116', 'Sachsen', '0953 Monterey Place', 'DE', '+49 390 982 5080', 'fBu73M', 'ldunbabin2');
