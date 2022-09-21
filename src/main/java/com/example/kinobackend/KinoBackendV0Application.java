@@ -1,5 +1,6 @@
 package com.example.kinobackend;
 
+import com.example.kinobackend.db_access.MySqlConnector;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,10 @@ public class KinoBackendV0Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(KinoBackendV0Application.class, args);
+		MySqlConnector C = new MySqlConnector();
+		C.show_customers();
 	}
+
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx){
