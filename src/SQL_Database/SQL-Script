@@ -25,14 +25,14 @@ DROP TABLE IF EXISTS `cinedb`.`Movies` ;
 
 CREATE TABLE IF NOT EXISTS `cinedb`.`Movies` (
                                                  `idMovie` INT NOT NULL,
-                                                 `Title` VARCHAR(45) NULL,
+                                                 `Title` LONGTEXT NULL,
                                                  `Genre` VARCHAR(45) NULL,
                                                  `AgeRestriction` INT NULL,
-                                                 `RelaseDate` DATE NULL,
+                                                 `ReleaseDate` DATE NULL,
                                                  `Duration` INT NULL,
                                                  `Description` LONGTEXT NULL,
                                                  `TrailerID` INT NOT NULL,
-                                                 `CastID` VARCHAR(45) NOT NULL,
+                                                 `CastID` INT NOT NULL,
                                                  `pictureID` INT NOT NULL,
                                                  PRIMARY KEY (`idMovie`),
                                                  UNIQUE INDEX `TrailerID_UNIQUE` (`TrailerID` ASC) VISIBLE,
@@ -101,9 +101,7 @@ DROP TABLE IF EXISTS `cinedb`.`Rooms` ;
 
 CREATE TABLE IF NOT EXISTS `cinedb`.`Rooms` (
                                                 `idRoom` INT NOT NULL,
-                                                `RoomsName` VARCHAR(45) NULL,
                                                 `SeatsSum` INT NULL,
-                                                `SeatsSpecial` INT NULL,
                                                 PRIMARY KEY (`idRoom`))
     ENGINE = InnoDB;
 
@@ -115,22 +113,20 @@ DROP TABLE IF EXISTS `cinedb`.`Events` ;
 
 CREATE TABLE IF NOT EXISTS `cinedb`.`Events` (
                                                  `idEvent` INT NOT NULL,
-                                                 `RoomNumber` VARCHAR(45) NULL,
-                                                 `SeatsSum` INT NULL,
-                                                 `SeatsOccupied` INT NULL DEFAULT 0,
                                                  `Date` DATE NULL,
                                                  `Time` TIME NULL,
-                                                 `idMovie` INT NOT NULL,
-                                                 `idRoom` INT NOT NULL,
-                                                 PRIMARY KEY (`idEvent`, `idMovie`, `idRoom`),
+                                                 `idMovie` INT NULL,
+                                                 `idRoom` INT NULL,
+                                                 PRIMARY KEY (`idEvent`),
+                                                 UNIQUE (`idMovie`, `idRoom`),
                                                  INDEX `fk_Events_Movies1_idx` (`idMovie` ASC) VISIBLE,
                                                  INDEX `fk_Events_Rooms1_idx` (`idRoom` ASC) VISIBLE,
-                                                 CONSTRAINT `fk_Events_Movies1`
+
                                                      FOREIGN KEY (`idMovie`)
                                                          REFERENCES `cinedb`.`Movies` (`idMovie`)
                                                          ON DELETE NO ACTION
                                                          ON UPDATE NO ACTION,
-                                                 CONSTRAINT `fk_Events_Rooms1`
+
                                                      FOREIGN KEY (`idRoom`)
                                                          REFERENCES `cinedb`.`Rooms` (`idRoom`)
                                                          ON DELETE NO ACTION
@@ -145,14 +141,15 @@ DROP TABLE IF EXISTS `cinedb`.`Seats` ;
 
 CREATE TABLE IF NOT EXISTS `cinedb`.`Seats` (
                                                 `idSeat` INT NOT NULL,
-                                                `isBooked` TINYINT NULL,
-                                                `Row` VARCHAR(45) NULL,
-                                                `NumberInRow` INT NULL,
-                                                `Rooms_idRoom` INT NOT NULL,
-                                                PRIMARY KEY (`idSeat`, `Rooms_idRoom`),
-                                                INDEX `fk_Seats_Rooms1_idx` (`Rooms_idRoom` ASC) VISIBLE,
-                                                CONSTRAINT `fk_Seats_Rooms1`
-                                                    FOREIGN KEY (`Rooms_idRoom`)
+                                                `Line` VARCHAR(45) NULL,
+                                                `NumberInLine` INT NULL,
+                                                `idRoom` INT NULL,
+                                                PRIMARY KEY (`idSeat`),
+                                                UNIQUE (`idRoom`),
+                                                INDEX `fk_Seats_Rooms1_idx` (`idRoom` ASC) VISIBLE,
+                                                UNIQUE INDEX `NumberInLine_UNIQUE` (`NumberInLine` ASC) VISIBLE,
+
+                                                    FOREIGN KEY (`idRoom`)
                                                         REFERENCES `cinedb`.`Rooms` (`idRoom`)
                                                         ON DELETE NO ACTION
                                                         ON UPDATE NO ACTION)
@@ -165,25 +162,27 @@ CREATE TABLE IF NOT EXISTS `cinedb`.`Seats` (
 DROP TABLE IF EXISTS `cinedb`.`Bookings` ;
 
 CREATE TABLE IF NOT EXISTS `cinedb`.`Bookings` (
-                                                   `idEvent` INT NOT NULL,
-                                                   `idSeat` INT NOT NULL,
+                                                   `idBooking` INT NOT NULL,
+                                                   `idEvent` INT NULL,
+                                                   `idSeat` INT NULL,
                                                    `isBooked` TINYINT NULL,
-                                                   `idCustomer` INT NOT NULL,
-                                                   PRIMARY KEY (`idEvent`, `idSeat`, `idCustomer`),
+                                                   `idCustomer` INT NULL,
+                                                   PRIMARY KEY (`idBooking`),
+                                                   UNIQUE (`idEvent`, `idSeat`, `idCustomer`),
                                                    INDEX `fk_Events_has_Seats_Seats1_idx` (`idSeat` ASC) VISIBLE,
                                                    INDEX `fk_Events_has_Seats_Events1_idx` (`idEvent` ASC) VISIBLE,
                                                    INDEX `fk_Bookings_Customers1_idx` (`idCustomer` ASC) VISIBLE,
-                                                   CONSTRAINT `fk_Events_has_Seats_Events1`
+
                                                        FOREIGN KEY (`idEvent`)
                                                            REFERENCES `cinedb`.`Events` (`idEvent`)
                                                            ON DELETE NO ACTION
                                                            ON UPDATE NO ACTION,
-                                                   CONSTRAINT `fk_Events_has_Seats_Seats1`
+
                                                        FOREIGN KEY (`idSeat`)
                                                            REFERENCES `cinedb`.`Seats` (`idSeat`)
                                                            ON DELETE NO ACTION
                                                            ON UPDATE NO ACTION,
-                                                   CONSTRAINT `fk_Bookings_Customers1`
+
                                                        FOREIGN KEY (`idCustomer`)
                                                            REFERENCES `cinedb`.`Customers` (`idCustomer`)
                                                            ON DELETE NO ACTION
@@ -216,4 +215,179 @@ insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, L
 insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (18, 'Head', 'Peadar', 73, 'pheadh@google.es', '13409', 'Berlin', '6921 Steensland Park', 'DE', '+49 708 198 8187', 'VPUZeka', 'pheadh');
 insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (19, 'Biever', 'Wat', 61, 'wbieveri@slate.com', '20359', 'Hamburg', '9 Ronald Regan Park', 'DE', '+49 718 718 1720', 'm4DCsSy2i', 'wbieveri');
 insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (20, 'Chaplyn', 'Guendolen', 10, 'gchaplynj@ezinearticles.com', '90411', 'Bayern', '1998 5th Street', 'DE', '+49 745 117 4164', 'iNcd2ly8S9', 'gchaplynj');
+
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (1, 'Paul Blart: Mall Cop', 'Action|Comedy|Crime', 12, '2022-08-25', 212, 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula.', 1, 1, 1);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (2, 'Tsotsi', 'Crime|Drama', 6, '2022-02-10', 111, 'Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia.', 2, 2, 2);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (3, '20 Dates', 'Comedy|Romance', 6, '2022-01-20', 180, 'Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam.', 3, 3, 3);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (4, 'Corruptor, The', 'Action|Crime|Drama|Thriller', 18, '2022-07-18', 94, 'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh.', 4, 4, 4);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (5, 'Starship Troopers', 'Action|Sci-Fi', 16, '2022-03-20', 157, 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis.', 5, 5, 5);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (6, 'Watch on the Rhine', 'Drama', 12, '2022-08-27', 172, 'Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat. Nulla nisl.', 6, 6, 6);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (7, 'Uuno in Spain', 'Comedy', 16, '2022-02-28', 140, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque. Duis bibendum. Morbi non quam nec dui luctus rutrum.', 7, 7, 7);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (8, 'You''re a Good Man, Charlie BLinen', 'Animation|Comedy|Musical', 16, '2022-02-08', 115, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 8, 8, 8);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (9, 'The Divine Move', 'Action|Crime|Drama', 12, '2022-02-09', 88, 'In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum.', 9, 9, 9);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (10, 'Varsity Blues', 'Comedy|Drama', 18, '2022-07-04', 92, 'Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl. Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus.', 10, 10, 10);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (11, 'Road Warrior, The (Mad Max 2)', 'Action|Adventure|Sci-Fi', 18, '2022-08-31', 204, 'In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla.', 11, 11, 11);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (12, 'Lucky Number Slevin', 'Crime|Drama|Mystery', 16, '2022-05-11', 141, 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum. Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue.', 12, 12, 12);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (13, 'Bitter Feast', 'Comedy|Horror|Thriller', 6, '2022-03-11', 105, 'Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl. Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.', 13, 13, 13);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (14, 'Medallion, The', 'Action|Comedy|Crime|Fantasy', 6, '2022-05-23', 204, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum. Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi.', 14, 14, 14);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (15, 'Illustrated Man, The', 'Sci-Fi', 18, '2022-11-09', 195, 'Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti.', 15, 15, 15);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (16, 'Wrestler, The (Painija)', 'Comedy|Drama|Fantasy', 18, '2022-04-05', 198, 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis. Donec semper sapien a libero. Nam dui.', 16, 16, 16);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (17, 'Gimme Shelter', 'Drama', 18, '2022-03-25', 205, 'Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum. Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 17, 17, 17);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (18, 'Vuonna 85', 'Comedy', 16, '2022-12-03', 205, 'Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius. Integer ac leo. Pellentesque ultrices mattis odio.', 18, 18, 18);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (19, 'Fantasia', 'Animation|Children|Fantasy|Musical', 18, '2022-05-25', 182, 'Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum.', 19, 19, 19);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (20, 'Death of a Dynasty', 'Comedy', 12, '2022-07-29', 143, 'Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum.', 20, 20, 20);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (21, 'Aquamarine', 'Children|Comedy|Fantasy', 18, '2022-08-24', 128, 'Nulla nisl. Nunc nisl. Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', 21, 21, 21);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (22, 'My Soul to Take', 'Horror|Thriller', 16, '2022-05-19', 177, 'Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor. Duis mattis egestas metus.', 22, 22, 22);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (23, 'Elevator', 'Comedy|Drama', 18, '2022-03-06', 208, 'Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.', 23, 23, 23);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (24, 'Tag: The Assassination Game (a.k.a. Everybody Gets It in the End)', 'Action|Thriller', 16, '2022-09-11', 158, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio.', 24, 24, 24);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (25, 'Babel', 'Drama|Thriller', 18, '2022-05-18', 171, 'Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus.', 25, 25, 25);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (26, 'Get Shorty', 'Comedy|Crime|Thriller', 18, '2022-01-01', 129, 'Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.', 26, 26, 26);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (27, 'I''ll Be There', 'Comedy|Musical|Romance', 16, '2022-05-16', 169, 'Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti.', 27, 27, 27);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (28, 'Terror, The', 'Horror|Mystery', 16, '2022-09-06', 180, 'Phasellus in felis. Donec semper sapien a libero. Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius. Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 28, 28, 28);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (29, 'Young Doctors in Love', 'Comedy', 6, '2022-12-19', 97, 'Donec semper sapien a libero. Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius. Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum.', 29, 29, 29);
+insert into movies (idMovie, Title, Genre, AgeRestriction, ReleaseDate, Duration, Description, TrailerID, CastID, pictureID) values (30, 'Eureka', 'Drama', 12, '2022-06-06', 183, 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque. Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 30, 30, 30);
+
+insert into rooms (idRoom, SeatsSum) values (1, NULL);
+insert into rooms (idRoom, SeatsSum) values (2, NULL);
+insert into rooms (idRoom, SeatsSum) values (3, NULL);
+insert into rooms (idRoom, SeatsSum) values (4, NULL);
+insert into rooms (idRoom, SeatsSum) values (5, NULL);
+insert into rooms (idRoom, SeatsSum) values (6, NULL);
+insert into rooms (idRoom, SeatsSum) values (7, NULL);
+insert into rooms (idRoom, SeatsSum) values (8, NULL);
+insert into rooms (idRoom, SeatsSum) values (9, NULL);
+insert into rooms (idRoom, SeatsSum) values (10, NULL);
+insert into rooms (idRoom, SeatsSum) values (11, NULL);
+
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (1, 'A', 1, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (2, 'B', 2, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (3, 'C', 3, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (4, 'D', 4, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (5, 'E', 5, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (6, 'F', 6, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (7, 'G', 7, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (8, 'H', 8, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (9, 'I', 9, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (10, 'J', 10, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (11, 'A', 11, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (12, 'B', 12, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (13, 'C', 13, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (14, 'D', 14, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (15, 'E', 15, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (16, 'F', 16, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (17, 'G', 17, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (18, 'H', 18, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (19, 'I', 19, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (20, 'J', 20, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (21, 'A', 21, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (22, 'B', 22, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (23, 'C', 23, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (24, 'D', 24, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (25, 'E', 25, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (26, 'F', 26, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (27, 'G', 27, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (28, 'H', 28, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (29, 'I', 29, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (30, 'J', 30, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (31, 'A', 31, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (32, 'B', 32, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (33, 'C', 33, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (34, 'D', 34, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (35, 'E', 35, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (36, 'F', 36, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (37, 'G', 37, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (38, 'H', 38, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (39, 'I', 39, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (40, 'J', 40, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (41, 'A', 41, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (42, 'B', 42, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (43, 'C', 43, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (44, 'D', 44, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (45, 'E', 45, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (46, 'F', 46, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (47, 'G', 47, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (48, 'H', 48, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (49, 'I', 49, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (50, 'J', 50, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (51, 'A', 51, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (52, 'B', 52, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (53, 'C', 53, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (54, 'D', 54, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (55, 'E', 55, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (56, 'F', 56, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (57, 'G', 57, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (58, 'H', 58, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (59, 'I', 59, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (60, 'J', 60, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (61, 'A', 61, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (62, 'B', 62, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (63, 'C', 63, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (64, 'D', 64, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (65, 'E', 65, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (66, 'F', 66, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (67, 'G', 67, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (68, 'H', 68, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (69, 'I', 69, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (70, 'J', 70, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (71, 'A', 71, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (72, 'B', 72, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (73, 'C', 73, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (74, 'D', 74, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (75, 'E', 75, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (76, 'F', 76, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (77, 'G', 77, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (78, 'H', 78, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (79, 'I', 79, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (80, 'J', 80, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (81, 'A', 81, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (82, 'B', 82, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (83, 'C', 83, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (84, 'D', 84, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (85, 'E', 85, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (86, 'F', 86, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (87, 'G', 87, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (88, 'H', 88, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (89, 'I', 89, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (90, 'J', 90, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (91, 'A', 91, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (92, 'B', 92, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (93, 'C', 93, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (94, 'D', 94, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (95, 'E', 95, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (96, 'F', 96, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (97, 'G', 97, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (98, 'H', 98, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (99, 'I', 99, null);
+insert into seats (idSeat, Line, NumberInLine, idRoom) values (100, 'J', 100, null);
+
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (1, '2022-07-17', '14:49:08', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (2, '2022-11-07', '22:01:49', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (3, '2022-01-24', '20:23:13', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (4, '2022-06-18', '20:45:56', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (5, '2021-12-06', '18:39:31', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (6, '2022-06-26', '15:10:15', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (7, '2022-04-10', '21:40:14', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (8, '2021-11-13', '18:44:47', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (9, '2022-04-12', '15:49:25', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (10, '2022-01-14', '20:51:08', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (11, '2022-01-10', '18:54:22', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (12, '2022-03-19', '18:37:49', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (13, '2021-11-24', '21:44:57', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (14, '2022-01-14', '18:20:12', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (15, '2022-03-15', '17:47:40', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (16, '2022-02-12', '19:21:47', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (17, '2022-08-02', '16:22:26', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (18, '2022-04-22', '16:02:37', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (19, '2022-06-07', '14:07:25', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (20, '2022-05-20', '21:58:10', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (21, '2021-12-12', '22:01:09', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (22, '2022-06-03', '18:21:56', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (23, '2022-04-21', '16:43:31', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (24, '2021-12-01', '19:05:15', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (25, '2022-02-06', '14:20:03', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (26, '2021-12-25', '14:53:47', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (27, '2022-02-26', '19:20:18', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (28, '2021-11-15', '17:00:40', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (29, '2022-04-18', '21:12:24', null, null);
+insert into events (idEvent, Date, Time, idMovie, idRoom) values (30, '2022-03-30', '22:06:24', null, null);
 
