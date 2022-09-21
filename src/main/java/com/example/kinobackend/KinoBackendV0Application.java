@@ -14,15 +14,13 @@ public class KinoBackendV0Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(KinoBackendV0Application.class, args);
-		MySqlConnector C = new MySqlConnector();
-		C.show_customers();
 	}
 
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx){
 		return args -> {
-			System.out.println("Beas provided by Spring Boot:");
+			System.out.println("Beans provided by Spring Boot:");
 			String[] beanNames = ctx.getBeanDefinitionNames();
 			Arrays.sort(beanNames);
 			for(String beanName: beanNames){
