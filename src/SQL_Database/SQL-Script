@@ -1,0 +1,119 @@
+DROP SCHEMA cinedb;
+CREATE SCHEMA IF NOT EXISTS cinedb;
+USE cinedb;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS `customers` ;
+
+CREATE TABLE IF NOT EXISTS `customers` (
+                                           `idCustomer` int NOT NULL,
+                                           `LastName` varchar(45) DEFAULT NULL,
+    `FirstName` varchar(45) DEFAULT NULL,
+    `Age` int DEFAULT NULL,
+    `MailAddress` varchar(45) DEFAULT NULL,
+    `PLZ` int DEFAULT NULL,
+    `Location` varchar(45) DEFAULT NULL,
+    `Street` varchar(45) DEFAULT NULL,
+    `Country` varchar(2) DEFAULT 'DE',
+    `MobileNumber` varchar(25) DEFAULT NULL,
+    `Password` varchar(45) DEFAULT NULL,
+    `UserName` varchar(45) DEFAULT NULL,
+    PRIMARY KEY (`idCustomer`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `employees` ;
+
+CREATE TABLE IF NOT EXISTS `employees` (
+                                           `idEmployee` int NOT NULL,
+                                           `LastName` varchar(45) DEFAULT NULL,
+    `FirstName` varchar(45) DEFAULT NULL,
+    `Role` varchar(45) DEFAULT NULL,
+    `Password` varchar(45) DEFAULT NULL,
+    `PIN` int DEFAULT '1234',
+    PRIMARY KEY (`idEmployee`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `movies`;
+
+CREATE TABLE IF NOT EXISTS `movies` (
+                                        `idMovie` int NOT NULL,
+                                        `Title` varchar(45) DEFAULT NULL,
+    `Genre` varchar(45) DEFAULT NULL,
+    `AgeRestriction` int DEFAULT NULL,
+    `RelaseDate` date DEFAULT NULL,
+    `Duration` int DEFAULT NULL,
+    `Description` longtext,
+    `TrailerID` int NOT NULL,
+    `CastID` varchar(45) NOT NULL,
+    `pictureID` int NOT NULL,
+    PRIMARY KEY (`idMovie`),
+    UNIQUE KEY `TrailerID_UNIQUE` (`TrailerID`),
+    UNIQUE KEY `CastID_UNIQUE` (`CastID`),
+    UNIQUE KEY `pictureID_UNIQUE` (`pictureID`),
+    UNIQUE KEY `idMovies_UNIQUE` (`idMovie`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `events` ;
+
+CREATE TABLE IF NOT EXISTS `events` (
+                                        `idEvent` int NOT NULL,
+                                        `idMovie` int NOT NULL,
+                                        `RoomNumber` varchar(45) DEFAULT NULL,
+    `SeatsSum` int DEFAULT NULL,
+    `SeatsOccupied` int DEFAULT '0',
+    PRIMARY KEY (`idEvent`),
+    KEY `fk_Events_Movies_idx` (`idMovie`),
+    CONSTRAINT `fk_Events_Movies` FOREIGN KEY (`idMovie`) REFERENCES `movies` (`idMovie`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `snacks` ;
+
+CREATE TABLE IF NOT EXISTS `snacks` (
+                                        `idSnacks` int NOT NULL,
+                                        `SnackName` varchar(45) DEFAULT NULL,
+    `Price` float DEFAULT NULL,
+    `Ammount` int DEFAULT NULL,
+    PRIMARY KEY (`idSnacks`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `bookings`;
+
+CREATE TABLE IF NOT EXISTS `bookings` (
+                                          `idBookings` int NOT NULL,
+                                          `idCustomer` int NOT NULL,
+                                          `idEvent` int NOT NULL,
+                                          `idMovie` int NOT NULL,
+                                          PRIMARY KEY (`idBookings`),
+    KEY `fk_Bookings_Customers1_idx` (`idCustomer`),
+    KEY `fk_Bookings_Events1_idx` (`idEvent`),
+    KEY `fk_Bookings_Movies1_idx` (`idMovie`),
+    CONSTRAINT `fk_Bookings_Customers1` FOREIGN KEY (`idCustomer`) REFERENCES `customers` (`idCustomer`),
+    CONSTRAINT `fk_Bookings_Events1` FOREIGN KEY (`idEvent`) REFERENCES `events` (`idEvent`),
+    CONSTRAINT `fk_Bookings_Movies1` FOREIGN KEY (`idMovie`) REFERENCES `movies` (`idMovie`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+SET FOREIGN_KEY_CHECKS = 1 ;
+
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (1, 'Phelipeau', 'Chanda', 83, 'cphelipeau0@e-recht24.de', '73190', 'Oklahoma', '962 Mallard Parkway', 'US', '+1 405 887 1274', 'GOloNs9PtS', 'cphelipeau0');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (2, 'Attlee', 'Lyle', 11, 'lattlee1@sphinn.com', '40591', 'Nordrhein-Westfalen', '956 Sycamore Alley', 'DE', '+49 824 261 2230', 'mNDtfnNnXL', 'lattlee1');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (3, 'Dunbabin', 'Lolita', 82, 'ldunbabin2@digg.com', '09116', 'Sachsen', '0953 Monterey Place', 'DE', '+49 390 982 5080', 'fBu73M', 'ldunbabin2');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (4, 'Berger', 'Angelico', 88, 'aberger3@posterous.com', '09123', 'Sachsen', '860 Center Place', 'DE', '+49 356 560 4646', 'MiBtueRSa', 'aberger3');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (5, 'Halewood', 'Aloin', 51, 'ahalewood4@umich.edu', '80686', 'Bayern', '51 Glendale Road', 'DE', '+49 674 504 2593', '6qwXciqelIwr', 'ahalewood4');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (6, 'Burgwyn', 'Tresa', 49, 'tburgwyn5@whitehouse.gov', '44369', 'Nordrhein-Westfalen', '3 Hanover Point', 'DE', '+49 197 756 5887', 'K4zCOE5TU', 'tburgwyn5');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (7, 'Sedworth', 'Darn', 100, 'dsedworth6@xrea.com', '01189', 'Sachsen', '404 Orin Hill', 'DE', '+49 919 425 0372', 'mieeQE6UH2v', 'dsedworth6');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (8, 'Lighten', 'Lorne', 79, 'llighten7@adobe.com', '65191', 'Hessen', '80 Hintze Hill', 'DE', '+49 152 508 0397', 'SWXAIDj6Hp', 'llighten7');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (9, 'Larrat', 'Mallorie', 25, 'mlarrat8@shutterfly.com', '14109', 'Berlin', '9410 Drewry Parkway', 'DE', '+49 182 399 1477', 'Zk2KJmx4M', 'mlarrat8');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (10, 'Leadley', 'Krysta', 32, 'kleadley9@umn.edu', '22179', 'Hamburg', '69 Evergreen Circle', 'DE', '+49 135 196 3232', 'Ls2txI', 'kleadley9');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (11, 'Grealey', 'Adrienne', 40, 'agrealeya@who.int', '51149', 'Nordrhein-Westfalen', '63617 Eastwood Hill', 'DE', '+49 902 261 9715', 'LeYfgdoAfznW', 'agrealeya');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (12, 'Matantsev', 'Flint', 39, 'fmatantsevb@bandcamp.com', '12169', 'Berlin', '531 Hintze Pass', 'DE', '+49 122 219 9202', 'N2ZEUxPzp', 'fmatantsevb');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (13, 'MacCardle', 'Esmeralda', 76, 'emaccardlec@tuttocitta.it', '22559', 'Hamburg', '54 Dunning Terrace', 'DE', '+49 360 766 5120', 'kInroC7P', 'emaccardlec');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (14, 'Skydall', 'Chalmers', 59, 'cskydalld@moonfruit.com', '33619', 'Nordrhein-Westfalen', '19 Steensland Point', 'DE', '+49 263 292 2594', 'az4oLv', 'cskydalld');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (15, 'Savoury', 'Patience', 94, 'psavourye@rambler.ru', '47239', 'Nordrhein-Westfalen', '88456 Scoville Plaza', 'DE', '+49 336 703 7610', 'S92TmyY20SG', 'psavourye');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (16, 'Bradnam', 'Tilda', 45, 'tbradnamf@answers.com', '22179', 'Hamburg', '4 Spohn Junction', 'DE', '+49 520 281 2721', '2E4GC3wg9', 'tbradnamf');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (17, 'Semper', 'Lazarus', 67, 'lsemperg@issuu.com', '04317', 'Sachsen', '8 Londonderry Circle', 'DE', '+49 557 556 1685', 'SBp0pvCguNIe', 'lsemperg');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (18, 'Head', 'Peadar', 73, 'pheadh@google.es', '13409', 'Berlin', '6921 Steensland Park', 'DE', '+49 708 198 8187', 'VPUZeka', 'pheadh');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (19, 'Biever', 'Wat', 61, 'wbieveri@slate.com', '20359', 'Hamburg', '9 Ronald Regan Park', 'DE', '+49 718 718 1720', 'm4DCsSy2i', 'wbieveri');
+insert into customers (idCustomer, LastName, FirstName, Age, MailAddress, PLZ, Location, Street, Country, MobileNumber, Password, UserName) values (20, 'Chaplyn', 'Guendolen', 10, 'gchaplynj@ezinearticles.com', '90411', 'Bayern', '1998 5th Street', 'DE', '+49 745 117 4164', 'iNcd2ly8S9', 'gchaplynj');
+
