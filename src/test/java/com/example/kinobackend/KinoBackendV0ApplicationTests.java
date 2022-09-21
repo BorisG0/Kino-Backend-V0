@@ -9,5 +9,5 @@ class KinoBackendV0ApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
+//test cooment
 }
