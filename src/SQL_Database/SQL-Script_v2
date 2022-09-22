@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `mydb`.`Movies` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`Movies` (
                                                `idMovie` INT NOT NULL,
-                                               `Name` VARCHAR(45) NULL,
+                                               `Title` VARCHAR(45) NULL,
                                                `Duration` INT NULL,
                                                `AgeRestriction` INT NULL,
                                                PRIMARY KEY (`idMovie`))
@@ -119,8 +119,8 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-INSERT INTO movies (`idMovie`, `Name`, `Duration`, AgeRestriction) VALUES   (1, 'Minions', 125, 6);
-INSERT INTO movies (`idMovie`, `Name`, `Duration`, AgeRestriction) VALUES  (2, 'Batman', 160, 12);
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction) VALUES   (1, 'Minions', 125, 6);
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction) VALUES  (2, 'Batman', 160, 12);
 
 insert into events (idEvent, Date, Time, Movies_idMovie, Rooms_idRoom) values (1, '2022-07-17', '14:00:00', null, null);
 insert into events (idEvent, Date, Time, Movies_idMovie, Rooms_idRoom) values (2, '2022-11-07', '18:00:00', null, null);
