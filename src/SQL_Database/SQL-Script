@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `cinedb`.`Events` (
                                                  `idMovie` INT NULL,
                                                  `idRoom` INT NULL,
                                                  PRIMARY KEY (`idEvent`),
-                                                 UNIQUE (`idMovie`, `idRoom`),
+                                                 UNIQUE KEY (`idMovie`, `idRoom`),
                                                  INDEX `fk_Events_Movies1_idx` (`idMovie` ASC) VISIBLE,
                                                  INDEX `fk_Events_Rooms1_idx` (`idRoom` ASC) VISIBLE,
 
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `cinedb`.`Seats` (
                                                 `NumberInLine` INT NULL,
                                                 `idRoom` INT NULL,
                                                 PRIMARY KEY (`idSeat`),
-                                                UNIQUE (`idRoom`),
+                                                UNIQUE KEY (`idRoom`),
                                                 INDEX `fk_Seats_Rooms1_idx` (`idRoom` ASC) VISIBLE,
                                                 UNIQUE INDEX `NumberInLine_UNIQUE` (`NumberInLine` ASC) VISIBLE,
 
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `cinedb`.`Bookings` (
                                                    `isBooked` TINYINT NULL,
                                                    `idCustomer` INT NULL,
                                                    PRIMARY KEY (`idBooking`),
-                                                   UNIQUE (`idEvent`, `idSeat`, `idCustomer`),
+                                                   UNIQUE KEY (`idEvent`, `idSeat`, `idCustomer`),
                                                    INDEX `fk_Events_has_Seats_Seats1_idx` (`idSeat` ASC) VISIBLE,
                                                    INDEX `fk_Events_has_Seats_Events1_idx` (`idEvent` ASC) VISIBLE,
                                                    INDEX `fk_Bookings_Customers1_idx` (`idCustomer` ASC) VISIBLE,
