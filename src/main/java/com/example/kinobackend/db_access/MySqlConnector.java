@@ -11,7 +11,7 @@ public class MySqlConnector {
     public MySqlConnector(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinedb", "root", "DBADMIN");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "DBADMIN");
         }catch (Exception e){
             System.out.println(e);
         }
