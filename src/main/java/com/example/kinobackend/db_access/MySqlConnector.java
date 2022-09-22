@@ -35,6 +35,21 @@ public class MySqlConnector {
         return data.toArray(new Movie[0]);
     }
 
+    public Movie getMovieById(int id){
+        Movie movie = null;
+
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select idMovie, Title, Duration from movies where idMovie = " + id);
+            rs.next();
+            movie = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3));
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+        return movie;
+    }
+
     public Customer[] getCustomerData(){
         ArrayList<Customer> data = new ArrayList<Customer>();
 
