@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `cinedb`.`Snacks` (
                                                  `idSnacks` INT NOT NULL,
                                                  `SnackName` VARCHAR(45) NULL,
                                                  `Price` FLOAT NULL,
-                                                 `Ammount` INT NULL,
+                                                 `Amount` INT NULL,
                                                  PRIMARY KEY (`idSnacks`))
     ENGINE = InnoDB;
 
@@ -391,3 +391,24 @@ insert into events (idEvent, Date, Time, idMovie, idRoom) values (28, '2021-11-1
 insert into events (idEvent, Date, Time, idMovie, idRoom) values (29, '2022-04-18', '21:12:24', null, null);
 insert into events (idEvent, Date, Time, idMovie, idRoom) values (30, '2022-03-30', '22:06:24', null, null);
 
+insert into employees (idEmployee, LastName, FirstName, Role, Password, PIN) values (1, 'Gilmour', 'Mélia', 'Manager', '8XXL2PZo', '8576');
+insert into employees (idEmployee, LastName, FirstName, Role, Password, PIN) values (2, 'Pheby', 'Cunégonde', 'Kontrolleur', '1hgsK13B', '2703');
+insert into employees (idEmployee, LastName, FirstName, Role, Password, PIN) values (3, 'Dwane', 'Agnès', 'SnackVerkäufer', '9WIrhk9a52u', '4047');
+insert into employees (idEmployee, LastName, FirstName, Role, Password, PIN) values (4, 'Denniston', 'Loïs', 'Kontrolleur', 'fEBNPoX', '1393');
+insert into employees (idEmployee, LastName, FirstName, Role, Password, PIN) values (5, 'Byrcher', 'Gaëlle', 'Manager', '1aGSxKVP', '4971');
+insert into employees (idEmployee, LastName, FirstName, Role, Password, PIN) values (6, 'Merritt', 'Marie-thérèse', 'Manager', '0O5fYu', '7776');
+insert into employees (idEmployee, LastName, FirstName, Role, Password, PIN) values (7, 'Luxen', 'Edmée', 'TicketVerkäufer', 'CawJOR', '5659');
+insert into employees (idEmployee, LastName, FirstName, Role, Password, PIN) values (8, 'Fosh', 'Lorène', 'Manager', 'Djxl2gru', '9581');
+insert into employees (idEmployee, LastName, FirstName, Role, Password, PIN) values (9, 'Laydon', 'Maëline', 'TicketVerkäufer', 'aJumewz075BX', '0452');
+insert into employees (idEmployee, LastName, FirstName, Role, Password, PIN) values (10, 'Gibbe', 'Ráo', 'Manager', 'At1FXj', '9188');
+
+insert into snacks (idSnacks, SnackName, Price, Amount) values (1, 'Popcorn', 3.4, 82);
+insert into snacks (idSnacks, SnackName, Price, Amount) values (2, 'Nachos', 2.6, 91);
+insert into snacks (idSnacks, SnackName, Price, Amount) values (3, 'Eis', 3.4, 93);
+insert into snacks (idSnacks, SnackName, Price, Amount) values (4, 'Chips', 2.0, 82);
+insert into snacks (idSnacks, SnackName, Price, Amount) values (5, 'Salzstangen', 4.9, 60);
+insert into snacks (idSnacks, SnackName, Price, Amount) values (6, 'Gummibärchen', 2.6, 64);
+insert into snacks (idSnacks, SnackName, Price, Amount) values (7, 'Popcorn', 2.7, 65);
+insert into snacks (idSnacks, SnackName, Price, Amount) values (8, 'Nachos', 1.2, 82);
+insert into snacks (idSnacks, SnackName, Price, Amount) values (9, 'Eis', 2.6, 95);
+insert into snacks (idSnacks, SnackName, Price, Amount) values (10, 'Chips', 2.6, 66);
