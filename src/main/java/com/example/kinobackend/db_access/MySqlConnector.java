@@ -19,20 +19,20 @@ public class MySqlConnector {
     }
 
     public Movie[] getMovieData(){
-        Movie[] data = new Movie[5];
+        ArrayList<Movie> data = new ArrayList<>();
 
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from movies");
+            ResultSet rs = stmt.executeQuery("select idMovie, Title, Duration from movies");
 
-            for(int i = 0; i < data.length; i++){
-                rs.next();
-                data[i] = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3));
+            while(rs.next()){
+                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3)));
             }
+
         }catch (Exception e){
             System.out.println(e);
         }
-        return data;
+        return data.toArray(new Movie[0]);
     }
 
     public Customer[] getCustomerData(){
@@ -45,14 +45,10 @@ public class MySqlConnector {
             while(rs.next()){
                 data.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
             }
-
-//            for(int i = 0; i < data.length; i++){
-//                rs.next();
-//                data[i] = new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
-//            }
         }catch (Exception e){
             System.out.println(e);
         }
+
         return data.toArray(new Customer[0]);
     }
 }
