@@ -2,15 +2,13 @@ package com.example.kinobackend.responses;
 
 public class Movie {
     private long id;
-    private String name;
-    private String studio;
-    private int length;
+    private String title;
+    private int duration;
 
-    public Movie(long id, String name, String studio, int length) {
+    public Movie(long id, String title, int duration) {
         this.id = id;
-        this.name = name;
-        this.studio = studio;
-        this.length = length;
+        this.title = title;
+        this.duration = duration;
     }
 
     public long getId() {
@@ -21,27 +19,19 @@ public class Movie {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getStudio() {
-        return studio;
+    public int getDuration() {
+        return duration;
     }
 
-    public void setStudio(String studio) {
-        this.studio = studio;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }

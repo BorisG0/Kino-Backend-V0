@@ -11,7 +11,7 @@ public class MySqlConnector {
     public MySqlConnector(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinedb", "root", "DBADMIN");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinedb", "root", "123");
         }catch (Exception e){
             System.out.println(e);
         }
@@ -27,7 +27,7 @@ public class MySqlConnector {
 
             for(int i = 0; i < data.length; i++){
                 rs.next();
-                data[i] = new Movie(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                data[i] = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3));
             }
         }catch (Exception e){
             System.out.println(e);
