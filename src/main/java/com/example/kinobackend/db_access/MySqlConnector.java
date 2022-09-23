@@ -6,6 +6,7 @@ import com.example.kinobackend.responses.Customer;
 import com.example.kinobackend.responses.Room;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MySqlConnector {
