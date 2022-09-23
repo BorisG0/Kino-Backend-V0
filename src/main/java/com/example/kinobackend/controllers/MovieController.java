@@ -2,6 +2,7 @@ package com.example.kinobackend.controllers;
 
 import com.example.kinobackend.db_access.MySqlConnector;
 import com.example.kinobackend.responses.Customer;
+import com.example.kinobackend.responses.Event;
 import com.example.kinobackend.responses.Movie;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,5 +31,12 @@ public class MovieController {
         MySqlConnector connector = new MySqlConnector();
         Customer[] customers = connector.getCustomerData();
         return customers;
+    }
+
+    @GetMapping("/api/events")
+    public Event[] getEvents(){
+        MySqlConnector connector = new MySqlConnector();
+        Event[] events = connector.getEventData();
+        return events;
     }
 }
