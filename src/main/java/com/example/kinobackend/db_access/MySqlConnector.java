@@ -7,6 +7,7 @@ import com.example.kinobackend.responses.Room;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MySqlConnector {
@@ -127,9 +128,11 @@ public class MySqlConnector {
         ArrayList<Movie> data = new ArrayList<>();
         LocalDate currentDate = LocalDate.now();
         LocalDate limitDate = currentDate.plusDays(days);
+        String currentDateString = putStringIntoApostrophe(LocalDateToString(currentDate));
+        String limitDateString = putStringIntoApostrophe(LocalDateToString(limitDate));
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT DISTINCT movies.idMovie, movies.Title, movies.Duration, movies.AgeRestriction  FROM movies inner join events ON movies.idMovie = events.Movies_idMovie WHERE events.Date BETWEEN '" + currentDate + "' and '" + limitDate + "'" );
+            ResultSet rs = stmt.executeQuery("SELECT DISTINCT movies.idMovie, movies.Title, movies.Duration, movies.AgeRestriction  FROM movies inner join events ON movies.idMovie = events.Movies_idMovie WHERE events.Date BETWEEN " + currentDateString + " and " + limitDateString );
 
             while(rs.next()){
                 data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4)));
@@ -144,9 +147,11 @@ public class MySqlConnector {
         ArrayList<Event> data = new ArrayList<>();
         LocalDate currentDate = LocalDate.now();
         LocalDate limitDate = currentDate.plusDays(days);
+        String currentDateString = putStringIntoApostrophe(LocalDateToString(currentDate));
+        String limitDateString = putStringIntoApostrophe(LocalDateToString(limitDate));
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM events WHERE Movies_idMovie = " + id + " AND Date BETWEEN '" + currentDate + "' AND '" + limitDate + "'" );
+            ResultSet rs = stmt.executeQuery("SELECT * FROM events WHERE Movies_idMovie = " + id + " AND Date BETWEEN " + currentDateString + " AND " + limitDateString  );
 
             while(rs.next()){
                 data.add(new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5)));
@@ -158,4 +163,14 @@ public class MySqlConnector {
         return data.toArray(new Event[data.size()]);
     }
 
+    public String putStringIntoApostrophe(String string){
+        String outputString = "'"+string+"'";
+        return outputString;
+    }
+
+    public String LocalDateToString(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dateString = date.format(formatter) ;
+        return dateString;
+    }
 }
