@@ -7,14 +7,13 @@ import com.example.kinobackend.responses.Room;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.time.*;
 
 public class MySqlConnector {
     Connection con;
     public MySqlConnector(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "DBADMIN");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "123");
         }catch (Exception e){
             System.out.println(e);
         }
@@ -63,11 +62,6 @@ public class MySqlConnector {
             while(rs.next()){
                 data.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
             }
-
-//            for(int i = 0; i < data.length; i++){
-//                rs.next();
-//                data[i] = new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
-//            }
         }catch (Exception e){
             System.out.println(e);
         }
