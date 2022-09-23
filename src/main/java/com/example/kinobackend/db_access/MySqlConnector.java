@@ -107,4 +107,22 @@ public class MySqlConnector {
         }
         return data.toArray(new Event[data.size()]);
     }
+
+    public Movie[] getUpcomingMoviesData( int days ){
+        ArrayList<Movie> data = new ArrayList<>();
+        LocalDate currentDate = LocalDate.now();
+        LocalDate limitDate = currentDate.plusDays(days);
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT DISTINCT movies.idMovie, movies.Title, movies.Duration, movies.AgeRestriction  FROM movies inner join events ON movies.idMovie = events.Movies_idMovie WHERE events.Date BETWEEN '" + currentDate + "' and '" + limitDate + "'" );
+
+            while(rs.next()){
+                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4)));
+            }
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return data.toArray(new Movie[data.size()]);
+    }
 }
