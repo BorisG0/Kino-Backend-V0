@@ -3,26 +3,30 @@ import java.sql.Time;
 import java.util.Date;
 
 public class Event {
-     private long EventId;
+     private long id;
      private Date date;
      private Time time;
-     private long MovieId;
-     private long RoomId;
+     private long movieId;
+     private long roomId;
 
-     public Event(long eventId, Date date, Time time, long movieId, long roomId) {
-          EventId = eventId;
+     public String toString(){
+          return "Event(id: " + id + " date: " + date + " time: " + time + " MovieId: " + movieId + " RoomId: " + roomId + ")";
+     }
+
+     public Event(long id, Date date, Time time, long movieId, long roomId) {
+          this.id = id;
           this.date = date;
           this.time = time;
-          MovieId = movieId;
-          RoomId = roomId;
+          this.movieId = movieId;
+          this.roomId = roomId;
      }
 
-     public long getEventId() {
-          return EventId;
+     public long getId() {
+          return id;
      }
 
-     public void setEventId(long eventId) {
-          EventId = eventId;
+     public void setId(long id) {
+          this.id = id;
      }
 
      public Date getDate() {
@@ -42,18 +46,18 @@ public class Event {
      }
 
      public long getMovieId() {
-          return MovieId;
+          return movieId;
      }
 
      public void setMovieId(long movieId) {
-          MovieId = movieId;
+          this.movieId = movieId;
      }
 
      public long getRoomId() {
-          return RoomId;
+          return roomId;
      }
 
      public void setRoomId(long roomId) {
-          RoomId = roomId;
+          this.roomId = roomId;
      }
 }
