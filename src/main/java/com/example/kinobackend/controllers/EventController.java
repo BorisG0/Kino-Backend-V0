@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class EventController {
     @PostMapping("api/eventsformovie")
     public Event[] getEventsForMovie(@RequestBody Movie movie){
-        MySqlConnector connector = new MySqlConnector();
+        System.out.println("Getting events for movie with id: " + movie.getId());
 
+        MySqlConnector connector = new MySqlConnector();
         Event[] events = connector.getEventsForMovieId(movie.getId());
 
         return events;
