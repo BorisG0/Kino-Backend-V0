@@ -3,6 +3,7 @@ package com.example.kinobackend.controllers;
 import com.example.kinobackend.db_access.MySqlConnector;
 import com.example.kinobackend.responses.Customer;
 import com.example.kinobackend.responses.Movie;
+import com.example.kinobackend.responses.Room;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,5 +31,13 @@ public class MovieController {
         MySqlConnector connector = new MySqlConnector();
         Customer[] customers = connector.getCustomerData();
         return customers;
+    }
+
+    @GetMapping("/api/rooms")
+    public Room[] getRooms(){
+        System.out.println("getting rooms");
+        MySqlConnector connector = new MySqlConnector();
+        Room[] rooms = connector.getRoomData();
+        return rooms;
     }
 }
