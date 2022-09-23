@@ -13,7 +13,7 @@ public class EventController {
     public Event[] getEventsForMovie(@RequestBody Movie movie){
         MySqlConnector connector = new MySqlConnector();
 
-        Event[] events = {};
+        Event[] events = connector.getEventsForMovieId(movie.getId());
 
         return events;
     }

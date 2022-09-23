@@ -20,6 +20,26 @@ public class MySqlConnector {
 
     }
 
+    public Event[] getEventsForMovieId(long movieId){
+        ArrayList<Event> data = new ArrayList<>();
+
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select e.idEvent, e.Date, e.Time, e.Rooms_idRoom from Movies m, Events e " +
+                                                    "where m.idMovie = e.Movies_idMovie and m.idMovie = " + movieId);
+
+            while(rs.next()){
+                Event e = new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), movieId, rs.getInt(4));
+                System.out.println(e);
+                data.add(e);
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        return data.toArray(new Event[0]);
+    }
+
     public Movie[] getMovieData(){
         ArrayList<Movie> data = new ArrayList<>();
 
