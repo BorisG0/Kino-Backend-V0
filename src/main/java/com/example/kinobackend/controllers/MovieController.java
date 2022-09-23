@@ -50,10 +50,18 @@ public class MovieController {
     }
 
     @GetMapping("/api/upcmovies")
-    public Movie[] getUpcomingMovies(@RequestBody int days){
+    public Movie[] getUpcomingMovies(){
         System.out.println("getting movies");
         MySqlConnector connector = new MySqlConnector();
-        Movie[] movies = connector.getUpcomingMoviesData(days);
+        Movie[] movies = connector.getUpcomingMoviesData(14);
         return movies;
+    }
+
+    @GetMapping("/api/movieEvents")
+    public Event[] getEventsForMovie(){
+        System.out.println("getting events");
+        MySqlConnector connector = new MySqlConnector();
+        Event[] events = connector.getEventsForMovie(1,14);
+        return events;
     }
 }

@@ -14,7 +14,7 @@ public class MySqlConnector {
     public MySqlConnector(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "123");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "DBADMIN");
         }catch (Exception e){
             System.out.println(e);
         }
@@ -140,4 +140,22 @@ public class MySqlConnector {
         }
         return data.toArray(new Movie[data.size()]);
     }
+    public Event[] getEventsForMovie( int id, int days ){
+        ArrayList<Event> data = new ArrayList<>();
+        LocalDate currentDate = LocalDate.now();
+        LocalDate limitDate = currentDate.plusDays(days);
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM events WHERE Movies_idMovie = " + id + " AND Date BETWEEN '" + currentDate + "' AND '" + limitDate + "'" );
+
+            while(rs.next()){
+                data.add(new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5)));
+            }
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return data.toArray(new Event[data.size()]);
+    }
+
 }
