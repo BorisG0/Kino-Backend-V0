@@ -15,7 +15,7 @@ public class MySqlConnector {
     public MySqlConnector(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "DBADMIN");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "123");
         }catch (Exception e){
             System.out.println(e);
         }
@@ -50,7 +50,7 @@ public class MySqlConnector {
             ResultSet rs = stmt.executeQuery("select * from movies");
 
             while(rs.next()){
-                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4)));
+                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), "img0.png"));
             }
 
         }catch (Exception e){
@@ -66,7 +66,7 @@ public class MySqlConnector {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select * from movies where idMovie = " + id);
             rs.next();
-            movie = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3),rs.getInt(4));
+            movie = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3),rs.getInt(4), "img0.png");
         }catch(Exception e){
             System.out.println(e);
         }
@@ -132,10 +132,12 @@ public class MySqlConnector {
         String limitDateString = putStringIntoApostrophe(LocalDateToString(limitDate));
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT DISTINCT movies.idMovie, movies.Title, movies.Duration, movies.AgeRestriction  FROM movies inner join events ON movies.idMovie = events.Movies_idMovie WHERE events.Date BETWEEN " + currentDateString + " and " + limitDateString );
+            ResultSet rs = stmt.executeQuery("SELECT DISTINCT movies.idMovie, movies.Title, movies.Duration, movies.AgeRestriction " +
+                    "FROM movies inner join events ON movies.idMovie = events.Movies_idMovie " +
+                    "WHERE events.Date BETWEEN " + currentDateString + " and " + limitDateString );
 
             while(rs.next()){
-                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4)));
+                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), "img0.png"));
             }
 
         }catch (Exception e){
@@ -151,7 +153,8 @@ public class MySqlConnector {
         String limitDateString = putStringIntoApostrophe(LocalDateToString(limitDate));
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM events WHERE Movies_idMovie = " + id + " AND Date BETWEEN " + currentDateString + " AND " + limitDateString  );
+            ResultSet rs = stmt.executeQuery("SELECT * FROM events " +
+                    "WHERE Movies_idMovie = " + id + " AND Date BETWEEN " + currentDateString + " AND " + limitDateString  );
 
             while(rs.next()){
                 data.add(new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5)));
@@ -200,7 +203,8 @@ public class MySqlConnector {
         try {
             Statement stmt = con.createStatement();
             for (Movie movie : movies) {
-                stmt.execute("INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction) VALUES   (" + movie.getId() + ", "+ putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +" )");
+                stmt.execute("INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction) " +
+                        "VALUES   (" + movie.getId() + ", "+ putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +" )");
             }
         }catch (Exception e){
             System.out.println(e);
@@ -211,7 +215,8 @@ public class MySqlConnector {
         try {
             Statement stmt = con.createStatement();
             for (Event event : events) {
-                stmt.execute("insert into events (idEvent, Date, Time, Movies_idMovie, Rooms_idRoom) values (" + event.getId() + ", "+ putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + ", " + putStringIntoApostrophe(event.getTime().toString()) + ", "+ event.getMovieId() + ", " + event.getRoomId() +" )");
+                stmt.execute("insert into events (idEvent, Date, Time, Movies_idMovie, Rooms_idRoom) " +
+                        "values (" + event.getId() + ", "+ putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + ", " + putStringIntoApostrophe(event.getTime().toString()) + ", "+ event.getMovieId() + ", " + event.getRoomId() +" )");
             }
         }catch (Exception e){
             System.out.println(e);

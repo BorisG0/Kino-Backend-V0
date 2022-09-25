@@ -5,12 +5,14 @@ public class Movie {
     private String title;
     private int duration;
     private int ageRestriction;
+    private String imageName;
 
-    public Movie(long id, String title, int duration, int ageRestriction) {
+    public Movie(long id, String title, int duration, int ageRestriction, String imageName) {
         this.id = id;
         this.title = title;
         this.duration = duration;
         this.ageRestriction = ageRestriction;
+        this.imageName = imageName;
     }
 
     public long getId() {
@@ -43,5 +45,13 @@ public class Movie {
 
     public void setAgeRestriction(int ageRestriction) {
         this.ageRestriction = ageRestriction;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }
