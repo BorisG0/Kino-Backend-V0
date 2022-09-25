@@ -1,9 +1,6 @@
 package com.example.kinobackend.db_access;
 
-import com.example.kinobackend.responses.Event;
-import com.example.kinobackend.responses.Movie;
-import com.example.kinobackend.responses.Customer;
-import com.example.kinobackend.responses.Room;
+import com.example.kinobackend.responses.*;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -172,5 +169,21 @@ public class MySqlConnector {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateString = date.format(formatter) ;
         return dateString;
+    }
+    public Seat[] getSeatData(){
+        ArrayList<Seat> data = new ArrayList<Seat>();
+
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from seats");
+
+            while(rs.next()){
+                data.add(new Seat(rs.getInt(1), rs.getBoolean(2), rs.getBigDecimal(3), rs.getShort(4), rs.getInt(5)));
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        return data.toArray(new Seat[0]);
     }
 }

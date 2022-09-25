@@ -12,11 +12,11 @@ public class Seat {
 
     private int number;
 
-    public Seat(int seatId, boolean isFree, BigDecimal price, char row, int number) {
+    public Seat(int seatId, boolean isFree, BigDecimal price, short row, int number) {
         this.seatId = seatId;
         this.isFree = isFree;
         Price = price;
-        this.row = row;
+        this.row = (char) row;
         this.number = number;
     }
 
