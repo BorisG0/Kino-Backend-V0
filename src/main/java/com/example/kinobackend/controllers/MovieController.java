@@ -1,10 +1,7 @@
 package com.example.kinobackend.controllers;
 
 import com.example.kinobackend.db_access.MySqlConnector;
-import com.example.kinobackend.responses.Customer;
-import com.example.kinobackend.responses.Event;
-import com.example.kinobackend.responses.Movie;
-import com.example.kinobackend.responses.Room;
+import com.example.kinobackend.responses.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,5 +60,12 @@ public class MovieController {
         MySqlConnector connector = new MySqlConnector();
         Event[] events = connector.getEventsForMovie(1,14);
         return events;
+    }
+
+    @GetMapping("/api/Seats")
+    public Seat[] getSeats(){
+        MySqlConnector connector = new MySqlConnector();
+        Seat[] Seats = connector.getSeatData();
+        return Seats;
     }
 }
