@@ -3,9 +3,12 @@ package com.example.kinobackend.db_access;
 import com.example.kinobackend.responses.*;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MySqlConnector {
     Connection con;
@@ -170,6 +173,12 @@ public class MySqlConnector {
         String dateString = date.format(formatter) ;
         return dateString;
     }
+
+    public String JavaUtilDateToString(Date date){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        String dateString = dateFormat.format(date) ;
+        return dateString;
+    }
     public Seat[] getSeatData(){
         ArrayList<Seat> data = new ArrayList<Seat>();
 
@@ -192,6 +201,17 @@ public class MySqlConnector {
             Statement stmt = con.createStatement();
             for (Movie movie : movies) {
                 stmt.execute("INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction) VALUES   (" + movie.getId() + ", "+ putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +" )");
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void addEvents( Event[]events){
+        try {
+            Statement stmt = con.createStatement();
+            for (Event event : events) {
+                stmt.execute("insert into events (idEvent, Date, Time, Movies_idMovie, Rooms_idRoom) values (" + event.getId() + ", "+ putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + ", " + putStringIntoApostrophe(event.getTime().toString()) + ", "+ event.getMovieId() + ", " + event.getRoomId() +" )");
             }
         }catch (Exception e){
             System.out.println(e);
