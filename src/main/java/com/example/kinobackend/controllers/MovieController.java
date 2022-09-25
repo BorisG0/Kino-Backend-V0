@@ -68,4 +68,16 @@ public class MovieController {
         Seat[] Seats = connector.getSeatData();
         return Seats;
     }
+
+    @GetMapping("/api/addMovies")
+    public String addMovies(Movie[]movies){
+        MySqlConnector connector = new MySqlConnector();
+        connector.addMovies(movies);
+        String returnString = "";
+        for (Movie movie1:movies) {
+            String movieAdded = "Movie added" + connector.getMovieById((int)movie1.getId());
+            returnString+=movieAdded;
+        }
+        return returnString;
+    }
 }

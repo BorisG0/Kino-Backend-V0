@@ -186,4 +186,16 @@ public class MySqlConnector {
 
         return data.toArray(new Seat[0]);
     }
+
+    public void addMovies(Movie[] movies){
+        try {
+            Statement stmt = con.createStatement();
+            for (Movie movie : movies) {
+                stmt.execute("INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction) VALUES   (" + movie.getId() + ", "+ putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +" )");
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
 }
