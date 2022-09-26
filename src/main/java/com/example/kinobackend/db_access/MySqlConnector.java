@@ -15,7 +15,7 @@ public class MySqlConnector {
     public MySqlConnector(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "123");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "DBADMIN");
         }catch (Exception e){
             System.out.println(e);
         }
@@ -27,8 +27,8 @@ public class MySqlConnector {
 
         try{
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select e.idEvent, e.Date, e.Time, e.Rooms_idRoom from Movies m, Events e " +
-                                                    "where m.idMovie = e.Movies_idMovie and m.idMovie = " + movieId);
+            ResultSet rs = stmt.executeQuery("select e.idEvent, e.Date, e.Time, e.rooms_idRoom from Movies m, Events e " +
+                                                    "where m.idMovie = e.movies_idMovie and m.idMovie = " + movieId);
 
             while(rs.next()){
                 Event e = new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), movieId, rs.getInt(4));
@@ -133,7 +133,7 @@ public class MySqlConnector {
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT DISTINCT movies.idMovie, movies.Title, movies.Duration, movies.AgeRestriction " +
-                    "FROM movies inner join events ON movies.idMovie = events.Movies_idMovie " +
+                    "FROM movies inner join events ON movies.idMovie = events.movies_idMovie " +
                     "WHERE events.Date BETWEEN " + currentDateString + " and " + limitDateString );
 
             while(rs.next()){
@@ -154,7 +154,7 @@ public class MySqlConnector {
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM events " +
-                    "WHERE Movies_idMovie = " + id + " AND Date BETWEEN " + currentDateString + " AND " + limitDateString  );
+                    "WHERE movies_idMovie = " + id + " AND Date BETWEEN " + currentDateString + " AND " + limitDateString  );
 
             while(rs.next()){
                 data.add(new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5)));
