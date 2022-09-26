@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Movies` (
                                                `Title` VARCHAR(45) NULL,
                                                `Duration` INT NULL,
                                                `AgeRestriction` INT NULL,
+                                               `imageName` VARCHAR(45) NULL,
                                                PRIMARY KEY (`idMovie`))
     ENGINE = InnoDB;
 
@@ -119,8 +120,17 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction) VALUES   (1, 'Minions', 125, 6);
-INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction) VALUES  (2, 'Batman', 160, 12);
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction, `imageName`) VALUES   (1, 'Minions', 125, 6, 'img0.png');
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction, `imageName`) VALUES  (2, 'Batman', 160, 12, 'img1.png');
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction, `imageName`) VALUES   (3, 'Spiderman: No Way Home', 135, 6, 'img2.png');
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction, `imageName`) VALUES  (4, 'Jeeper Creepers', 90, 18, 'img3.png');
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction, `imageName`) VALUES   (5, 'Saw 10', 125, 3, 'img4.png');
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction, `imageName`) VALUES  (6, 'Bullet Train', 160, 18, 'img5.png');
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction, `imageName`) VALUES   (7, 'Thor: Love and Thunder', 125, 6, 'img6.png');
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction, `imageName`) VALUES  (8, 'Harry Potter', 160, 12, 'img7.png');
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction, `imageName`) VALUES   (9, 'Star Wars', 140, 16, 'img8.png');
+INSERT INTO movies (`idMovie`, `Title`, `Duration`, AgeRestriction, `imageName`) VALUES  (10, 'The Avenger: Ultimate Endgame', 200, 12, 'img9.png');
+
 
 INSERT INTO rooms(`idRoom`)VALUES (1);
 INSERT INTO rooms(`idRoom`)VALUES (2);
