@@ -21,9 +21,9 @@ USE `mydb` ;
 -- -----------------------------------------------------
 -- Table `mydb`.`Movies`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Movies` ;
+DROP TABLE IF EXISTS `mydb`.`movies` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Movies` (
+CREATE TABLE IF NOT EXISTS `mydb`.`movies` (
                                                `idMovie` INT NOT NULL,
                                                `Title` VARCHAR(45) NULL,
                                                `Duration` INT NULL,
@@ -36,9 +36,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Movies` (
 -- -----------------------------------------------------
 -- Table `mydb`.`Rooms`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Rooms` ;
+DROP TABLE IF EXISTS `mydb`.`rooms` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Rooms` (
+CREATE TABLE IF NOT EXISTS `mydb`.`rooms` (
                                               `idRoom` INT NOT NULL,
                                               PRIMARY KEY (`idRoom`))
     ENGINE = InnoDB;
@@ -47,9 +47,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Rooms` (
 -- -----------------------------------------------------
 -- Table `mydb`.`Events`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Events` ;
+DROP TABLE IF EXISTS `mydb`.`events` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Events` (
+CREATE TABLE IF NOT EXISTS `mydb`.`events` (
                                                `idEvent` INT NOT NULL,
                                                `Date` DATE NULL,
                                                `Time` TIME NULL,
@@ -74,9 +74,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Events` (
 -- -----------------------------------------------------
 -- Table `mydb`.`Seats`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Seats` ;
+DROP TABLE IF EXISTS `mydb`.`seats` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Seats` (
+CREATE TABLE IF NOT EXISTS `mydb`.`seats` (
                                               `idSeat` INT NOT NULL,
                                               `Line` VARCHAR(45) NULL,
                                               `NumberInLine` INT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Seats` (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `mydb`.`Events_has_Seats` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Events_has_Seats` (
+CREATE TABLE IF NOT EXISTS `mydb`.`events_has_Seats` (
                                                          `Events_idEvent` INT NOT NULL,
                                                          `Seats_idSeat` INT NOT NULL,
                                                          `isBooked` TINYINT NULL,
