@@ -56,16 +56,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`events` (
                                                `Movies_idMovie` INT NULL,
                                                `Rooms_idRoom` INT NULL,
                                                PRIMARY KEY (`idEvent`),
-                                               INDEX `fk_Events_movies_idx` (`Movies_idMovie` ASC) VISIBLE,
-                                               INDEX `fk_Events_Rooms1_idx` (`Rooms_idRoom` ASC) VISIBLE,
-                                               CONSTRAINT `fk_Events_movies`
-                                                   FOREIGN KEY (`Movies_idMovie`)
-                                                       REFERENCES `mydb`.`Movies` (`idMovie`)
+                                               INDEX `fk_events_movies_idx` (`movies_idMovie` ASC) VISIBLE,
+                                               INDEX `fk_events_rooms1_idx` (`rooms_idRoom` ASC) VISIBLE,
+                                               CONSTRAINT `fk_events_movies`
+                                                   FOREIGN KEY (`movies_idMovie`)
+                                                       REFERENCES `mydb`.`movies` (`idMovie`)
                                                        ON DELETE NO ACTION
                                                        ON UPDATE NO ACTION,
-                                               CONSTRAINT `fk_Events_Rooms1`
-                                                   FOREIGN KEY (`Rooms_idRoom`)
-                                                       REFERENCES `mydb`.`Rooms` (`idRoom`)
+                                               CONSTRAINT `fk_events_rooms1`
+                                                   FOREIGN KEY (`rooms_idRoom`)
+                                                       REFERENCES `mydb`.`rooms` (`idRoom`)
                                                        ON DELETE NO ACTION
                                                        ON UPDATE NO ACTION)
     ENGINE = InnoDB;
@@ -80,12 +80,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`seats` (
                                               `idSeat` INT NOT NULL,
                                               `Line` VARCHAR(45) NULL,
                                               `NumberInLine` INT NULL,
-                                              `Rooms_idRoom` INT NOT NULL,
+                                              `rooms_idRoom` INT NOT NULL,
                                               PRIMARY KEY (`idSeat`),
-                                              INDEX `fk_Seats_Rooms1_idx` (`Rooms_idRoom` ASC) VISIBLE,
-                                              CONSTRAINT `fk_Seats_Rooms1`
-                                                  FOREIGN KEY (`Rooms_idRoom`)
-                                                      REFERENCES `mydb`.`Rooms` (`idRoom`)
+                                              INDEX `fk_seats_rooms1_idx` (`rooms_idRoom` ASC) VISIBLE,
+                                              CONSTRAINT `fk_seats_rooms1`
+                                                  FOREIGN KEY (`rooms_idRoom`)
+                                                      REFERENCES `mydb`.`rooms` (`idRoom`)
                                                       ON DELETE NO ACTION
                                                       ON UPDATE NO ACTION)
     ENGINE = InnoDB;
@@ -97,20 +97,20 @@ CREATE TABLE IF NOT EXISTS `mydb`.`seats` (
 DROP TABLE IF EXISTS `mydb`.`events_has_Seats` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`events_has_Seats` (
-                                                         `Events_idEvent` INT NOT NULL,
-                                                         `Seats_idSeat` INT NOT NULL,
+                                                         `events_idEvent` INT NOT NULL,
+                                                         `seats_idSeat` INT NOT NULL,
                                                          `isBooked` TINYINT NULL,
-                                                         PRIMARY KEY (`Events_idEvent`, `Seats_idSeat`),
-                                                         INDEX `fk_Events_has_Seats_Seats1_idx` (`Seats_idSeat` ASC) VISIBLE,
-                                                         INDEX `fk_Events_has_Seats_Events1_idx` (`Events_idEvent` ASC) VISIBLE,
-                                                         CONSTRAINT `fk_Events_has_Seats_Events1`
-                                                             FOREIGN KEY (`Events_idEvent`)
-                                                                 REFERENCES `mydb`.`Events` (`idEvent`)
+                                                         PRIMARY KEY (`events_idEvent`, `seats_idSeat`),
+                                                         INDEX `fk_Events_has_Seats_seats1_idx` (`seats_idSeat` ASC) VISIBLE,
+                                                         INDEX `fk_Events_has_Seats_events1_idx` (`events_idEvent` ASC) VISIBLE,
+                                                         CONSTRAINT `fk_Events_has_Seats_events1`
+                                                             FOREIGN KEY (`events_idEvent`)
+                                                                 REFERENCES `mydb`.`events` (`idEvent`)
                                                                  ON DELETE NO ACTION
                                                                  ON UPDATE NO ACTION,
-                                                         CONSTRAINT `fk_Events_has_Seats_Seats1`
-                                                             FOREIGN KEY (`Seats_idSeat`)
-                                                                 REFERENCES `mydb`.`Seats` (`idSeat`)
+                                                         CONSTRAINT `fk_events_has_Seats_Seats1`
+                                                             FOREIGN KEY (`seats_idSeat`)
+                                                                 REFERENCES `mydb`.`seats` (`idSeat`)
                                                                  ON DELETE NO ACTION
                                                                  ON UPDATE NO ACTION)
     ENGINE = InnoDB;
