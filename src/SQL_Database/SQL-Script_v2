@@ -102,8 +102,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`events_has_Seats` (
                                                          `isBooked` TINYINT NULL,
                                                          PRIMARY KEY (`events_idEvent`, `seats_idSeat`),
                                                          INDEX `fk_events_has_Seats_seats1_idx` (`seats_idSeat` ASC) VISIBLE,
-                                                         INDEX `fk_Events_has_Seats_events1_idx` (`events_idEvent` ASC) VISIBLE,
-                                                         CONSTRAINT `fk_Events_has_Seats_events1`
+                                                         INDEX `fk_events_has_Seats_events1_idx` (`events_idEvent` ASC) VISIBLE,
+                                                         CONSTRAINT `fk_events_has_Seats_events1`
                                                              FOREIGN KEY (`events_idEvent`)
                                                                  REFERENCES `mydb`.`events` (`idEvent`)
                                                                  ON DELETE NO ACTION
