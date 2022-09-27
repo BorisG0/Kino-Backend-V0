@@ -52,19 +52,27 @@ public class MovieController {
         return events;
     }
 
-    @GetMapping("/api/upcmovies")
-    public Movie[] getUpcomingMovies(){
+    @PostMapping("/api/upcmovies")
+    public Movie[] getUpcomingMovies(@RequestBody int days){
         System.out.println("getting upcoming movies");
         MySqlConnector connector = new MySqlConnector();
-        Movie[] movies = connector.getUpcomingMoviesData(14);
+        Movie[] movies = connector.getUpcomingMoviesData(days);
         return movies;
     }
 
-    @GetMapping("/api/movieEvents")
-    public Event[] getEventsForMovie(){
+    @PostMapping("/api/moviesByGenre")
+    public Movie[] getMoviesByGenre(@RequestBody String genre){
+        System.out.println("getting movies by Genre");
+        MySqlConnector connector = new MySqlConnector();
+        Movie[] movies = connector.getMoviesByGenre(genre);
+        return movies;
+    }
+
+    @PostMapping("/api/movieEvents")
+    public Event[] getEventsForMovie(@RequestBody int movieId, int days){
         System.out.println("getting events for Movie");
         MySqlConnector connector = new MySqlConnector();
-        Event[] events = connector.getEventsForMovie(1,14);
+        Event[] events = connector.getEventsForMovie(movieId, days);
         return events;
     }
 
@@ -75,8 +83,8 @@ public class MovieController {
         return Seats;
     }
 
-    @GetMapping("/api/addMovies")
-    public String addMovies(Movie[]movies){
+    @PostMapping("/api/addMovies")
+    public String addMovies(@RequestBody Movie[]movies){
         MySqlConnector connector = new MySqlConnector();
         connector.addMovies(movies);
         String returnString = "";
@@ -87,8 +95,8 @@ public class MovieController {
         return returnString;
     }
 
-    @GetMapping("/api/addEvents")
-    public String addEvents(Event[] events){
+    @PostMapping("/api/addEvents")
+    public String addEvents(@RequestBody Event[] events){
         MySqlConnector connector = new MySqlConnector();
         connector.addEvents(events);
         String returnString = "";
