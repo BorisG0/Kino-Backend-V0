@@ -1,5 +1,7 @@
 package com.example.kinobackend.responses;
 
+import java.util.Date;
+
 public class Movie {
     private long id;
     private String title;
@@ -7,12 +9,21 @@ public class Movie {
     private int ageRestriction;
     private String imageName;
 
-    public Movie(long id, String title, int duration, int ageRestriction, String imageName) {
+    private String description;
+
+    private String genre;
+
+    private Date startDate;
+
+    public Movie(long id, String title, int duration, int ageRestriction, String imageName, String description, String genre, Date startDate) {
         this.id = id;
         this.title = title;
         this.duration = duration;
         this.ageRestriction = ageRestriction;
         this.imageName = imageName;
+        this.description = description;
+        this.genre = genre;
+        this.startDate = startDate;
     }
 
     public long getId() {
@@ -53,5 +64,29 @@ public class Movie {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 }

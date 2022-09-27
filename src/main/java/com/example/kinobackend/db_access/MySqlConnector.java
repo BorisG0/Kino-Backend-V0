@@ -50,7 +50,7 @@ public class MySqlConnector {
             ResultSet rs = stmt.executeQuery("select * from movies");
 
             while(rs.next()){
-                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), "img0.png"));
+                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getDate(8)));
             }
 
         }catch (Exception e){
@@ -66,7 +66,7 @@ public class MySqlConnector {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select * from movies where idMovie = " + id);
             rs.next();
-            movie = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3),rs.getInt(4), "img0.png");
+            movie = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getDate(8));
         }catch(Exception e){
             System.out.println(e);
         }
@@ -137,7 +137,7 @@ public class MySqlConnector {
                     "WHERE events.Date BETWEEN " + currentDateString + " and " + limitDateString );
 
             while(rs.next()){
-                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), "img0.png"));
+                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getDate(8)));
             }
 
         }catch (Exception e){
