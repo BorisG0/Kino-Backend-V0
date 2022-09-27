@@ -30,6 +30,7 @@ public class MovieController {
 
     @GetMapping("/api/customers")
     public Customer[] getCustomers(){
+        System.out.println("getting customers");
         MySqlConnector connector = new MySqlConnector();
         Customer[] customers = connector.getCustomerData();
         return customers;
@@ -45,6 +46,7 @@ public class MovieController {
 
     @GetMapping("/api/events")
     public Event[] getEvents(){
+        System.out.println("getting events");
         MySqlConnector connector = new MySqlConnector();
         Event[] events = connector.getEventData();
         return events;
@@ -52,7 +54,7 @@ public class MovieController {
 
     @GetMapping("/api/upcmovies")
     public Movie[] getUpcomingMovies(){
-        System.out.println("getting movies");
+        System.out.println("getting upcoming movies");
         MySqlConnector connector = new MySqlConnector();
         Movie[] movies = connector.getUpcomingMoviesData(14);
         return movies;
@@ -60,7 +62,7 @@ public class MovieController {
 
     @GetMapping("/api/movieEvents")
     public Event[] getEventsForMovie(){
-        System.out.println("getting events");
+        System.out.println("getting events for Movie");
         MySqlConnector connector = new MySqlConnector();
         Event[] events = connector.getEventsForMovie(1,14);
         return events;
