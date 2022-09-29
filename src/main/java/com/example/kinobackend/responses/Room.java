@@ -1,17 +1,17 @@
 package com.example.kinobackend.responses;
 
 public class Room {
-    private int idRoom;
+    private int roomId;
 
-    public Room(int idRoom) {
-        this.idRoom = idRoom;
+    public Room(int roomId) {
+        this.roomId = roomId;
     }
 
-    public int getIdRoom() {
-        return idRoom;
+    public int getRoomId() {
+        return roomId;
     }
 
-    public void setIdRoom(int idRoom) {
-        this.idRoom = idRoom;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 }

@@ -3,11 +3,8 @@ package com.example.kinobackend.responses;
 public class Seat {
 
     private long seatId;
-
     private  String row;
-
     private int seatInRow;
-
     private long roomId;
 
     public Seat(long seatId, String row, int seatInRow, long roomId) {
@@ -21,7 +18,7 @@ public class Seat {
         return seatId;
     }
 
-    public void setSeatId(int seatId) {
+    public void setSeatId(long seatId) {
         this.seatId = seatId;
     }
 
