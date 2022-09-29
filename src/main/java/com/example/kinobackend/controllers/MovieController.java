@@ -76,7 +76,7 @@ public class MovieController {
         return events;
     }
 
-    @GetMapping("/api/Seats")
+    @GetMapping("/api/seats")
     public Seat[] getSeats(){
         MySqlConnector connector = new MySqlConnector();
         Seat[] Seats = connector.getSeatData();

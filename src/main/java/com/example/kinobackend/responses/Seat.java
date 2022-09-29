@@ -1,26 +1,23 @@
 package com.example.kinobackend.responses;
-import java.math.BigDecimal;
+
 public class Seat {
 
-    private int seatId;
+    private long seatId;
 
-    private boolean isFree;
+    private  String row;
 
-    private BigDecimal Price;
+    private int seatInRow;
 
-    private char row;
+    private long roomId;
 
-    private int number;
-
-    public Seat(int seatId, boolean isFree, BigDecimal price, short row, int number) {
+    public Seat(long seatId, String row, int seatInRow, long roomId) {
         this.seatId = seatId;
-        this.isFree = isFree;
-        Price = price;
-        this.row = (char) row;
-        this.number = number;
+        this.row = row;
+        this.seatInRow = seatInRow;
+        this.roomId = roomId;
     }
 
-    public int getSeatId() {
+    public long getSeatId() {
         return seatId;
     }
 
@@ -28,35 +25,27 @@ public class Seat {
         this.seatId = seatId;
     }
 
-    public boolean isFree() {
-        return isFree;
-    }
-
-    public void setFree(boolean free) {
-        isFree = free;
-    }
-
-    public BigDecimal getPrice() {
-        return Price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        Price = price;
-    }
-
-    public char getRow() {
+    public String getRow() {
         return row;
     }
 
-    public void setRow(char row) {
+    public void setRow(String row) {
         this.row = row;
     }
 
-    public int getNumber() {
-        return number;
+    public int getSeatInRow() {
+        return seatInRow;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setSeatInRow(int seatInRow) {
+        this.seatInRow = seatInRow;
+    }
+
+    public long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 }
