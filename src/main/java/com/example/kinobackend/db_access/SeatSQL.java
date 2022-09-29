@@ -16,7 +16,7 @@ public final class SeatSQL extends MySqlConnector {
             ResultSet rs = stmt.executeQuery("select * from seats");
 
             while(rs.next()){
-                data.add(new Seat(rs.getInt(1), rs.getBoolean(2), rs.getBigDecimal(3), rs.getShort(4), rs.getInt(5)));
+                data.add(new Seat(rs.getLong(1), rs.getString(2), rs.getInt(3), rs.getLong(4)));
             }
         }catch (Exception e){
             System.out.println(e);
