@@ -15,7 +15,7 @@ public final class EventSQL extends MySqlConnector {
         try{
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select e.idEvent, e.Date, e.Time, e.rooms_idRoom from Movies m, Events e " +
-                    "where m.idMovie = e.movies_idMovie and m.idMovie = " + movieId);
+                    "where m.idMovie = e.movies_idMovie and m.idMovie = " + movieId + " order by e.Date");
 
             while(rs.next()){
                 Event e = new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), movieId, rs.getInt(4));
