@@ -30,6 +30,7 @@ class EventTest {
 
     @Test
     void testToString() {
+        assertEquals(("Event(id: " + id + " date: " + date + " time: " + time + " MovieId: " + movieId + " RoomId: " + roomId + ")"), testEvent.toString());
     }
 
     @Test

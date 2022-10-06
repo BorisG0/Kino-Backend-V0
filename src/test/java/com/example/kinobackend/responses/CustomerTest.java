@@ -32,6 +32,18 @@ class CustomerTest {
     }
 
     @Test
+    void getMailAdress(){
+        assertEquals(mailAdress, testCustomer.getMailAdress());
+    }
+
+    @Test
+    void setMailAdress(){
+        String setMailAdress = "neueAdresse@mail.de";
+        testCustomer.setMailAdress(setMailAdress);
+        assertEquals(setMailAdress, testCustomer.getMailAdress());
+    }
+
+    @Test
     void getFirstName() {
         assertEquals(firstName, testCustomer.getFirstname());
     }
