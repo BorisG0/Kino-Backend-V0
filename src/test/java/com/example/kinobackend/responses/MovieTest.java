@@ -21,11 +21,12 @@ class MovieTest {
     String movieStudio = "neues Studio";
     String regie = "Regisseur";
     String cast = "Hier, stehen, mehrere, Schauspieler";
+    String trailerLink = "link.de";
     Movie testMovie;
 
     @BeforeEach
     void setUp() {
-        testMovie = new Movie(id, title, duration, ageRestriction, imageName, description, genre, startDate, movieStudio, regie, cast);
+        testMovie = new Movie(id, title, duration, ageRestriction, imageName, description, genre, startDate, movieStudio, regie, cast, trailerLink);
     }
 
     @AfterEach
@@ -166,6 +167,18 @@ class MovieTest {
     }
 
     @Test
+    void getTrailerLink() {
+        assertEquals(trailerLink, testMovie.getTrailerLink());
+    }
+
+    @Test
+    void setTrailerLink() {
+        String setTrailerLink = "neuerLink.de";
+        testMovie.setTrailerLink(setTrailerLink);
+        assertEquals(setTrailerLink, testMovie.getTrailerLink());
+    }
+
+    @Test
     void testConstructor() {
         assertEquals(id, testMovie.getId());
         assertEquals(title, testMovie.getTitle());
@@ -178,5 +191,6 @@ class MovieTest {
         assertEquals(movieStudio, testMovie.getMovieStudio());
         assertEquals(regie, testMovie.getRegie());
         assertEquals(cast, testMovie.getCast());
+        assertEquals(trailerLink, testMovie.getTrailerLink());
     }
 }
