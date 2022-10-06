@@ -13,7 +13,7 @@ public final class RoomSQL extends MySqlConnector {
 
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select idRoom from rooms");
+            ResultSet rs = stmt.executeQuery("select idRoom from room");
 
             while(rs.next()){
                 data.add(new Room(rs.getInt(1)));

@@ -14,7 +14,7 @@ public class EmployeeSQL extends MySqlConnector{
 
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from employees");
+            ResultSet rs = stmt.executeQuery("select * from employee");
 
             while (rs.next()) {
                 data.add(new Employee(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));

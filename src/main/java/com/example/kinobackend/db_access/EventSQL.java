@@ -14,8 +14,8 @@ public final class EventSQL extends MySqlConnector {
 
         try{
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select e.idEvent, e.Date, e.Time, e.rooms_idRoom from Movies m, Events e " +
-                    "where m.idMovie = e.movies_idMovie and m.idMovie = " + movieId + " order by e.Date");
+            ResultSet rs = stmt.executeQuery("select e.idEvent, e.Date, e.Time, e.room_idRoom from movie m, event e " +
+                    "where m.idMovie = e.movie_idMovie and m.idMovie = " + movieId + " order by e.Date");
 
             while(rs.next()){
                 Event e = new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), movieId, rs.getInt(4));
@@ -34,7 +34,7 @@ public final class EventSQL extends MySqlConnector {
 
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from events");
+            ResultSet rs = stmt.executeQuery("select * from event");
 
             while(rs.next()){
                 data.add(new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5)));
@@ -54,8 +54,8 @@ public final class EventSQL extends MySqlConnector {
         String limitDateString = putStringIntoApostrophe(LocalDateToString(limitDate));
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM events " +
-                    "WHERE movies_idMovie = " + id + " AND Date BETWEEN " + currentDateString + " AND " + limitDateString  );
+            ResultSet rs = stmt.executeQuery("SELECT * FROM event " +
+                    "WHERE movie_idMovie = " + id + " AND Date BETWEEN " + currentDateString + " AND " + limitDateString  );
 
             while(rs.next()){
                 data.add(new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5)));
@@ -71,7 +71,7 @@ public final class EventSQL extends MySqlConnector {
         try {
             Statement stmt = con.createStatement();
             for (Event event : events) {
-                stmt.execute("insert into events (idEvent, Date, Time, Movies_idMovie, Rooms_idRoom) " +
+                stmt.execute("insert into event (idEvent, Date, Time, Movie_idMovie, Room_idRoom) " +
                         "values (" + event.getId() + ", "+ putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + ", " + putStringIntoApostrophe(event.getTime().toString()) + ", "+ event.getMovieId() + ", " + event.getRoomId() +" )");
             }
         }catch (Exception e){
