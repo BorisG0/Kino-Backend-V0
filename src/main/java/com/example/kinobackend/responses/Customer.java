@@ -6,22 +6,22 @@ public class Customer {
     private String firstname;
     private int age;
     private int postalCode;
+    private int houseNumber;
     private String location;
     private String street;
-    private int houseNumber;
     private String countryCode;
     private String mobileNumber;
     private String password;
 
-    public Customer(String mailAdress, String lastname, String firstname, int age, int postalCode, String location, String street, int houseNumber, String countryCode, String mobileNumber, String password) {
+    public Customer(String mailAdress, String lastname, String firstname, int age, int postalCode, int houseNumber, String location, String street, String countryCode, String mobileNumber, String password) {
         this.mailAdress = mailAdress;
         this.lastname = lastname;
         this.firstname = firstname;
         this.age = age;
         this.postalCode = postalCode;
+        this.houseNumber = houseNumber;
         this.location = location;
         this.street = street;
-        this.houseNumber = houseNumber;
         this.countryCode = countryCode;
         this.mobileNumber = mobileNumber;
         this.password = password;

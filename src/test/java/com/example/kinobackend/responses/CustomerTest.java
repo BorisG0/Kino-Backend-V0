@@ -8,15 +8,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerTest {
 
-    long id = 99;
+    String mailAdress = "mailAdress";
     String lastName = "Nachname";
     String firstName = "Vorname";
     int age = 18;
+    int postalCode = 12345;
+    int houseNumber = 1;
+    String location = "location";
+    String street = "street";
+    String country = "country";
+    String mobileNumber = "123";
+    String password = "password";
     Customer testCustomer;
 
     @BeforeEach
     void setUp(){
-        testCustomer = new Customer(id, lastName, firstName, age);
+        testCustomer = new Customer(mailAdress, lastName, firstName, age,postalCode,houseNumber,location,street,country,mobileNumber,password);
     }
 
     @AfterEach
@@ -25,39 +32,27 @@ class CustomerTest {
     }
 
     @Test
-    void getId() {
-        assertEquals(id, testCustomer.getId());
-    }
-
-    @Test
-    void setId() {
-        long setId = 100;
-        testCustomer.setId(setId);
-        assertEquals(setId, testCustomer.getId());
-    }
-
-    @Test
     void getFirstName() {
-        assertEquals(firstName, testCustomer.getFirstName());
+        assertEquals(firstName, testCustomer.getFirstname());
     }
 
     @Test
     void setFirstName() {
         String setFirstName = "setVorname";
-        testCustomer.setFirstName(setFirstName);
-        assertEquals(setFirstName, testCustomer.getFirstName());
+        testCustomer.setFirstname(setFirstName);
+        assertEquals(setFirstName, testCustomer.getFirstname());
     }
 
     @Test
     void getLastName() {
-        assertEquals(lastName, testCustomer.getLastName());
+        assertEquals(lastName, testCustomer.getLastname());
     }
 
     @Test
     void setLastName() {
         String setLastName = "setLastname";
-        testCustomer.setLastName(setLastName);
-        assertEquals(setLastName, testCustomer.getLastName());
+        testCustomer.setLastname(setLastName);
+        assertEquals(setLastName, testCustomer.getLastname());
     }
 
     @Test
@@ -74,9 +69,5 @@ class CustomerTest {
 
     @Test
     void testConstructor(){
-        assertEquals(id, testCustomer.getId());
-        assertEquals(lastName, testCustomer.getLastName());
-        assertEquals(firstName, testCustomer.getFirstName());
-        assertEquals(age, testCustomer.getAge());
     }
 }
