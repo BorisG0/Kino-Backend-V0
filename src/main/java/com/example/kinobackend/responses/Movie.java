@@ -14,8 +14,12 @@ public class Movie {
     private String genre;
 
     private Date startDate;
+    private String movieStudio;
+    private String regie;
+    private String cast;
+    private String trailerLink;
 
-    public Movie(long id, String title, int duration, int ageRestriction, String imageName, String description, String genre, Date startDate) {
+    public Movie(long id, String title, int duration, int ageRestriction, String imageName, String description, String genre, Date startDate, String movieStudio, String regie, String cast, String trailerLink) {
         this.id = id;
         this.title = title;
         this.duration = duration;
@@ -24,6 +28,10 @@ public class Movie {
         this.description = description;
         this.genre = genre;
         this.startDate = startDate;
+        this.movieStudio = movieStudio;
+        this.regie = regie;
+        this.cast = cast;
+        this.trailerLink = trailerLink;
     }
 
     public long getId() {
@@ -88,5 +96,37 @@ public class Movie {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public String getMovieStudio() {
+        return movieStudio;
+    }
+
+    public void setMovieStudio(String movieStudio) {
+        this.movieStudio = movieStudio;
+    }
+
+    public String getRegie() {
+        return regie;
+    }
+
+    public void setRegie(String regie) {
+        this.regie = regie;
+    }
+
+    public String getCast() {
+        return cast;
+    }
+
+    public void setCast(String cast) {
+        this.cast = cast;
+    }
+
+    public String getTrailerLink() {
+        return trailerLink;
+    }
+
+    public void setTrailerLink(String trailerLink) {
+        this.trailerLink = trailerLink;
     }
 }
