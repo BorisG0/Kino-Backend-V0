@@ -183,8 +183,14 @@ INSERT INTO room(`idRoom`)VALUES (5);
 insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (1, '2022-07-17', '14:00:00', 1, 1);
 insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (2, '2022-11-07', '18:00:00', 1, 3);
 insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (3, '2022-01-24', '20:30:00', 2, 2);
-insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (4, '2022-06-18', '20:45:00', 1, 2);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (4, '2022-06-18', '19:30:00', 1, 2);
 insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (5, '2021-12-06', '18:30:00', 2, 5);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (6, '2022-07-17', '14:00:00', 2, 3);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (7, '2022-11-07', '18:00:00', 10, 5);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (8, '2022-01-25', '20:30:00', 2, 4);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (9, '2022-06-18', '22:45:00', 4, 2);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (10, '2021-12-06', '18:30:00', 2, 4);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (11, '2022-07-17', '14:00:00', 6, 4);
 
 insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (1, 'A', 1, 1);
 insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (2, 'A', 1, 2);
