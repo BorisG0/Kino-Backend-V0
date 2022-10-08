@@ -38,7 +38,7 @@ public class MovieController {
 
     @PostMapping("/api/moviesByGenre")
     public Movie[] getMoviesByGenre(@RequestBody String genre){
-        System.out.println("getting movies by Genre");
+        System.out.println("getting movies by Genre: " + genre);
         MovieSQL connector = new MovieSQL();
         Movie[] movies = connector.getMoviesByGenre(genre);
         return movies;
