@@ -33,4 +33,12 @@ public class SeatController {
         return seats;
     }
 
+    @PostMapping("/api/setStatusForSeatInEvent")
+    public void setStatusForSeatInEvent(@RequestBody SeatInEvent seatInEvent){
+        System.out.println("setting status " + seatInEvent.getStatus() + " for seat with id " + seatInEvent.getSeatId() + " in event id" + seatInEvent.getEventId());
+        SeatSQL connector = new SeatSQL();
+
+        connector.setSeatInEventStatus(seatInEvent);
+    }
+
 }
