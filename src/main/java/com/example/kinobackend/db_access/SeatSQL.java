@@ -49,7 +49,7 @@ public final class SeatSQL extends MySqlConnector {
     public void setSeatInEventStatus(SeatInEvent seatInEvent){
         try{
             Statement stmt = con.createStatement();
-            stmt.executeQuery("UPDATE seats_in_event SET Status = " + seatInEvent.getStatus()
+            stmt.executeUpdate("UPDATE seats_in_event SET Status = " + seatInEvent.getStatus()
                     + " WHERE (event_idEvent = " + seatInEvent.getEventId() + ") and (seat_idSeat = " + seatInEvent.getSeatId() + ")");
 
         }catch(Exception e){

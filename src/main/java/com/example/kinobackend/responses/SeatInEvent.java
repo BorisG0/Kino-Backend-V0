@@ -7,6 +7,10 @@ public class SeatInEvent {
     private int seatId;
     private int eventId;
 
+    public SeatInEvent(){
+
+    }
+
     public SeatInEvent(String row, int numberInRow, int status) {
         this.row = row;
         this.numberInRow = numberInRow;
