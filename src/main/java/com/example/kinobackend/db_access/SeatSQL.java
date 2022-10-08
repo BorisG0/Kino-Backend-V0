@@ -31,7 +31,9 @@ public final class SeatSQL extends MySqlConnector {
 
         try{
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from seats_in_event where event_idEvent = " + eventId);
+            ResultSet rs = stmt.executeQuery("select s.Line, s.NumberInLine, sie.status " +
+                    "from seats_in_event sie, seat s where sie.seat_idSeat = s.idSeat and sie.event_idEvent = "
+                    + eventId);
 
             while(rs.next()){
                 data.add(new SeatInEvent(rs.getString(1), rs.getInt(2), rs.getInt(3)));
