@@ -43,6 +43,19 @@ public final class EventSQL extends MySqlConnector {
         return data.toArray(new Event[data.size()]);
     }
 
+    public Event getEventById(int id){
+        Event event = null;
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from event where idEvent = " + id);
+            rs.next();
+            event = new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5));
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return event;
+    }
+
 
     public Event[] getEventsForMovie( int id, int days ){
         ArrayList<Event> data = new ArrayList<>();

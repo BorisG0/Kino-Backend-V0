@@ -29,6 +29,14 @@ public class EventController {
         return events;
     }
 
+    @PostMapping("/api/eventById")
+    public Event getEventById(@RequestBody int id){
+        System.out.println("getting event by id: " + id);
+        EventSQL connector = new EventSQL();
+        Event event = connector.getEventById(id);
+        return event;
+    }
+
     @PostMapping("/api/movieEvents")
     public Event[] getEventsForMovie(@RequestBody int movieId, int days){
         System.out.println("getting events for Movie");

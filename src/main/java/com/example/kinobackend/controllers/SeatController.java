@@ -26,9 +26,9 @@ public class SeatController {
         //SeatInEvent[] seats = connector.getSeatsForEvent(new Event(1,null,null,1,1));
         SeatInEvent[] seats = connector.getSeatsForEventId(eventId);
 
-        for(SeatInEvent s: seats){
-            System.out.println(s.getRow() + s.getNumberInRow() + s.getStatus());
-        }
+//        for(SeatInEvent s: seats){
+//            System.out.println(s.getRow() + s.getNumberInRow() + s.getStatus());
+//        }
 
         return seats;
     }
