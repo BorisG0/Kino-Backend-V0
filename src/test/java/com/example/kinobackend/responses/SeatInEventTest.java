@@ -3,6 +3,7 @@ package com.example.kinobackend.responses;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.event.annotation.BeforeTestMethod;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,11 +12,13 @@ class SeatInEventTest {
     String row = "E";
     int numberInRow = 11;
     int status = 1;
+    int seatId = 22;
+    int eventId = 3;
     SeatInEvent testSeatInEvent;
 
     @BeforeEach
     void setUp() {
-        testSeatInEvent = new SeatInEvent(row, numberInRow,status);
+        testSeatInEvent = new SeatInEvent(row, numberInRow,status, seatId, eventId);
     }
 
     @AfterEach
@@ -60,9 +63,50 @@ class SeatInEventTest {
     }
 
     @Test
-    void testConstructor() {
+    void getSeatId() {
+        assertEquals(seatId, testSeatInEvent.getSeatId());
+    }
+
+    @Test
+    void setSeatId() {
+        int setSeatId = 2;
+        testSeatInEvent.setSeatId(setSeatId);
+        assertEquals(setSeatId, testSeatInEvent.getSeatId());
+    }
+
+    @Test
+    void getEventId() {
+        assertEquals(eventId, testSeatInEvent.getEventId());
+    }
+
+    @Test
+    void setEventId() {
+        int setEventId = 2;
+        testSeatInEvent.setEventId(setEventId);
+        assertEquals(setEventId, testSeatInEvent.getEventId());
+    }
+
+    @Test
+    void testConstructor1(){
+        SeatInEvent testSeatInEvent1 = new SeatInEvent();
+    }
+
+    @Test
+    void testConstructor2() {
+        SeatInEvent testSeatInEvent1 = new SeatInEvent(row, numberInRow, status);
+        assertEquals(row, testSeatInEvent1.getRow());
+        assertEquals(numberInRow, testSeatInEvent1.getNumberInRow());
+        assertEquals(status, testSeatInEvent1.getStatus());
+        testSeatInEvent1 = null;
+    }
+
+    @Test
+    void testConstructor3() {
         assertEquals(row, testSeatInEvent.getRow());
         assertEquals(numberInRow, testSeatInEvent.getNumberInRow());
         assertEquals(status, testSeatInEvent.getStatus());
+        assertEquals(seatId, testSeatInEvent.getSeatId());
+        assertEquals(eventId, testSeatInEvent.getEventId());
     }
+
 }
