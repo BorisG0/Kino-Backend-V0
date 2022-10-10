@@ -17,7 +17,6 @@ public class MySqlConnector {
         }catch (Exception e){
             System.out.println(e);
         }
-
     }
 
     public String putStringIntoApostrophe(String string){
