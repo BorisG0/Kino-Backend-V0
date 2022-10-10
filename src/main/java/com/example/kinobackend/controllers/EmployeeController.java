@@ -3,6 +3,8 @@ package com.example.kinobackend.controllers;
 import com.example.kinobackend.db_access.EmployeeSQL;
 import com.example.kinobackend.responses.Employee;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,5 +15,19 @@ public class EmployeeController {
         EmployeeSQL connector = new EmployeeSQL();
         Employee[] employees = connector.getEmployeeData();
         return employees;
+    }
+    @PostMapping("/api/employeeByMailAdress")
+    public Employee getEmployeeByMailAdress(@RequestBody String mailAdress){
+        System.out.println("getting employee by Mail Adress");
+        EmployeeSQL connector = new EmployeeSQL();
+        Employee employee = connector.getEmployeeByMailAdress(mailAdress);
+        return employee;
+    }
+    @PostMapping("/api/addEmployee")
+    public String addEmployee(@RequestBody Employee employee){
+        EmployeeSQL connector = new EmployeeSQL();
+        connector.addEmployee(employee);
+        String returnString = "Employee added" + connector.getEmployeeByMailAdress(employee.getMailAdress());
+        return returnString;
     }
 }
