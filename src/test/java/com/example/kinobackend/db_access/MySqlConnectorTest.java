@@ -4,9 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,11 +47,11 @@ class MySqlConnectorTest {
     }
 
     @Test
-    void javaUtilDateToString() {
-        /*
-        String string = "2022-01-01";
-        Date date = new Date(20220101);
-        assertEquals(string, testMySqlConnector.JavaUtilDateToString(date));
-        */
+    void javaUtilDateToString() throws ParseException {
+        String expectedString = "2022-01-01";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date actualDate = formatter.parse(expectedString);
+        String actualString = testMySqlConnector.JavaUtilDateToString(actualDate);
+        assertEquals(expectedString, actualString);
     }
 }

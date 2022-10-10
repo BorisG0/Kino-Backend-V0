@@ -13,7 +13,7 @@ public class MySqlConnector {
     public MySqlConnector(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "123");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "DBADMIN");
         }catch (Exception e){
             System.out.println(e);
         }
@@ -35,7 +35,7 @@ public class MySqlConnector {
     }
 
     public String JavaUtilDateToString(Date date){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = dateFormat.format(date) ;
         return dateString;
     }
