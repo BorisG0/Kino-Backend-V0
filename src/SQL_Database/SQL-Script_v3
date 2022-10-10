@@ -19,7 +19,7 @@ CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
 USE `mydb` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`Movies`
+-- Table `mydb`.`movie`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `mydb`.`movie` ;
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`movie` (
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`rooms`
+-- Table `mydb`.`room`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `mydb`.`room` ;
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`room` (
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Events`
+-- Table `mydb`.`event`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `mydb`.`event` ;
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`event` (
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Seats`
+-- Table `mydb`.`seat`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `mydb`.`seat` ;
 
@@ -123,11 +123,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`seats_in_event` (
     ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `mydb`.`Customers`
+-- Table `mydb`.`customers`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Customer` ;
+DROP TABLE IF EXISTS `mydb`.`customer` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Customer` (
+CREATE TABLE IF NOT EXISTS `mydb`.`customer` (
                                                   `MailAddress` VARCHAR(45) NOT NULL,
                                                   `LastName` VARCHAR(45) NULL,
                                                   `FirstName` VARCHAR(45) NULL,
@@ -144,11 +144,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Customer` (
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Employees`
+-- Table `mydb`.`employee`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Employee` ;
+DROP TABLE IF EXISTS `mydb`.`employee` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Employee` (
+CREATE TABLE IF NOT EXISTS `mydb`.`employee` (
                                                   `MailAddress` VARCHAR(45) NOT NULL,
                                                   `LastName` VARCHAR(45) NULL,
                                                   `FirstName` VARCHAR(45) NULL,
