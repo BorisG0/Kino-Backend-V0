@@ -56,5 +56,12 @@ public class MovieController {
         }
         return returnString;
     }
+    @PostMapping("/api/addMovie")
+    public String addMovie(@RequestBody Movie movie){
+        MovieSQL connector = new MovieSQL();
+        connector.addMovie(movie);
+        String returnString = "Movie added" + connector.getMovieById((int)movie.getId());
+        return returnString;
+    }
 
 }

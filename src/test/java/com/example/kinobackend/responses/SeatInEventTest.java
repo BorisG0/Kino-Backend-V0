@@ -18,7 +18,7 @@ class SeatInEventTest {
 
     @BeforeEach
     void setUp() {
-        testSeatInEvent = new SeatInEvent(row, numberInRow,status, seatId, eventId);
+        testSeatInEvent = new SeatInEvent(row, numberInRow, status, seatId, eventId);
     }
 
     @AfterEach
@@ -89,6 +89,7 @@ class SeatInEventTest {
     @Test
     void testConstructor1(){
         SeatInEvent testSeatInEvent1 = new SeatInEvent();
+        testSeatInEvent1 = null;
     }
 
     @Test
