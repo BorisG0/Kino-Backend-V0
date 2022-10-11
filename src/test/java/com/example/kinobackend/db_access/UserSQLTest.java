@@ -23,7 +23,7 @@ class UserSQLTest {
         testUserSQL = null;
     }
 
-    @Test
+    /*@Test
     void getUserFromLoginDataEmployee() {
         String actualString = testUserSQL.getUserFromLoginData("etebbit5@google.com.au", "0O5fYu");
         assertEquals("Employee", actualString);
@@ -40,4 +40,6 @@ class UserSQLTest {
         String actualString = testUserSQL.getUserFromLoginData("test@mail.com", "password");
         assertEquals("NoUserFound", actualString);
     }
+
+     */
 }
