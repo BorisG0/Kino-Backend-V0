@@ -1,9 +1,6 @@
 package com.example.kinobackend.responses;
 
-public class Customer {
-    private String mailAdress;
-    private String lastname;
-    private String firstname;
+public class Customer extends User{
     private int age;
     private int postalCode;
     private int houseNumber;
@@ -11,12 +8,9 @@ public class Customer {
     private String street;
     private String countryCode;
     private String mobileNumber;
-    private String password;
 
-    public Customer(String mailAdress, String lastname, String firstname, int age, int postalCode, int houseNumber, String location, String street, String countryCode, String mobileNumber, String password) {
-        this.mailAdress = mailAdress;
-        this.lastname = lastname;
-        this.firstname = firstname;
+    public Customer(String mailAdress, String lastName, String firstName, int age, int postalCode, int houseNumber, String location, String street, String countryCode, String mobileNumber, String password) {
+        super(UserType.Customer,mailAdress,password,lastName,firstName);
         this.age = age;
         this.postalCode = postalCode;
         this.houseNumber = houseNumber;
@@ -24,33 +18,7 @@ public class Customer {
         this.street = street;
         this.countryCode = countryCode;
         this.mobileNumber = mobileNumber;
-        this.password = password;
     }
-
-    public String getMailAdress() {
-        return mailAdress;
-    }
-
-    public void setMailAdress(String mailAdress) {
-        this.mailAdress = mailAdress;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
     public int getAge() {
         return age;
     }
@@ -105,13 +73,5 @@ public class Customer {
 
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

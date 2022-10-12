@@ -40,7 +40,7 @@ public final class CustomerSQL extends MySqlConnector{
     public void addCustomer(Customer customer){
         try {
             Statement stmt = con.createStatement();
-            stmt.execute("insert into customer (MailAddress, LastName, FirstName, Age, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) VALUES (" + putStringIntoApostrophe(customer.getMailAdress())+", "+putStringIntoApostrophe(customer.getLastname())+", "+putStringIntoApostrophe(customer.getFirstname())+", "+customer.getAge()+", "+customer.getPostalCode()+", "+customer.getHouseNumber()+", "+putStringIntoApostrophe(customer.getLocation())+", "+putStringIntoApostrophe(customer.getStreet())+", "+putStringIntoApostrophe(customer.getCountryCode())+", "+putStringIntoApostrophe(customer.getMobileNumber())+", "+putStringIntoApostrophe(customer.getPassword()));
+            stmt.execute("insert into customer (MailAddress, LastName, FirstName, Age, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) VALUES (" + putStringIntoApostrophe(customer.getMailAdress())+", "+putStringIntoApostrophe(customer.getLastName())+", "+putStringIntoApostrophe(customer.getFirstName())+", "+customer.getAge()+", "+customer.getPostalCode()+", "+customer.getHouseNumber()+", "+putStringIntoApostrophe(customer.getLocation())+", "+putStringIntoApostrophe(customer.getStreet())+", "+putStringIntoApostrophe(customer.getCountryCode())+", "+putStringIntoApostrophe(customer.getMobileNumber())+", "+putStringIntoApostrophe(customer.getPassword()));
         }catch (Exception e){
             System.out.println(e);
         }

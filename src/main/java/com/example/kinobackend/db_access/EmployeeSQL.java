@@ -29,7 +29,7 @@ public class EmployeeSQL extends MySqlConnector{
         Employee employee = null;
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from employee where MailAdress = "+putStringIntoApostrophe(mailAdress));
+            ResultSet rs = stmt.executeQuery("select * from employee where MailAddress = "+putStringIntoApostrophe(mailAdress));
             rs.next();
             employee = new Employee(rs.getString(1),rs.getString(2), rs.getString(3),rs.getString(4), rs.getString(5));
         }catch (Exception e){
@@ -40,7 +40,7 @@ public class EmployeeSQL extends MySqlConnector{
     public void addEmployee(Employee employee){
         try {
             Statement stmt = con.createStatement();
-            stmt.execute("insert into employee (MailAddress, LastName, FirstName, Role, Password ) values (" + putStringIntoApostrophe(employee.getMailAdress())+", "+putStringIntoApostrophe(employee.getLastname())+", "+putStringIntoApostrophe(employee.getFirstname())+", "+putStringIntoApostrophe(employee.getRole())+", "+putStringIntoApostrophe(employee.getPassword()));
+            stmt.execute("insert into employee (MailAddress, LastName, FirstName, Role, Password ) values (" + putStringIntoApostrophe(employee.getMailAdress())+", "+putStringIntoApostrophe(employee.getLastName())+", "+putStringIntoApostrophe(employee.getFirstName())+", "+putStringIntoApostrophe(employee.getRole())+", "+putStringIntoApostrophe(employee.getPassword()));
         }catch (Exception e){
             System.out.println(e);
         }
