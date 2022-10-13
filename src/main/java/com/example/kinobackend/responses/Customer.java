@@ -1,7 +1,9 @@
 package com.example.kinobackend.responses;
 
+import java.util.Date;
+
 public class Customer extends User{
-    private int age;
+    private Date birthDate;
     private int postalCode;
     private int houseNumber;
     private String location;
@@ -9,9 +11,9 @@ public class Customer extends User{
     private String countryCode;
     private String mobileNumber;
 
-    public Customer(String mailAdress, String lastName, String firstName, int age, int postalCode, int houseNumber, String location, String street, String countryCode, String mobileNumber, String password) {
+    public Customer(String mailAdress, String lastName, String firstName, Date birthDate, int postalCode, int houseNumber, String location, String street, String countryCode, String mobileNumber, String password) {
         super(UserType.Customer,mailAdress,password,lastName,firstName);
-        this.age = age;
+        this.birthDate = birthDate;
         this.postalCode = postalCode;
         this.houseNumber = houseNumber;
         this.location = location;
@@ -19,12 +21,13 @@ public class Customer extends User{
         this.countryCode = countryCode;
         this.mobileNumber = mobileNumber;
     }
-    public int getAge() {
-        return age;
+
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public int getPostalCode() {

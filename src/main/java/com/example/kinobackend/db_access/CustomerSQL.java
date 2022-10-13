@@ -16,7 +16,7 @@ public final class CustomerSQL extends MySqlConnector{
             ResultSet rs = stmt.executeQuery("select * from customer");
 
             while(rs.next()){
-                data.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getString(10), rs.getString(11)));
+                data.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDate(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9),rs.getString(10), rs.getString(11)));
             }
         }catch (Exception e){
             System.out.println(e);
@@ -30,7 +30,7 @@ public final class CustomerSQL extends MySqlConnector{
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select * from customer where MailAddress = "+putStringIntoApostrophe(mailAdress));
             rs.next();
-            customer = new Customer(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4), rs.getInt(5),rs.getInt(6),rs.getString(7), rs.getString(8), rs.getString(9),rs.getString(10),rs.getString(11));
+            customer = new Customer(rs.getString(1),rs.getString(2),rs.getString(3),rs.getDate(4), rs.getInt(5),rs.getInt(6),rs.getString(7), rs.getString(8), rs.getString(9),rs.getString(10),rs.getString(11));
         }catch (Exception e){
             System.out.println(e);
         }
@@ -40,7 +40,7 @@ public final class CustomerSQL extends MySqlConnector{
     public void addCustomer(Customer customer){
         try {
             Statement stmt = con.createStatement();
-            stmt.execute("insert into customer (MailAddress, LastName, FirstName, Age, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) VALUES (" + putStringIntoApostrophe(customer.getMailAdress())+", "+putStringIntoApostrophe(customer.getLastName())+", "+putStringIntoApostrophe(customer.getFirstName())+", "+customer.getAge()+", "+customer.getPostalCode()+", "+customer.getHouseNumber()+", "+putStringIntoApostrophe(customer.getLocation())+", "+putStringIntoApostrophe(customer.getStreet())+", "+putStringIntoApostrophe(customer.getCountryCode())+", "+putStringIntoApostrophe(customer.getMobileNumber())+", "+putStringIntoApostrophe(customer.getPassword()));
+            stmt.execute("insert into customer (MailAddress, LastName, FirstName, Age, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) VALUES (" + putStringIntoApostrophe(customer.getMailAdress())+", "+putStringIntoApostrophe(customer.getLastName())+", "+putStringIntoApostrophe(customer.getFirstName())+", "+putStringIntoApostrophe(JavaUtilDateToString(customer.getBirthDate()))+", "+customer.getPostalCode()+", "+customer.getHouseNumber()+", "+putStringIntoApostrophe(customer.getLocation())+", "+putStringIntoApostrophe(customer.getStreet())+", "+putStringIntoApostrophe(customer.getCountryCode())+", "+putStringIntoApostrophe(customer.getMobileNumber())+", "+putStringIntoApostrophe(customer.getPassword()));
         }catch (Exception e){
             System.out.println(e);
         }
