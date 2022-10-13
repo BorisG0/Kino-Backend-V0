@@ -36,32 +36,6 @@ class EmployeeTest {
         testEmployee.setMailAdress(setMailAdress);
         assertEquals(setMailAdress, testEmployee.getMailAdress());
     }
-/*
-    @Test
-    void getLastname() {
-        assertEquals(lastname, testEmployee.getLastname());
-    }
-
-    @Test
-    void setLastname() {
-        String setLastname = "NeuerName";
-        testEmployee.setLastname(setLastname);
-        assertEquals(setLastname, testEmployee.getLastname());
-    }
-
-    @Test
-    void getFirstname() {
-        assertEquals(firstname, testEmployee.getFirstname());
-    }
-
-    @Test
-    void setFirstname() {
-        String setFirstname = "NeuerName2";
-        testEmployee.setFirstname(setFirstname);
-        assertEquals(setFirstname, testEmployee.getFirstname());
-    }
-
- */
 
     @Test
     void getRole() {

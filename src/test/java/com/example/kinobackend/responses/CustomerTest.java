@@ -4,6 +4,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerTest {
@@ -11,7 +15,11 @@ class CustomerTest {
     String mailAdress = "VornameNachname@mailadresse.de";
     String lastName = "Nachname";
     String firstName = "Vorname";
-    int age = 18;
+
+    String date_string = "01-01-2022";
+    SimpleDateFormat formatterDate = new SimpleDateFormat("dd-MM-yyyy");
+    Date birthDate = formatterDate.parse(date_string);
+
     int postalCode = 12345;
     int houseNumber = 1;
     String location = "Mannheim";
@@ -21,9 +29,12 @@ class CustomerTest {
     String password = "sicheresPasswort";
     Customer testCustomer;
 
+    CustomerTest() throws ParseException {
+    }
+
     @BeforeEach
     void setUp(){
-        testCustomer = new Customer(mailAdress, lastName, firstName, age,postalCode,houseNumber,location,street,countryCode,mobileNumber,password);
+        testCustomer = new Customer(mailAdress, lastName, firstName, birthDate, postalCode, houseNumber, location, street, countryCode, mobileNumber, password);
     }
 
     @AfterEach
@@ -42,43 +53,19 @@ class CustomerTest {
         testCustomer.setMailAdress(setMailAdress);
         assertEquals(setMailAdress, testCustomer.getMailAdress());
     }
-/*
+
     @Test
-    void getFirstName() {
-        assertEquals(firstName, testCustomer.getFirstname());
+    void getBirthDate() {
+        assertEquals(birthDate, testCustomer.getBirthDate());
     }
 
     @Test
-    void setFirstName() {
-        String setFirstName = "setVorname";
-        testCustomer.setFirstname(setFirstName);
-        assertEquals(setFirstName, testCustomer.getFirstname());
-    }
-
-    @Test
-    void getLastName() {
-        assertEquals(lastName, testCustomer.getLastname());
-    }
-
-    @Test
-    void setLastName() {
-        String setLastName = "setLastname";
-        testCustomer.setLastname(setLastName);
-        assertEquals(setLastName, testCustomer.getLastname());
-    }
-
- */
-
-    @Test
-    void getAge() {
-        assertEquals(age, testCustomer.getAge());
-    }
-
-    @Test
-    void setAge() {
-        int setAge = 100;
-        testCustomer.setAge(setAge);
-        assertEquals(setAge, testCustomer.getAge());
+    void setBirthDate() throws ParseException {
+        String date_string = "23-04-1985";
+        SimpleDateFormat formatterDate = new SimpleDateFormat("dd-MM-yyyy");
+        Date setBirthDate = formatterDate.parse(date_string);
+        testCustomer.setBirthDate(setBirthDate);
+        assertEquals(setBirthDate, testCustomer.getBirthDate());
     }
 
     @Test
@@ -170,7 +157,7 @@ class CustomerTest {
         assertEquals(mailAdress, testCustomer.getMailAdress());
         //assertEquals(lastName, testCustomer.getLastname());
         //assertEquals(firstName, testCustomer.getFirstname());
-        assertEquals(age, testCustomer.getAge());
+        assertEquals(birthDate, testCustomer.getBirthDate());
         assertEquals(postalCode, testCustomer.getPostalCode());
         assertEquals(houseNumber, testCustomer.getHouseNumber());
         assertEquals(location, testCustomer.getLocation());
