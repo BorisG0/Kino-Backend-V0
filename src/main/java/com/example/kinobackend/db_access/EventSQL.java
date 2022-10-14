@@ -82,8 +82,8 @@ public final class EventSQL extends MySqlConnector {
         try {
             Statement stmt = con.createStatement();
             for (Event event : events) {
-                stmt.execute("insert into event (idEvent, Date, Time, Movie_idMovie, Room_idRoom) " +
-                        "values (" + event.getId() + ", "+ putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + ", " + putStringIntoApostrophe(event.getTime().toString()) + ", "+ event.getMovieId() + ", " + event.getRoomId() +" )");
+                stmt.execute("insert into event (Date, Time, Movie_idMovie, Room_idRoom) " +
+                        "values (" + putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + ", " + putStringIntoApostrophe(event.getTime().toString()) + ", "+ event.getMovieId() + ", " + event.getRoomId() +" )");
             }
         }catch (Exception e){
             System.out.println(e);
