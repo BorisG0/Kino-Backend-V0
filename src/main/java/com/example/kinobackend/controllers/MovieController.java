@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
+
 @RestController
 public class MovieController {
     @GetMapping("/api/movies")
@@ -53,8 +55,13 @@ public class MovieController {
         return returnString;
     }
     @PostMapping("/api/addMovie")
+    //@GetMapping("/api/addMovie")
     public String addMovie(@RequestBody Movie movie){
+    //public String addMovie(){
         MovieSQL connector = new MovieSQL();
+        //Movie movie = getMovieById(1);
+        //File image = new File("src/Test1.png");
+        //movie.setImage(image);
         connector.addMovie(movie);
         String returnString = "Movie added" + connector.getMovieById((int)movie.getId());
         return returnString;

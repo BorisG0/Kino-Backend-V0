@@ -1,5 +1,9 @@
 package com.example.kinobackend.responses;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 public class Movie {
@@ -7,8 +11,7 @@ public class Movie {
     private String title;
     private int duration;
     private int ageRestriction;
-    private String imageName;
-
+    private File image;
     private String description;
 
     private String genre;
@@ -19,12 +22,12 @@ public class Movie {
     private String cast;
     private String trailerLink;
 
-    public Movie(long id, String title, int duration, int ageRestriction, String imageName, String description, String genre, Date startDate, String movieStudio, String regie, String cast, String trailerLink) {
+    public Movie(long id, String title, int duration, int ageRestriction, File image, String description, String genre, Date startDate, String movieStudio, String regie, String cast, String trailerLink) {
         this.id = id;
         this.title = title;
         this.duration = duration;
         this.ageRestriction = ageRestriction;
-        this.imageName = imageName;
+        this.image = image;
         this.description = description;
         this.genre = genre;
         this.startDate = startDate;
@@ -66,12 +69,12 @@ public class Movie {
         this.ageRestriction = ageRestriction;
     }
 
-    public String getImageName() {
-        return imageName;
+    public File getImage() {
+        return image;
     }
 
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
+    public void setImage(File image) {
+        this.image = image;
     }
 
     public String getDescription() {
@@ -128,5 +131,24 @@ public class Movie {
 
     public void setTrailerLink(String trailerLink) {
         this.trailerLink = trailerLink;
+    }
+
+    public static String setNewImage(File image){
+        String imageName=null;
+        BufferedImage img = null;
+        imageName=image.getName();
+        File outfile = new File("src/MovieImages/"+imageName);
+        try {
+            img = ImageIO.read(image);
+            ImageIO.write(img,"png",outfile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return imageName;
+    }
+
+    public static File getImageFromImageName(String imageName){
+        File image = new File("src/MovieImages/"+imageName);
+        return image;
     }
 }

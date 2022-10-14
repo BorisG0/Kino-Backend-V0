@@ -2,6 +2,10 @@ package com.example.kinobackend.db_access;
 
 import com.example.kinobackend.responses.Movie;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -17,7 +21,7 @@ public final class MovieSQL extends MySqlConnector{
             ResultSet rs = stmt.executeQuery("select * from movie");
 
             while(rs.next()){
-                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getDate(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12)));
+                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), Movie.getImageFromImageName(rs.getString(5)), rs.getString(6), rs.getString(7), rs.getDate(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12)));
             }
 
         }catch (Exception e){
@@ -33,7 +37,7 @@ public final class MovieSQL extends MySqlConnector{
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select * from movie where idMovie = " + id);
             rs.next();
-            movie = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getDate(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12));
+            movie = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), Movie.getImageFromImageName(rs.getString(5)), rs.getString(6), rs.getString(7), rs.getDate(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12));
         }catch(Exception e){
             System.out.println(e);
         }
@@ -54,7 +58,7 @@ public final class MovieSQL extends MySqlConnector{
                     "WHERE event.Date BETWEEN " + currentDateString + " and " + limitDateString );
 
             while(rs.next()){
-                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getDate(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12)));
+                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), Movie.getImageFromImageName(rs.getString(5)), rs.getString(6), rs.getString(7), rs.getDate(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12)));
             }
 
         }catch (Exception e){
@@ -71,7 +75,7 @@ public final class MovieSQL extends MySqlConnector{
             ResultSet rs = stmt.executeQuery("select * from movie where genre like "+ prepareStringForLikeOperation(genre));
 
             while(rs.next()){
-                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getDate(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12)));
+                data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), Movie.getImageFromImageName(rs.getString(5)) , rs.getString(6), rs.getString(7), rs.getDate(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12)));
             }
 
         }catch (Exception e){
@@ -84,7 +88,7 @@ public final class MovieSQL extends MySqlConnector{
         try {
             Statement stmt = con.createStatement();
             for (Movie movie : movies) {
-                stmt.execute("INSERT INTO movie (`Title`, `Duration`, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie, cast, trailerLink) " + "VALUES   (" + putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +", "+putStringIntoApostrophe(movie.getImageName()) + ", "+putStringIntoApostrophe(movie.getDescription())+", "+putStringIntoApostrophe(movie.getGenre())+", "+putStringIntoApostrophe(JavaUtilDateToString(movie.getStartDate()))+", "+putStringIntoApostrophe(movie.getMovieStudio())+", "+putStringIntoApostrophe(movie.getRegie())+", "+putStringIntoApostrophe(movie.getCast())+", "+putStringIntoApostrophe(movie.getTrailerLink())+" )");
+                stmt.execute("INSERT INTO movie (`Title`, `Duration`, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie, cast, trailerLink) " + "VALUES   (" + putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +", "+putStringIntoApostrophe(Movie.setNewImage(movie.getImage()))+ ", "+putStringIntoApostrophe(movie.getDescription())+", "+putStringIntoApostrophe(movie.getGenre())+", "+putStringIntoApostrophe(JavaUtilDateToString(movie.getStartDate()))+", "+putStringIntoApostrophe(movie.getMovieStudio())+", "+putStringIntoApostrophe(movie.getRegie())+", "+putStringIntoApostrophe(movie.getCast())+", "+putStringIntoApostrophe(movie.getTrailerLink())+" )");
             }
         }catch (Exception e){
             System.out.println(e);
@@ -94,7 +98,7 @@ public final class MovieSQL extends MySqlConnector{
     public void addMovie(Movie movie){
         try {
             Statement stmt = con.createStatement();
-                stmt.execute("INSERT INTO movie (`Title`, `Duration`, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie, cast, trailerLink) " + "VALUES   (" + putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +", "+putStringIntoApostrophe(movie.getImageName()) + ", "+putStringIntoApostrophe(movie.getDescription())+", "+putStringIntoApostrophe(movie.getGenre())+", "+putStringIntoApostrophe(JavaUtilDateToString(movie.getStartDate()))+", "+putStringIntoApostrophe(movie.getMovieStudio())+", "+putStringIntoApostrophe(movie.getRegie())+", "+putStringIntoApostrophe(movie.getCast())+", "+putStringIntoApostrophe(movie.getTrailerLink())+" )");
+                stmt.execute("INSERT INTO movie (`Title`, `Duration`, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie, cast, trailerLink) " + "VALUES   (" + putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +", "+putStringIntoApostrophe(Movie.setNewImage(movie.getImage())) + ", "+putStringIntoApostrophe(movie.getDescription())+", "+putStringIntoApostrophe(movie.getGenre())+", "+putStringIntoApostrophe(JavaUtilDateToString(movie.getStartDate()))+", "+putStringIntoApostrophe(movie.getMovieStudio())+", "+putStringIntoApostrophe(movie.getRegie())+", "+putStringIntoApostrophe(movie.getCast())+", "+putStringIntoApostrophe(movie.getTrailerLink())+" )");
         }catch (Exception e){
             System.out.println(e);
         }
