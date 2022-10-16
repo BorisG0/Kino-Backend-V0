@@ -2,12 +2,12 @@ package com.example.kinobackend.controllers;
 
 import com.example.kinobackend.db_access.*;
 import com.example.kinobackend.responses.*;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.File;
 
 @RestController
 public class MovieController {
@@ -67,4 +67,16 @@ public class MovieController {
         return returnString;
     }
 
-}
+    @PostMapping("/api/GetMovieImage")
+    public ResponseEntity<Resource> testGetMovie(@RequestBody String imageName){
+        ResponseEntity returnImage = Movie.getImageFromImageName(imageName);
+        return returnImage;
+    }
+
+    @GetMapping("/api/testGetmovieById")
+    public Movie testGetMovieById(){
+        System.out.println("Getting Movie with id: 1" );
+        MovieSQL connector = new MovieSQL();
+        return connector.getMovieById(1);
+    }
+    }
