@@ -1,9 +1,14 @@
 pipeline {
-    agent { docker { image 'maven:3.8.6-openjdk-11-slim' } }
+    agent any
     stages {
-        stage('build') {
+        stage('version') {
             steps {
                 sh 'mvn --version'
+            }
+            }
+            stage('test') {
+            steps {
+                sh 'mvn clean test'
             }
         }
     }
