@@ -20,7 +20,7 @@ public class Movie {
     private int duration;
     private int ageRestriction;
     private String imageName;
-    private File image;
+    //private File image;
     private String description;
     private String genre;
     private Date startDate;
@@ -35,20 +35,6 @@ public class Movie {
         this.duration = duration;
         this.ageRestriction = ageRestriction;
         this.imageName = imageName;
-        this.description = description;
-        this.genre = genre;
-        this.startDate = startDate;
-        this.movieStudio = movieStudio;
-        this.regie = regie;
-        this.cast = cast;
-        this.trailerLink = trailerLink;
-    }
-    public Movie(long id, String title, int duration, int ageRestriction, File image, String description, String genre, Date startDate, String movieStudio, String regie, String cast, String trailerLink) {
-        this.id = id;
-        this.title = title;
-        this.duration = duration;
-        this.ageRestriction = ageRestriction;
-        this.image = image;
         this.description = description;
         this.genre = genre;
         this.startDate = startDate;
@@ -98,13 +84,13 @@ public class Movie {
         this.imageName = image;
     }
 
-    public File getImage() {
-        return image;
-    }
+    //public File getImage() {
+    //    return image;
+    //}
 
-    public void setImage(File image) {
-        this.image = image;
-    }
+    //public void setImage(File image) {
+    //    this.image = image;
+    //}
 
     public String getDescription() {
         return description;
