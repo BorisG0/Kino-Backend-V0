@@ -5,6 +5,10 @@ pipeline {
             steps {
                 sh 'mvn --version'
             }
+            stage('build') {
+            steps {
+                mvn clean test
+            }
         }
     }
 }
