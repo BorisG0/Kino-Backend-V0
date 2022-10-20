@@ -352,7 +352,6 @@ INSERT INTO seats_in_event (event_idEvent, `seat_idSeat`, `Status`)VALUES (5,13,
 INSERT INTO seats_in_event (event_idEvent, `seat_idSeat`, `Status`)VALUES (5,14,0);
 INSERT INTO seats_in_event (event_idEvent, `seat_idSeat`, `Status`)VALUES (5,15,0);
 
-insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('d.melchior@sap.com', 'Melchior', 'Daniel', '1985-04-23', '66292', 20, 'Saarland', 'Brostraße', 'DE', '+49 157 178 9855', 'GOloNs9PtS');
 insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('lattlee1@sphinn.com', 'Attlee', 'Lyle', '1947-04-28', '40591', 35 ,'Nordrhein-Westfalen', 'Sycamore Alley', 'DE', '+49 824 261 2230', 'mNDtfnNnXL');
 insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ( 'ldunbabin2@digg.com', 'Dunbabin', 'Lolita', '1980-04-30', '09116', 86 , 'Sachsen', 'Monterey Place', 'DE', '+49 390 982 5080', 'fBu73M');
 insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('aberger3@posterous.com', 'Berger', 'Angelico', '2005-06-28',  '09123', 23, 'Sachsen', 'Center Place', 'DE', '+49 356 560 4646', 'MiBtueRSa');
