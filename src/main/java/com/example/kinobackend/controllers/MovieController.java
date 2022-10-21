@@ -77,10 +77,17 @@ public class MovieController {
         ResponseEntity returnImage = Movie.getImageFromImageName(imageName);
         return returnImage;
     }
-    @PostMapping("/api/GetMovieImage")
-    public void setMovieInactive(@RequestBody int movieId){
+    @PostMapping("/api/SetMovieInactive")
+    public String setMovieInactive(@RequestBody int movieId){
         MovieSQL connector = new MovieSQL();
         connector.setMovieInactive(movieId);
+        return "Movie " + movieId+ " set inactive";
+    }
+    @PostMapping("/api/updateMovie")
+    public String updateMovie(@RequestBody Movie movie){
+        MovieSQL connector = new MovieSQL();
+        connector.updateMovie(movie);
+        return "Movie " + movie.getId()+ " updated";
     }
 
     @GetMapping("/api/testGetmovieById")

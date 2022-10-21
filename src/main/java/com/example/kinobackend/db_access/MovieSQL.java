@@ -102,7 +102,16 @@ public final class MovieSQL extends MySqlConnector{
     public void setMovieInactive(int movieId){
         try {
             Statement stmt = con.createStatement();
-            stmt.execute("update movie set active=true where idMovie = "+movieId);
+            stmt.execute("update movie set active=false where idMovie = "+movieId);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void updateMovie(Movie movie){
+        try {
+            Statement stmt = con.createStatement();
+            stmt.execute("update movie set Title = "+putStringIntoApostrophe(movie.getTitle())+", Duration = "+movie.getDuration()+", AgeRestriction= "+movie.getAgeRestriction()+", imageName= "+putStringIntoApostrophe(movie.getImageName())+", Description = "+putStringIntoApostrophe(movie.getDescription())+", Genre= "+putStringIntoApostrophe(movie.getGenre())+", StartDate = "+putStringIntoApostrophe(JavaUtilDateToString(movie.getStartDate()))+", movieStudio= "+putStringIntoApostrophe(movie.getMovieStudio())+", regie= "+putStringIntoApostrophe(movie.getRegie())+", cast= "+putStringIntoApostrophe(movie.getCast())+", trailerLink = "+putStringIntoApostrophe(movie.getTrailerLink())+ "where idMovie = "+movie.getId());
         }catch (Exception e){
             System.out.println(e);
         }
