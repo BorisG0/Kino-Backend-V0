@@ -87,5 +87,13 @@ public final class EventSQL extends MySqlConnector {
             System.out.println(e);
         }
     }
+    public void updateEvent(Event event){
+        try {
+            Statement stmt = con.createStatement();
+            stmt.execute("update event set Date = "+putStringIntoApostrophe(JavaUtilDateToString(event.getDate()))+", Time = "+putStringIntoApostrophe(event.getTime().toString())+", Movie_idMovie = "+event.getMovieId()+", Room_idRoom = "+event.getRoomId()+" where idEvent = "+event.getId());
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
 
 }
