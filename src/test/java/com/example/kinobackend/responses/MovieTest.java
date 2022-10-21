@@ -24,10 +24,10 @@ class MovieTest {
     String trailerLink = "link.de";
     Movie testMovie;
 
-//    @BeforeEach
-//    void setUp() {
-//        testMovie = new Movie(id, title, duration, ageRestriction, imageName, description, genre, startDate, movieStudio, regie, cast, trailerLink);
-//    }
+    @BeforeEach
+    void setUp() {
+        testMovie = new Movie(id, title, duration, ageRestriction, imageName, description, genre, startDate, movieStudio, regie, cast, trailerLink);
+    }
 
     @AfterEach
     void tearDown() {

@@ -147,6 +147,7 @@ public class Movie {
     public void setTrailerLink(String trailerLink) {
         this.trailerLink = trailerLink;
     }
+
     public static String setNewImage(File image){
         String imageName=null;
         BufferedImage img = null;

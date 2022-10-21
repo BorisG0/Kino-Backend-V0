@@ -31,19 +31,19 @@ class CustomerSQLTest {
     void getCustomerData() throws ParseException {
         Customer Customers[] = testCustomerSQL.getCustomerData();
         Customer actualCustomer = Customers[4];
-        String date_string = "23-04-1985";
-        SimpleDateFormat formatterDate = new SimpleDateFormat("dd-MM-yyyy");
+        String date_string = "1987-10-02";
+        SimpleDateFormat formatterDate = new SimpleDateFormat("yyyy-MM-dd");
         Date birthDate = formatterDate.parse(date_string);
-        Customer expectedCustomer = new Customer("d.melchior@sap.com", "Melchior", "Daniel", birthDate, 66292, 20, "Saarland", "Brostraße", "DE", "+49 157 178 9855", "GOloNs9PtS");
+        Customer expectedCustomer = new Customer("dsedworth6@xrea.com", "Sedworth", "Darn", birthDate, 1189, 1, "Sachsen", "Orin Hill", "DE", "+49 919 425 0372", "mieeQE6UH2v");
         assertThat(actualCustomer).usingRecursiveComparison().isEqualTo(expectedCustomer);
     }
 
     @Test
     void getCustomerByMailAddress() throws ParseException {
-        String date_string = "23-04-1985";
-        SimpleDateFormat formatterDate = new SimpleDateFormat("dd-MM-yyyy");
+        String date_string = "1987-10-02";
+        SimpleDateFormat formatterDate = new SimpleDateFormat("yyyy-MM-dd");
         Date birthDate = formatterDate.parse(date_string);
-        Customer expectedCustomer = new Customer("d.melchior@sap.com", "Melchior", "Daniel", birthDate, 66292, 20, "Saarland", "Brostraße", "DE", "+49 157 178 9855", "GOloNs9PtS");
+        Customer expectedCustomer = new Customer("dsedworth6@xrea.com", "Sedworth", "Darn", birthDate, 1189, 1, "Sachsen", "Orin Hill", "DE", "+49 919 425 0372", "mieeQE6UH2v");
         Customer actualCustomer = testCustomerSQL.getCustomerByMailAdress(expectedCustomer.getMailAdress());
         assertThat(actualCustomer).usingRecursiveComparison().isEqualTo(expectedCustomer);
     }
