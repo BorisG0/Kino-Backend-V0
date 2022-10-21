@@ -45,15 +45,10 @@ public class EventController {
         return events;
     }
 
-    @PostMapping("/api/addEvents")
-    public String addEvents(@RequestBody Event[] events){
+    @PostMapping("/api/addEvent")
+    public String addEvent(@RequestBody Event event){
         EventSQL connector = new EventSQL();
-        connector.addEvents(events);
-        String returnString = "";
-        for (Event event:events) {
-            String eventAdded = "Event added" + connector.getEventsForMovieId((int)event.getId());
-            returnString+=eventAdded;
-        }
-        return returnString;
+        connector.addEvent(event);
+        return "Event added" ;
     }
 }
