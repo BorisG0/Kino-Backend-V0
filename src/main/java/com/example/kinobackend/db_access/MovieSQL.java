@@ -99,6 +99,14 @@ public final class MovieSQL extends MySqlConnector{
             System.out.println(e);
         }
     }
+    public void setMovieInactive(int movieId){
+        try {
+            Statement stmt = con.createStatement();
+            stmt.execute("update movie set active=true where idMovie = "+movieId);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
 
 
 }
