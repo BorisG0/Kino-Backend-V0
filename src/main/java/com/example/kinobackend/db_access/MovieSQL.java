@@ -84,7 +84,7 @@ public final class MovieSQL extends MySqlConnector{
         try {
             Statement stmt = con.createStatement();
             for (Movie movie : movies) {
-                stmt.execute("INSERT INTO movie (`Title`, `Duration`, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie, cast, trailerLink, active) " + "VALUES   (" + putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +", "+putStringIntoApostrophe(movie.getImageName())+ ", "+putStringIntoApostrophe(movie.getDescription())+", "+putStringIntoApostrophe(movie.getGenre())+", "+putStringIntoApostrophe(JavaUtilDateToString(movie.getStartDate()))+", "+putStringIntoApostrophe(movie.getMovieStudio())+", "+putStringIntoApostrophe(movie.getRegie())+", "+putStringIntoApostrophe(movie.getCast())+", "+putStringIntoApostrophe(movie.getTrailerLink())+ ", true)");
+                stmt.execute("INSERT INTO movie (Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie, cast, trailerLink, active) " + "VALUES   (" + putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +", "+putStringIntoApostrophe(movie.getImageName())+ ", "+putStringIntoApostrophe(movie.getDescription())+", "+putStringIntoApostrophe(movie.getGenre())+", "+putStringIntoApostrophe(JavaUtilDateToString(movie.getStartDate()))+", "+putStringIntoApostrophe(movie.getMovieStudio())+", "+putStringIntoApostrophe(movie.getRegie())+", "+putStringIntoApostrophe(movie.getCast())+", "+putStringIntoApostrophe(movie.getTrailerLink())+ ", true)");
             }
         }catch (Exception e){
             System.out.println(e);
@@ -94,7 +94,7 @@ public final class MovieSQL extends MySqlConnector{
     public void addMovie(Movie movie){
         try {
             Statement stmt = con.createStatement();
-                stmt.execute("INSERT INTO movie (`Title`, `Duration`, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie, cast, trailerLink) " + "VALUES   (" + putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +", "+putStringIntoApostrophe(movie.getImageName()) + ", "+putStringIntoApostrophe(movie.getDescription())+", "+putStringIntoApostrophe(movie.getGenre())+", "+putStringIntoApostrophe(JavaUtilDateToString(movie.getStartDate()))+", "+putStringIntoApostrophe(movie.getMovieStudio())+", "+putStringIntoApostrophe(movie.getRegie())+", "+putStringIntoApostrophe(movie.getCast())+", "+putStringIntoApostrophe(movie.getTrailerLink())+", true)");
+                stmt.execute("INSERT INTO movie (Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie, cast, trailerLink, active) " + "VALUES   (" + putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "+ movie.getAgeRestriction() +", "+putStringIntoApostrophe(movie.getImageName()) + ", "+putStringIntoApostrophe(movie.getDescription())+", "+putStringIntoApostrophe(movie.getGenre())+", "+putStringIntoApostrophe(JavaUtilDateToString(movie.getStartDate()))+", "+putStringIntoApostrophe(movie.getMovieStudio())+", "+putStringIntoApostrophe(movie.getRegie())+", "+putStringIntoApostrophe(movie.getCast())+", "+putStringIntoApostrophe(movie.getTrailerLink())+", true)");
         }catch (Exception e){
             System.out.println(e);
         }
