@@ -1,8 +1,10 @@
 package com.example.kinobackend.controllers;
 
+import com.example.kinobackend.db_access.BookingSQL;
 import com.example.kinobackend.db_access.SeatSQL;
 import com.example.kinobackend.responses.BookingCreation;
 import com.example.kinobackend.responses.SeatInEvent;
+import com.example.kinobackend.responses.Ticket;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,5 +21,17 @@ public class BookingController {
         }
 
         return true;
+    }
+
+    @PostMapping("/api/ticketsInEvent")
+    public Ticket[] getTicketsInEventId(@RequestBody int eventId){
+        System.out.println("getting tickets for eventId: " + eventId);
+        BookingSQL connector = new BookingSQL();
+
+
+        Ticket[] tickets = connector.getTicketsForEventId(eventId);
+
+
+        return tickets;
     }
 }
