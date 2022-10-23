@@ -77,4 +77,8 @@ class EventSQLTest {
     @Test
     void addEvents() {
     }
+
+    @Test
+    void updateEvent() {
+    }
 }

@@ -29,8 +29,8 @@ class CustomerSQLTest {
 
     @Test
     void getCustomerData() throws ParseException {
-        Customer Customers[] = testCustomerSQL.getCustomerData();
-        Customer actualCustomer = Customers[4];
+        Customer[] customers = testCustomerSQL.getCustomerData();
+        Customer actualCustomer = customers[4];
         String date_string = "1987-10-02";
         SimpleDateFormat formatterDate = new SimpleDateFormat("yyyy-MM-dd");
         Date birthDate = formatterDate.parse(date_string);
