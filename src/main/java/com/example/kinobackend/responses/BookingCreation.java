@@ -1,20 +1,20 @@
 package com.example.kinobackend.responses;
 
 public class BookingCreation {
-    private int customerId;
+    private String email;
     private int[] ticketIds;
 
-    public BookingCreation(int customerId, int[] ticketIds) {
-        this.customerId = customerId;
+    public BookingCreation(String email, int[] ticketIds) {
+        this.email = email;
         this.ticketIds = ticketIds;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int[] getTicketIds() {
