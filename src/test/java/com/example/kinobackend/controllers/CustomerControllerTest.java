@@ -37,6 +37,7 @@ class CustomerControllerTest {
         Customer[] expectedCustomers = testCustomerSQL.getCustomerData();
 
         assertThat(expectedCustomers).usingRecursiveComparison().ignoringFields("birthDate").isEqualTo(actualCustomers);
+        System.out.println("Test successful!");
     }
 
     @Test
