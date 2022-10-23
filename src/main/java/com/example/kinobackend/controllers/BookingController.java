@@ -4,6 +4,7 @@ import com.example.kinobackend.db_access.BookingSQL;
 import com.example.kinobackend.db_access.SeatSQL;
 import com.example.kinobackend.responses.BookingCreation;
 import com.example.kinobackend.responses.SeatInEvent;
+import com.example.kinobackend.responses.StatusChange;
 import com.example.kinobackend.responses.Ticket;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,5 +34,15 @@ public class BookingController {
 
 
         return tickets;
+    }
+
+
+    @PostMapping("/api/setStatusForTicket")
+    public boolean setStatusForTicket(@RequestBody StatusChange statusChange){
+        System.out.println("setting status " + statusChange.getStatus() + " for ticket with id " + statusChange.getStatus());
+        BookingSQL connector = new BookingSQL();
+
+        connector.setStatusForTicket(statusChange);
+        return true;
     }
 }

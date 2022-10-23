@@ -1,5 +1,6 @@
 package com.example.kinobackend.db_access;
 
+import com.example.kinobackend.responses.StatusChange;
 import com.example.kinobackend.responses.Ticket;
 
 import java.sql.ResultSet;
@@ -35,5 +36,15 @@ public class BookingSQL extends MySqlConnector{
         }
 
         return data.toArray(new Ticket[0]);
+    }
+
+    public void setStatusForTicket(StatusChange statusChange){
+        try{
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("UPDATE ticket SET status = " + statusChange.getStatus() + " WHERE (idTicket = " + statusChange.getId() + ")");
+
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 }
