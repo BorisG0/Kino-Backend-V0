@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 
 public class BookingSQL extends MySqlConnector{
-    public void addBooking(int bookingId, String email, int pricePaid){
+    public void addBooking(String email, int pricePaid){
         try {
             Statement stmt = con.createStatement();
-            stmt.execute("");
+            stmt.execute("INSERT INTO booking (email, pricePaid) VALUES ('" + email +"', " + pricePaid + ");");
         }catch (Exception e){
             System.out.println(e);
         }
