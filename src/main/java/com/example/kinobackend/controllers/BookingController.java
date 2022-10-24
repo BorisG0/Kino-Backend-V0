@@ -17,15 +17,15 @@ public class BookingController {
     @PostMapping("/api/newBooking")
     public boolean newBooking(@RequestBody BookingCreation bookingCreation){
         System.out.println("new booking creation:  customer=" + bookingCreation.getEmail() + " tickets=" + bookingCreation.getTicketIds().length);
-
-        SeatSQL seatSQL = new SeatSQL();
         BookingSQL bookingSQL = new BookingSQL();
+
+        int bookingId = bookingSQL.addBooking(bookingCreation.getEmail(), 100);
+
         for(int id: bookingCreation.getTicketIds()){
-            seatSQL.setSeatInEventStatus(new SeatInEvent("", 1, 1, id, 3));
-            bookingSQL.setStatusForTicket(new StatusChange(id, 1));
+            bookingSQL.setStatusForTicket(new StatusChange(id, 1), bookingId);
         }
 
-        bookingSQL.addBooking(bookingCreation.getEmail(), 100);
+
 
 
 
@@ -50,7 +50,7 @@ public class BookingController {
         System.out.println("setting status " + statusChange.getStatus() + " for ticket with id " + statusChange.getStatus());
         BookingSQL connector = new BookingSQL();
 
-        connector.setStatusForTicket(statusChange);
+        connector.setStatusForTicket(statusChange, 0);
         return true;
     }
 

@@ -11,13 +11,20 @@ import java.util.ArrayList;
 
 
 public class BookingSQL extends MySqlConnector{
-    public void addBooking(String email, int pricePaid){
+    public int addBooking(String email, int pricePaid){
+        int id = 0;
         try {
             Statement stmt = con.createStatement();
             stmt.execute("INSERT INTO booking (email, pricePaid) VALUES ('" + email +"', " + pricePaid + ");");
+
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select idBooking from booking order by idBooking desc limit 1");
+            rs.next();
+            id = rs.getInt(1);
         }catch (Exception e){
             System.out.println(e);
         }
+        return id;
     }
 
     public Ticket[] getTicketsForEventId(int id){
@@ -41,10 +48,16 @@ public class BookingSQL extends MySqlConnector{
         return data.toArray(new Ticket[0]);
     }
 
-    public void setStatusForTicket(StatusChange statusChange){
+    public void setStatusForTicket(StatusChange statusChange, int bookingId){
         try{
             Statement stmt = con.createStatement();
-            stmt.executeUpdate("UPDATE ticket SET status = " + statusChange.getStatus() + " WHERE (idTicket = " + statusChange.getId() + ")");
+            if(bookingId == 0){
+                stmt.executeUpdate("UPDATE ticket SET status = " + statusChange.getStatus() + " WHERE (idTicket = " + statusChange.getId() + ")");
+            }else{
+                stmt.executeUpdate("UPDATE ticket SET status = " + statusChange.getStatus()
+                        +", idBooking = " + bookingId + " WHERE (idTicket = " + statusChange.getId() + ")");
+            }
+
 
         }catch(Exception e){
             System.out.println(e);
