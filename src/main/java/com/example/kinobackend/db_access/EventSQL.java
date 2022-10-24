@@ -1,10 +1,13 @@
 package com.example.kinobackend.db_access;
 
 import com.example.kinobackend.responses.Event;
+import com.example.kinobackend.responses.Movie;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public final class EventSQL extends MySqlConnector {
@@ -77,14 +80,34 @@ public final class EventSQL extends MySqlConnector {
         return data.toArray(new Event[data.size()]);
     }
 
-    public void addEvent( Event event){
+    public String addEvent( Event event){
         try {
+            MovieSQL movieSQL = new MovieSQL();
+            Movie movieForAddedEvent = movieSQL.getMovieById((int)event.getMovieId());
+            int movieDuration = movieForAddedEvent.getDuration();
             Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select Time, movie_idMovie, idEvent from event where Date = "+putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + "and room_idRoom = "+event.getRoomId());
+            while (rs.next()){
+                if (rs.getTime(1).toLocalTime().isAfter(event.getTime().toLocalTime())){
+                    LocalTime endTime = event.getTime().toLocalTime().plusMinutes(movieDuration);
+                    if (endTime.isAfter(rs.getTime(1).toLocalTime())){
+                        return "Room is already occupied at timeslot with event: "+rs.getInt(3);
+                    }
+                }
+                else{
+                    Movie movieFromExistingEvent = movieSQL.getMovieById(rs.getInt(2));
+                    LocalTime endTimeOfExistingEvent = rs.getTime(1).toLocalTime().plusMinutes(movieFromExistingEvent.getDuration());
+                    if (endTimeOfExistingEvent.isAfter(event.getTime().toLocalTime())){
+                        return "Room is already occupied at timeslot with event: "+rs.getInt(3);
+                    }
+                }
+            }
                 stmt.execute("insert into event (Date, Time, Movie_idMovie, Room_idRoom) " +
                         "values (" + putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + ", " + putStringIntoApostrophe(event.getTime().toString()) + ", "+ event.getMovieId() + ", " + event.getRoomId() +" )");
         }catch (Exception e){
             System.out.println(e);
         }
+        return "Event successfully added";
     }
     public void updateEvent(Event event){
         try {
