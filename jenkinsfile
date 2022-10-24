@@ -8,7 +8,7 @@ pipeline {
             }
             stage('test') {
             steps {
-                sh 'pwd'
+                sh 'mvn clean install'
             }
         }
     }
