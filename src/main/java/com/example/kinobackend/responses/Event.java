@@ -8,6 +8,7 @@ public class Event {
      private Time time;
      private long movieId;
      private long roomId;
+     //private int freeSeats;
 
      public String toString(){
           return "Event(id: " + id + " date: " + date + " time: " + time + " MovieId: " + movieId + " RoomId: " + roomId + ")";

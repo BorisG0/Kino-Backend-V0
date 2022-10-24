@@ -24,6 +24,14 @@ public class MovieController {
         return movies;
     }
 
+    @GetMapping("/api/empMovies")
+    public Movie[] getMoviesForEmployees(){
+        System.out.println("getting movies for employees");
+        MovieSQL connector = new MovieSQL();
+        Movie[] movies = connector.getMovieDataForEmployee();
+        return movies;
+    }
+
     @PostMapping("/api/movie")
     public Movie getMovieById(@RequestBody int id){
         System.out.println("Getting Movie with id: " + id);
