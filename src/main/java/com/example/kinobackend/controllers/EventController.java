@@ -3,6 +3,7 @@ package com.example.kinobackend.controllers;
 import com.example.kinobackend.db_access.EventSQL;
 import com.example.kinobackend.db_access.MySqlConnector;
 import com.example.kinobackend.responses.Event;
+import com.example.kinobackend.responses.EventForFrontend;
 import com.example.kinobackend.responses.Movie;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,10 +47,12 @@ public class EventController {
     }
 
     @PostMapping("/api/addEvent")
-    public String addEvent(@RequestBody Event event){
+    public String addEvent(@RequestBody EventForFrontend event){
+        System.out.println("test");
         EventSQL connector = new EventSQL();
-        return connector.addEvent(event);
+        return connector.addEvent(event.getEvent());
     }
+
     @PostMapping("/api/updateEvent")
     public String updateEvent(@RequestBody Event event){
         EventSQL connector = new EventSQL();
