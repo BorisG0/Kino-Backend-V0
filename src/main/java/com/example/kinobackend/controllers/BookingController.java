@@ -25,6 +25,10 @@ public class BookingController {
             bookingSQL.setStatusForTicket(new StatusChange(id, 1));
         }
 
+        bookingSQL.addBooking(bookingCreation.getEmail(), 100);
+
+
+
         return true;
     }
 
@@ -49,4 +53,6 @@ public class BookingController {
         connector.setStatusForTicket(statusChange);
         return true;
     }
+
+
 }
