@@ -6,42 +6,41 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class CustomerControllerTest {
 
     CustomerController testCustomerController;
+    CustomerSQL testCustomerSQL;
 
     @BeforeEach
     void setUp() {
         testCustomerController = new CustomerController();
+        testCustomerSQL = new CustomerSQL();
     }
 
     @AfterEach
     void tearDown() {
         testCustomerController = null;
+        testCustomerSQL = null;
     }
 
     @Test
     void getCustomers() {
         Customer[] actualCustomers = testCustomerController.getCustomers();
-
-        CustomerSQL testCustomerSQL = new CustomerSQL();
         Customer[] expectedCustomers = testCustomerSQL.getCustomerData();
-
-        assertThat(expectedCustomers).usingRecursiveComparison().ignoringFields("birthDate").isEqualTo(actualCustomers);
-        System.out.println("Test successful!");
+        assertThat(expectedCustomers).usingRecursiveComparison().isEqualTo(actualCustomers);
     }
 
     @Test
     void getCustomerByMailAdress() {
+        String mailAddress = "llighten7@adobe.com";
+        Customer actualCustomer = testCustomerController.getCustomerByMailAdress(mailAddress);
+        Customer expectedCustomer = testCustomerSQL.getCustomerByMailAdress(mailAddress);
+        assertThat(expectedCustomer).usingRecursiveComparison().isEqualTo(actualCustomer);
     }
 
     @Test
