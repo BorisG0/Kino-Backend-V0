@@ -54,9 +54,9 @@ public class EventController {
     }
 
     @PostMapping("/api/updateEvent")
-    public String updateEvent(@RequestBody Event event){
+    public String updateEvent(@RequestBody EventForFrontend event){
         EventSQL connector = new EventSQL();
-        connector.updateEvent(event);
+        connector.updateEvent(event.getEvent());
         return "Event updated" ;
     }
 }
