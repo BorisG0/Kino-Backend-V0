@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @PostMapping("/api/user")
-    public User getUserFromLoginData(@RequestBody String mailAdress, String password){
+    public User getUserFromLoginData(@RequestBody User user){
     //public User getUserFromLoginData(){
         System.out.println("getting user");
         UserSQL connector = new UserSQL();
-        User user = connector.getUserFromLoginData(mailAdress, password);
+        User returnUser = connector.getUserFromLoginData(user.getMailAdress(), user.getPassword());
         //User user = connector.getUserFromLoginData("aberger3@posterous.com","MiBtueRSa");
-        return user;
+        return returnUser;
     }
 
 }
