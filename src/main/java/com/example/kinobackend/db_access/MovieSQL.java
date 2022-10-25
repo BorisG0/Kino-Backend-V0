@@ -115,25 +115,6 @@ public final class MovieSQL extends MySqlConnector{
         return data.toArray(new Movie[0]);
     }
 
-    public void addMovies(Movie[] movies){
-        try {
-            Statement stmt = con.createStatement();
-            for (Movie movie : movies) {
-                stmt.execute("INSERT INTO movie (Title, Duration, AgeRestriction, imageName, Description, Genre, "
-                        + "StartDate, movieStudio, regie, cast, trailerLink, active) " + "VALUES   ("
-                        + putStringIntoApostrophe(movie.getTitle()) + ", " + movie.getDuration() + ", "
-                        + movie.getAgeRestriction() +", "+putStringIntoApostrophe(movie.getImageName())+ ", "
-                        +putStringIntoApostrophe(movie.getDescription())+", "+putStringIntoApostrophe(movie.getGenre())
-                        +", "+putStringIntoApostrophe(JavaUtilDateToString(movie.getStartDate()))
-                        +", "+putStringIntoApostrophe(movie.getMovieStudio())+", "
-                        +putStringIntoApostrophe(movie.getRegie())+", "+putStringIntoApostrophe(movie.getCast())+", "
-                        +putStringIntoApostrophe(movie.getTrailerLink())+ ", true)");
-            }
-        }catch (Exception e){
-            System.out.println(e);
-        }
-    }
-
     public void addMovie(Movie movie){
         try {
             Statement stmt = con.createStatement();

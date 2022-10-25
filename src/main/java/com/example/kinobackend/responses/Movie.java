@@ -1,17 +1,5 @@
 package com.example.kinobackend.responses;
 
-
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Date;
 
 public class Movie {
@@ -20,7 +8,6 @@ public class Movie {
     private int duration;
     private int ageRestriction;
     private String imageName;
-    //private File image;
     private String description;
     private String genre;
     private Date startDate;
@@ -29,6 +16,7 @@ public class Movie {
     private String cast;
     private String trailerLink;
 
+    public Movie(){}
     public Movie(long id, String title, int duration, int ageRestriction, String imageName, String description, String genre, Date startDate, String movieStudio, String regie, String cast, String trailerLink) {
         this.id = id;
         this.title = title;
@@ -79,19 +67,9 @@ public class Movie {
     public String getImageName() {
         return imageName;
     }
-
-    public void setImageName(String image) {
-        this.imageName = image;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
-
-    //public File getImage() {
-    //    return image;
-    //}
-
-    //public void setImage(File image) {
-    //    this.image = image;
-    //}
-
     public String getDescription() {
         return description;
     }
@@ -146,44 +124,5 @@ public class Movie {
 
     public void setTrailerLink(String trailerLink) {
         this.trailerLink = trailerLink;
-    }
-
-    public static String setNewImage(File image){
-        String imageName=null;
-        BufferedImage img = null;
-        imageName=image.getName();
-        File outfile = new File("src/MovieImages/"+imageName);
-        try {
-            img = ImageIO.read(image);
-            ImageIO.write(img,"png",outfile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return imageName;
-    }
-
-    private static Resource getImageResourceFromImageName(String imageName){
-        try {
-            Path filePath = Path.of("src/MovieImages/"+imageName);
-            Resource resource = new UrlResource(filePath.toUri());
-            if(resource.exists()) {
-                return resource;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public static ResponseEntity<Resource> getImageFromImageName(String imageName){
-        Resource returnImage = Movie.getImageResourceFromImageName(imageName);
-        String contentType = null;
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\\" + returnImage.getFilename() + "\\")
-                .body(returnImage);
     }
 }

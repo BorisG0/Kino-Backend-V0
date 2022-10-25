@@ -7,6 +7,7 @@ public class Seat {
     private int seatInRow;
     private long roomId;
 
+    public Seat(){}
     public Seat(long seatId, String row, int seatInRow, long roomId) {
         this.seatId = seatId;
         this.row = row;

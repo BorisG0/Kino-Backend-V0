@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class EventForFrontend {
     private Event event;
+    public EventForFrontend(){}
     public EventForFrontend(long id, Date date, long time, long movieId, long roomId) {
         event = new Event(id,date,new Time(time),movieId,roomId);
     }

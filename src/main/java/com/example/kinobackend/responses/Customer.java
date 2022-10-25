@@ -11,6 +11,7 @@ public class Customer extends User{
     private String countryCode;
     private String mobileNumber;
 
+    public Customer(){}
     public Customer(String mailAdress, String lastName, String firstName, Date birthDate, int postalCode, int houseNumber, String location, String street, String countryCode, String mobileNumber, String password) {
         super(UserType.Customer,mailAdress,password,lastName,firstName);
         this.birthDate = birthDate;

@@ -15,6 +15,7 @@ public class Event {
           return "Event(id: " + id + " date: " + date + " time: " + time + " MovieId: " + movieId + " RoomId: " + roomId + ")";
      }
 
+     public Event(){}
      public Event(long id, Date date, Time time, long movieId, long roomId) {
           this.id = id;
           this.date = date;

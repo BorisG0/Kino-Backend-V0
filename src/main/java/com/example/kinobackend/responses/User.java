@@ -8,6 +8,7 @@ public class User {
     private String lastName;
     private String firstName;
 
+    public User(){}
     public User(String mailAdress, String password) {
         this.userType = UserType.NoUserFound;
         this.mailAdress = mailAdress;
