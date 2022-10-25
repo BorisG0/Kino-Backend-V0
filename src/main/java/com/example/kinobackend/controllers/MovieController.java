@@ -56,7 +56,7 @@ public class MovieController {
         MovieSQL connector = new MovieSQL();
         //Movie movie = getMovieById(1);
         connector.addMovie(movie);
-        String returnString = "Movie added" + connector.getMovieById((int)movie.getId());
+        String returnString = "Movie added";
         return returnString;
     }
 
