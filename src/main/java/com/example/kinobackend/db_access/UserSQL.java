@@ -12,11 +12,11 @@ public class UserSQL extends MySqlConnector {
     public User getUserFromLoginData(String mailAdress, String password) {
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select MailAdress, LastName, FirstName, Password from employee where MailAddress = " + putStringIntoApostrophe(mailAdress) + " and Password = " + putStringIntoApostrophe(password));
+            ResultSet rs = stmt.executeQuery("select MailAdress, Password, LastName, FirstName from employee where MailAddress = " + putStringIntoApostrophe(mailAdress) + " and Password = " + putStringIntoApostrophe(password));
             if (rs.next()) {
                 return new User(User.UserType.Employee,rs.getString(1),rs.getString(2),rs.getString(3), rs.getString(4));
             }else{
-                rs = stmt.executeQuery("select MailAdress, LastName, FirstName, Password from customer where MailAddress = " + putStringIntoApostrophe(mailAdress) + " and Password = " + putStringIntoApostrophe(password));
+                rs = stmt.executeQuery("select MailAdress, Password, LastName, FirstName  from customer where MailAddress = " + putStringIntoApostrophe(mailAdress) + " and Password = " + putStringIntoApostrophe(password));
                 if (rs.next()){
                     return new User(User.UserType.Customer,rs.getString(1),rs.getString(2),rs.getString(3), rs.getString(4));
                 }
