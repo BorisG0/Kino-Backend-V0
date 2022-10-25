@@ -16,7 +16,7 @@ public class UserController {
         System.out.println("getting user");
         UserSQL connector = new UserSQL();
         User returnUser = connector.getUserFromLoginData(user.getMailAdress(), user.getPassword());
-        //User user = connector.getUserFromLoginData("aberger3@posterous.com","MiBtueRSa");
+        //return connector.getUserFromLoginData("aberger3@posterous.com", "MiBtueRSa");
         return returnUser;
     }
 
