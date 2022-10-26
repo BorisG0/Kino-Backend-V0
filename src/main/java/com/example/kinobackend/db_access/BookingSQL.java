@@ -63,4 +63,13 @@ public class BookingSQL extends MySqlConnector{
             System.out.println(e);
         }
     }
+    public void sendConfirmationMail(){
+        MailService mailService = new MailService();
+        mailService.sendEmail("feelitplays1.0@gmail.com","testEmail","testBody");
+    }
+
+    public static void main(String[] args) {
+        BookingSQL bookingSQL = new BookingSQL();
+        bookingSQL.sendConfirmationMail();
+    }
 }
