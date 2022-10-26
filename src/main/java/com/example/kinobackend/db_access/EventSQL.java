@@ -112,6 +112,7 @@ public final class EventSQL extends MySqlConnector {
             Event addedEvent = getEventByDateTimeRoom(event.getDate(),event.getTime(),event.getRoomId());
             System.out.println(addedEvent);
             generateTicketsForEvent(addedEvent);
+
         }catch (Exception e){
             System.out.println(e);
         }
