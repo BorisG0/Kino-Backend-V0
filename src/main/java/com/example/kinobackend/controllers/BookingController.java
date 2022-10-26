@@ -19,7 +19,7 @@ public class BookingController {
         System.out.println("new booking creation:  customer=" + bookingCreation.getEmail() + " tickets=" + bookingCreation.getTicketIds().length);
         BookingSQL bookingSQL = new BookingSQL();
 
-        int bookingId = bookingSQL.addBooking(bookingCreation.getEmail(), 100);
+        int bookingId = bookingSQL.addBooking(bookingCreation.getEmail(), bookingCreation.getTicketIds().length * 12);
 
         for(int id: bookingCreation.getTicketIds()){
             bookingSQL.setStatusForTicket(new StatusChange(id, 1), bookingId);
