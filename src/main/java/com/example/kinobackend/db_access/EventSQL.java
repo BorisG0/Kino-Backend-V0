@@ -88,7 +88,7 @@ public final class EventSQL extends MySqlConnector {
             Movie movieForAddedEvent = movieSQL.getMovieById((int)event.getMovieId());
             int movieDuration = movieForAddedEvent.getDuration();
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select Time, movie_idMovie, idEvent from event where Date = "+putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + "and room_idRoom = "+event.getRoomId() + "and active = true");
+            ResultSet rs = stmt.executeQuery("select Time, movie_idMovie, idEvent from event where Date = "+putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + " and room_idRoom = "+event.getRoomId() + " and active = true");
             while (rs.next()){
                 if (rs.getTime(1).toLocalTime().isAfter(event.getTime().toLocalTime())){
                     LocalTime endTime = event.getTime().toLocalTime().plusMinutes(movieDuration);
