@@ -56,7 +56,27 @@ public class BookingSQL extends MySqlConnector{
             ResultSet rs = stmt.executeQuery("select * from booking where email = '" + email + "'");
 
             while(rs.next()){
-                BookingInfo b = new BookingInfo(rs.getInt(1), rs.getInt(3), null);
+
+
+                Statement stmt2 = con.createStatement();
+                ResultSet rs2 = stmt2.executeQuery("select s.Line, s.NumberInLine, t.defaultPrice, m.title, e.Date, e.Time from ticket t, seat s, movie m, `event` e " +
+                        "where s.idSeat = t.idSeat and t.idEvent = e.idEvent and e.movie_idMovie = m.idMovie " +
+                        "and idBooking = " + rs.getInt(1));
+
+                rs2.next();
+
+                BookingInfo b = new BookingInfo(rs.getInt(1), rs.getInt(3), null,
+                        rs2.getString(4), rs2.getDate(5), rs2.getTime(6));
+
+                ArrayList<String> seatPlacesAL = new ArrayList<>();
+                seatPlacesAL.add(rs2.getString(1) + " " + rs2.getString(2) + " Wert: " + rs2.getInt(3) + ",00€");
+
+                while(rs2.next()){
+                    seatPlacesAL.add(rs2.getString(1) + " " + rs2.getString(2) + " Wert: " + rs2.getInt(3) + ",00€");
+                }
+
+                b.setSeatPlaces(seatPlacesAL.toArray(new String[0]));
+
                 data.add(b);
             }
 
