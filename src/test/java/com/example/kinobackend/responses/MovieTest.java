@@ -27,7 +27,7 @@ class MovieTest {
 
     @BeforeEach
     void setUp() {
-        testMovie = new Movie(id, title, duration, ageRestriction, imageName, description, genre, startDate, movieStudio, regie, cast, trailerLink);
+        testMovie = new Movie(id, title, duration, ageRestriction, imageName, description, genre, startDate, movieStudio, regie, cast, trailerLink, true);
     }
 
     @AfterEach
