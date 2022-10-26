@@ -50,20 +50,4 @@ class MovieSQLTest {
 //
 //        assertThat(actualMovie).usingRecursiveComparison().isEqualTo(expectedMovie);
 //    }
-
-    @Test
-    void getUpcomingMoviesData() {
-    }
-
-    @Test
-    void getMoviesByGenre() {
-    }
-
-    @Test
-    void addMovies() {
-    }
-
-    @Test
-    void addMovie() {
-    }
 }
