@@ -4,11 +4,13 @@ import com.example.kinobackend.responses.Event;
 import com.example.kinobackend.responses.Movie;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 public final class EventSQL extends MySqlConnector {
 
@@ -103,7 +105,13 @@ public final class EventSQL extends MySqlConnector {
                 }
             }
                 stmt.execute("insert into event (Date, Time, Movie_idMovie, Room_idRoom) " +
-                        "values (" + putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + ", " + putStringIntoApostrophe(event.getTime().toString()) + ", "+ event.getMovieId() + ", " + event.getRoomId() +" )");
+                        "values (" + putStringIntoApostrophe(JavaUtilDateToString(event.getDate()))
+                        + ", " + putStringIntoApostrophe(event.getTime().toString())
+                        + ", "+ event.getMovieId()
+                        + ", " + event.getRoomId() +" )");
+            Event addedEvent = getEventByDateTimeRoom(event.getDate(),event.getTime(),event.getRoomId());
+            System.out.println(addedEvent);
+            generateTicketsForEvent(addedEvent);
         }catch (Exception e){
             System.out.println(e);
         }
@@ -116,6 +124,34 @@ public final class EventSQL extends MySqlConnector {
         }catch (Exception e){
             System.out.println(e);
         }
+    }
+
+    public void generateTicketsForEvent(Event event){
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select idSeat from seat where room_idRoom = "+event.getRoomId());
+            while (rs.next()){
+                stmt.executeQuery("insert into ticket (idSeat. idEvent, status, defaultPrice)"
+                                    +"values("+rs.getInt(1)+", "+event.getId()+", 0, 12)");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Event getEventByDateTimeRoom(Date date, Time time, long roomId){
+        Event event = null;
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from event where Date = " + putStringIntoApostrophe(JavaUtilDateToString(date))
+                                                +" and Time = "+putStringIntoApostrophe(date.toString())
+                                                +" and room_idRoom = "+roomId);
+            rs.next();
+            event = new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5));
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return event;
     }
 
 }
