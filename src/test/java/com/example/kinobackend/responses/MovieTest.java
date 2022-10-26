@@ -24,10 +24,11 @@ class MovieTest {
     String cast = "Hier, stehen, mehrere, Schauspieler";
     String trailerLink = "link.de";
     Movie testMovie;
+    boolean active = true;
 
     @BeforeEach
     void setUp() {
-        testMovie = new Movie(id, title, duration, ageRestriction, imageName, description, genre, startDate, movieStudio, regie, cast, trailerLink, true);
+        testMovie = new Movie(id, title, duration, ageRestriction, imageName, description, genre, startDate, movieStudio, regie, cast, trailerLink, active);
     }
 
     @AfterEach
