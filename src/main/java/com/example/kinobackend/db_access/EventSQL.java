@@ -153,5 +153,16 @@ public final class EventSQL extends MySqlConnector {
         }
         return event;
     }
-
+    public int getFreeSeatsForEvent(long eventId){
+        int freeSeats=0;
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT count(status) from ticket where idEvent = "+ eventId + " and status = 0");
+            rs.next();
+            freeSeats = rs.getInt(1);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return freeSeats;
+    }
 }

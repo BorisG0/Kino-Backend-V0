@@ -1,4 +1,6 @@
 package com.example.kinobackend.responses;
+import com.example.kinobackend.db_access.EventSQL;
+
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.Date;
@@ -9,7 +11,7 @@ public class Event {
      private Time time;
      private long movieId;
      private long roomId;
-     //private int freeSeats;
+     private int freeSeats;
 
      public String toString(){
           return "Event(id: " + id + " date: " + date + " time: " + time + " MovieId: " + movieId + " RoomId: " + roomId + ")";
@@ -22,6 +24,8 @@ public class Event {
           this.time = time;
           this.movieId = movieId;
           this.roomId = roomId;
+          EventSQL eventSQL = new EventSQL();
+          this.freeSeats = eventSQL.getFreeSeatsForEvent(id);
      }
 
      public long getId() {
@@ -62,5 +66,9 @@ public class Event {
 
      public void setRoomId(long roomId) {
           this.roomId = roomId;
+     }
+
+     public int getFreeSeats() {
+          return freeSeats;
      }
 }
