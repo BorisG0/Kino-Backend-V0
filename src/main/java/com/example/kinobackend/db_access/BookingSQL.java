@@ -1,6 +1,7 @@
 package com.example.kinobackend.db_access;
 
 import com.example.kinobackend.responses.BookingCreation;
+import com.example.kinobackend.responses.BookingInfo;
 import com.example.kinobackend.responses.StatusChange;
 import com.example.kinobackend.responses.Ticket;
 
@@ -44,8 +45,25 @@ public class BookingSQL extends MySqlConnector{
         }catch(Exception e){
             System.out.println(e);
         }
-
         return data.toArray(new Ticket[0]);
+    }
+
+    public BookingInfo[] getBookingsForUser(String email){
+        ArrayList<BookingInfo> data = new ArrayList<>();
+
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from booking where email = '" + email + "'");
+
+            while(rs.next()){
+                BookingInfo b = new BookingInfo(rs.getInt(1), rs.getInt(3), null);
+                data.add(b);
+            }
+
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return data.toArray(new BookingInfo[0]);
     }
 
     public void setStatusForTicket(StatusChange statusChange, int bookingId){
