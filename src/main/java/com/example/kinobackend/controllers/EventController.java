@@ -63,6 +63,7 @@ public class EventController {
     public String setEventInactive(@RequestBody int eventId){
         EventSQL connector = new EventSQL();
         connector.setEventInactive(eventId);
+        System.out.println("set Event inactive "+ eventId);
         return "Event "+eventId+" set inactive";
     }
 }

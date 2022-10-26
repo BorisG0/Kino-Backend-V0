@@ -171,7 +171,7 @@ public final class EventSQL extends MySqlConnector {
     public void setEventInactive(long eventId){
         try {
             Statement stmt = con.createStatement();
-            stmt.execute("update event set active = true where idEvent = "+eventId);
+            stmt.execute("update event set active = false where idEvent = "+eventId);
         }catch (Exception e){
             System.out.println(e);
         }
