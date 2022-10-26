@@ -59,5 +59,11 @@ public class EventController {
         connector.updateEvent(event.getEvent());
         return "Event updated" ;
     }
+    @PostMapping("/api/setEventInactive")
+    public String setEventInactive(@RequestBody int eventId){
+        EventSQL connector = new EventSQL();
+        connector.setEventInactive(eventId);
+        return "Event "+eventId+" set inactive";
+    }
 }
 

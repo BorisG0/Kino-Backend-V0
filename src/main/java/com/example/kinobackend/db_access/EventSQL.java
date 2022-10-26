@@ -19,7 +19,7 @@ public final class EventSQL extends MySqlConnector {
 
         try{
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select idEvent, Date, Time, room_idRoom from event where movie_idMovie = " + movieId + " order by Date");
+            ResultSet rs = stmt.executeQuery("select idEvent, Date, Time, room_idRoom from event where movie_idMovie = " + movieId + " and active = true order by Date");
             while(rs.next()){
                 Event e = new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), movieId, rs.getInt(4));
                 data.add(e);
@@ -36,7 +36,7 @@ public final class EventSQL extends MySqlConnector {
 
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from event");
+            ResultSet rs = stmt.executeQuery("select * from event where active = true");
 
             while(rs.next()){
                 data.add(new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5)));
@@ -70,7 +70,7 @@ public final class EventSQL extends MySqlConnector {
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM event " +
-                    "WHERE movie_idMovie = " + id + " AND Date BETWEEN " + currentDateString + " AND " + limitDateString  );
+                    "WHERE movie_idMovie = " + id + " AND Date BETWEEN " + currentDateString + " AND " + limitDateString + "and active = true"  );
 
             while(rs.next()){
                 data.add(new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5)));
@@ -88,7 +88,7 @@ public final class EventSQL extends MySqlConnector {
             Movie movieForAddedEvent = movieSQL.getMovieById((int)event.getMovieId());
             int movieDuration = movieForAddedEvent.getDuration();
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select Time, movie_idMovie, idEvent from event where Date = "+putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + "and room_idRoom = "+event.getRoomId());
+            ResultSet rs = stmt.executeQuery("select Time, movie_idMovie, idEvent from event where Date = "+putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + "and room_idRoom = "+event.getRoomId() + "and active = true");
             while (rs.next()){
                 if (rs.getTime(1).toLocalTime().isAfter(event.getTime().toLocalTime())){
                     LocalTime endTime = event.getTime().toLocalTime().plusMinutes(movieDuration);
@@ -108,7 +108,7 @@ public final class EventSQL extends MySqlConnector {
                         "values (" + putStringIntoApostrophe(JavaUtilDateToString(event.getDate()))
                         + ", " + putStringIntoApostrophe(event.getTime().toString())
                         + ", "+ event.getMovieId()
-                        + ", " + event.getRoomId() +" )");
+                        + ", " + event.getRoomId() +" active = true )");
             Event addedEvent = getEventByDateTimeRoom(event.getDate(),event.getTime(),event.getRoomId());
             System.out.println(addedEvent);
             generateTicketsForEvent(addedEvent);
@@ -145,7 +145,8 @@ public final class EventSQL extends MySqlConnector {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select * from event where Date = " + putStringIntoApostrophe(JavaUtilDateToString(date))
                                                 +" and Time = "+putStringIntoApostrophe(date.toString())
-                                                +" and room_idRoom = "+roomId);
+                                                +" and room_idRoom = "+roomId
+                                                +" and active = true");
             rs.next();
             event = new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5));
         }catch (Exception e){
@@ -165,5 +166,14 @@ public final class EventSQL extends MySqlConnector {
             System.out.println(e);
         }
         return freeSeats;
+    }
+
+    public void setEventInactive(long eventId){
+        try {
+            Statement stmt = con.createStatement();
+            stmt.execute("update event set active = true where idEvent = "+eventId);
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 }
