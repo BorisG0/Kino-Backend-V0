@@ -60,14 +60,11 @@ class EventControllerTest {
     }
 
     @Test
-    void testGetEventsForMovie() {
-    }
-
-    @Test
-    void addEvent() {
-    }
-
-    @Test
-    void updateEvent() {
+    void getEventsForMovie2() {
+        int movieId = 3;
+        int days = 9;
+        Event[] actualEvents = testEventController.getEventsForMovie(movieId, days);
+        Event[] expectedEvents = testEventSQL.getEventsForMovie(movieId, days);
+        assertThat(actualEvents).usingRecursiveComparison().isEqualTo(expectedEvents);
     }
 }
