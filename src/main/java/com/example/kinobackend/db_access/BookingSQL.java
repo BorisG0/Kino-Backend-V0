@@ -53,7 +53,7 @@ public class BookingSQL extends MySqlConnector{
 
         try{
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from booking where email = " + email);
+            ResultSet rs = stmt.executeQuery("select * from booking where email = '" + email + "'");
 
             while(rs.next()){
                 BookingInfo b = new BookingInfo(rs.getInt(1), rs.getInt(3), null);
