@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SeatTest {
@@ -78,5 +79,11 @@ class SeatTest {
         assertEquals(row, testSeat.getRow());
         assertEquals(seatInRow, testSeat.getSeatInRow());
         assertEquals(roomId, testSeat.getRoomId());
+    }
+
+    @Test
+    void testConstructor2() {
+        testSeat = new Seat();
+        assertThat(new Seat()).usingRecursiveComparison().isEqualTo(testSeat);
     }
 }

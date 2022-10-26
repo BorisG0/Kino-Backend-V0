@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeTest {
@@ -68,5 +69,11 @@ class EmployeeTest {
         //assertEquals(firstname, testEmployee.getFirstname());
         assertEquals(role, testEmployee.getRole());
         assertEquals(password, testEmployee.getPassword());
+    }
+
+    @Test
+    void testConstructor2(){
+        testEmployee = new Employee();
+        assertThat(new Employee()).usingRecursiveComparison().isEqualTo(testEmployee);
     }
 }

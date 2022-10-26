@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Time;
 import java.util.Date;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EventTest {
@@ -94,7 +95,7 @@ class EventTest {
     }
 
     @Test
-    void testConstructor(){
+    void testConstructor1(){
         assertEquals(id, testEvent.getId());
         assertEquals(date, testEvent.getDate());
         assertEquals(time, testEvent.getTime());
@@ -102,4 +103,9 @@ class EventTest {
         assertEquals(roomId, testEvent.getRoomId());
     }
 
+    @Test
+    void testConstructor2(){
+        testEvent = new Event();
+        assertThat(new Event()).usingRecursiveComparison().isEqualTo(testEvent);
+    }
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoomTest {
@@ -36,5 +37,11 @@ class RoomTest {
     @Test
     void testConstructor() {
         assertEquals(roomId, testRoom.getRoomId());
+    }
+
+    @Test
+    void testConstructor2(){
+        testRoom = new Room();
+        assertThat(new Room()).usingRecursiveComparison().isEqualTo(testRoom);
     }
 }

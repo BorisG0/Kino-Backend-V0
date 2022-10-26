@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MovieTest {
@@ -194,4 +195,9 @@ class MovieTest {
         assertEquals(trailerLink, testMovie.getTrailerLink());
     }
 
+    @Test
+    void testConstructor2(){
+        testMovie = new Movie();
+        assertThat(new Movie()).usingRecursiveComparison().isEqualTo(testMovie);
+    }
 }

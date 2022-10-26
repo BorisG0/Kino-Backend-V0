@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerTest {
@@ -165,5 +166,11 @@ class CustomerTest {
         assertEquals(countryCode, testCustomer.getCountryCode());
         assertEquals(mobileNumber, testCustomer.getMobileNumber());
         assertEquals(password, testCustomer.getPassword());
+    }
+
+    @Test
+    void testConstructor2(){
+        testCustomer = new Customer();
+        assertThat(new Customer()).usingRecursiveComparison().isEqualTo(testCustomer);
     }
 }
