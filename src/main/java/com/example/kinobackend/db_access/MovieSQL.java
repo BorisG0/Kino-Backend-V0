@@ -54,7 +54,7 @@ public final class MovieSQL extends MySqlConnector{
 
         try{
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from movie where idMovie = " + id+ " and active = true");
+            ResultSet rs = stmt.executeQuery("select * from movie where idMovie = " + id);
             rs.next();
             movie = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3),
                     rs.getInt(4), rs.getString(5), rs.getString(6),
