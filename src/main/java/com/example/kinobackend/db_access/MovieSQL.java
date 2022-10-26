@@ -20,7 +20,7 @@ public final class MovieSQL extends MySqlConnector{
                 data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3),
                         rs.getInt(4), rs.getString(5), rs.getString(6),
                         rs.getString(7), rs.getDate(8), rs.getString(9),
-                        rs.getString(10), rs.getString(11), rs.getString(12)));
+                        rs.getString(10), rs.getString(11), rs.getString(12), rs.getBoolean(13)));
             }
 
         }catch (Exception e){
@@ -40,7 +40,7 @@ public final class MovieSQL extends MySqlConnector{
                 data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3),
                         rs.getInt(4), rs.getString(5), rs.getString(6),
                         rs.getString(7), rs.getDate(8), rs.getString(9),
-                        rs.getString(10), rs.getString(11), rs.getString(12)));
+                        rs.getString(10), rs.getString(11), rs.getString(12),rs.getBoolean(13)));
             }
 
         }catch (Exception e){
@@ -59,7 +59,7 @@ public final class MovieSQL extends MySqlConnector{
             movie = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3),
                     rs.getInt(4), rs.getString(5), rs.getString(6),
                     rs.getString(7), rs.getDate(8), rs.getString(9),
-                    rs.getString(10), rs.getString(11), rs.getString(12));
+                    rs.getString(10), rs.getString(11), rs.getString(12),rs.getBoolean(13));
         }catch(Exception e){
             System.out.println(e);
         }
@@ -85,7 +85,7 @@ public final class MovieSQL extends MySqlConnector{
                 data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3),
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7),
                         rs.getDate(8), rs.getString(9), rs.getString(10),
-                        rs.getString(11), rs.getString(12)));
+                        rs.getString(11), rs.getString(12),rs.getBoolean(13)));
             }
 
         }catch (Exception e){
@@ -106,7 +106,7 @@ public final class MovieSQL extends MySqlConnector{
                 data.add(new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3),
                         rs.getInt(4), rs.getString(5) , rs.getString(6),
                         rs.getString(7), rs.getDate(8), rs.getString(9),
-                        rs.getString(10), rs.getString(11), rs.getString(12)));
+                        rs.getString(10), rs.getString(11), rs.getString(12),rs.getBoolean(13)));
             }
 
         }catch (Exception e){
@@ -130,10 +130,15 @@ public final class MovieSQL extends MySqlConnector{
             System.out.println(e);
         }
     }
-    public void setMovieInactive(int movieId){
+    public void setMovieActivity(Movie movie){
+        if (movie.isActive()){
+            movie.setActive(false);
+        }else {
+            movie.setActive(true);
+        }
         try {
             Statement stmt = con.createStatement();
-            stmt.execute("update movie set active=false where idMovie = "+movieId);
+            stmt.execute("update movie set active="+movie.isActive() +" where idMovie = "+movie.getId());
         }catch (Exception e){
             System.out.println(e);
         }

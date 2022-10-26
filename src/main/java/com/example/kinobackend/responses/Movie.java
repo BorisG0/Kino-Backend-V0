@@ -15,9 +15,10 @@ public class Movie {
     private String regie;
     private String cast;
     private String trailerLink;
+    private boolean active;
 
     public Movie(){}
-    public Movie(long id, String title, int duration, int ageRestriction, String imageName, String description, String genre, Date startDate, String movieStudio, String regie, String cast, String trailerLink) {
+    public Movie(long id, String title, int duration, int ageRestriction, String imageName, String description, String genre, Date startDate, String movieStudio, String regie, String cast, String trailerLink, boolean active) {
         this.id = id;
         this.title = title;
         this.duration = duration;
@@ -30,6 +31,7 @@ public class Movie {
         this.regie = regie;
         this.cast = cast;
         this.trailerLink = trailerLink;
+        this.active = active;
     }
 
     public long getId() {
@@ -126,5 +128,12 @@ public class Movie {
 
     public void setTrailerLink(String trailerLink) {
         this.trailerLink = trailerLink;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

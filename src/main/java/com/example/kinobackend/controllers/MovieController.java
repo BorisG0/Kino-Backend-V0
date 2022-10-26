@@ -60,11 +60,11 @@ public class MovieController {
         return returnString;
     }
 
-    @PostMapping("/api/SetMovieInactive")
-    public String setMovieInactive(@RequestBody int movieId){
+    @PostMapping("/api/SetMovieActivity")
+    public String setMovieActivity(@RequestBody Movie movie){
         MovieSQL connector = new MovieSQL();
-        connector.setMovieInactive(movieId);
-        return "Movie " + movieId+ " set inactive";
+        connector.setMovieActivity(movie);
+        return "Movie " + movie.getId()+ " changed Activity";
     }
     @PostMapping("/api/updateMovie")
     public String updateMovie(@RequestBody Movie movie){
