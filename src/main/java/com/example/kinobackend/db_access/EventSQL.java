@@ -104,13 +104,14 @@ public final class EventSQL extends MySqlConnector {
                     }
                 }
             }
-                stmt.execute("insert into event (Date, Time, Movie_idMovie, Room_idRoom, active) " +
+                ResultSet rsAdded = stmt.executeQuery("insert into event (Date, Time, Movie_idMovie, Room_idRoom, active) " +
                         "values (" + putStringIntoApostrophe(JavaUtilDateToString(event.getDate()))
                         + ", " + putStringIntoApostrophe(event.getTime().toString())
                         + ", "+ event.getMovieId()
                         + ", " + event.getRoomId() +", true )");
-            Event addedEvent = getEventByDateTimeRoom(event.getDate(),event.getTime(),event.getRoomId());
-            System.out.println(addedEvent);
+            //Event addedEvent = getEventByDateTimeRoom(event.getDate(),event.getTime(),event.getRoomId());
+            System.out.println(rsAdded);
+            Event addedEvent = new Event(rs.getInt(1),rs.getDate(2),rs.getTime(3),rs.getInt(4),rs.getInt(5));
             generateTicketsForEvent(addedEvent);
         }catch (Exception e){
             System.out.println(e);
