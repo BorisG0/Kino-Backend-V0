@@ -56,6 +56,8 @@ class UserSQLTest {
         String password = "sicheresPasswort";
         User actualUser = testUserSQL.getUserFromLoginData(mailAddress, password);
         User expectedUser = new User(mailAddress, password);
+        expectedUser.setFirstName("");
+        expectedUser.setLastName("");
         assertThat(actualUser).usingRecursiveComparison().isEqualTo(expectedUser);
     }
 }

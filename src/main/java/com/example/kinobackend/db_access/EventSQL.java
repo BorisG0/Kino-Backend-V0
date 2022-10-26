@@ -153,6 +153,7 @@ public final class EventSQL extends MySqlConnector {
         }
         return event;
     }
+
     public int getFreeSeatsForEvent(long eventId){
         int freeSeats=0;
         try {

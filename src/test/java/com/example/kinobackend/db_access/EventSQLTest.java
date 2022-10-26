@@ -39,7 +39,7 @@ class EventSQLTest {
         Time time = Time.valueOf("18:00:00");
         Event expectedEvent = new Event(2, date, time, movieId, 3);
 
-        assertThat(actualEvent).usingRecursiveComparison().isEqualTo(expectedEvent);
+        assertThat(expectedEvent).usingRecursiveComparison().isEqualTo(actualEvent);
     }
 
     @Test
@@ -70,14 +70,7 @@ class EventSQLTest {
     }
 
     @Test
-    void getEventsForMovie() {
-    }
+    void getEventByDateTimeRoom() {
 
-    @Test
-    void addEvents() {
-    }
-
-    @Test
-    void updateEvent() {
     }
 }
