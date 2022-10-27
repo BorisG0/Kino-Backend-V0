@@ -37,13 +37,4 @@ public class CustomerController {
         System.out.println(returnString);
         return returnCustomer;
     }
-
-/*    public static void main(String[] args) {
-        Customer customer = new Customer("a.b@c.d","cd","ab",new Date(120322),12345,6,"a","ab","DE","1234/1234","123");
-        CustomerSQL connector = new CustomerSQL();
-        System.out.println("adding Customer");
-        connector.addCustomer(customer);
-        String returnString = "Customer added" + connector.getCustomerByMailAdress(customer.getMailAdress());
-        System.out.println(returnString);
-    }*/
 }

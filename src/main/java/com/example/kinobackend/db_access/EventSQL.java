@@ -123,13 +123,14 @@ public final class EventSQL extends MySqlConnector {
         }
         return true;
     }
-    public void updateEvent(Event event){
+    public boolean updateEvent(Event event){
         try {
             Statement stmt = con.createStatement();
             stmt.execute("update event set Date = "+putStringIntoApostrophe(JavaUtilDateToString(event.getDate()))+", Time = "+putStringIntoApostrophe(event.getTime().toString())+", Movie_idMovie = "+event.getMovieId()+", Room_idRoom = "+event.getRoomId()+" where idEvent = "+event.getId());
         }catch (Exception e){
             System.out.println(e);
         }
+        return true;//TODO
     }
 
     public void generateTicketsForEvent(Event event){
@@ -179,12 +180,14 @@ public final class EventSQL extends MySqlConnector {
         return freeSeats;
     }
 
-    public void setEventInactive(long eventId){
+    public boolean setEventInactive(long eventId){
         try {
             Statement stmt = con.createStatement();
             stmt.execute("update event set active = false where idEvent = "+eventId);
+            return true;
         }catch (Exception e){
             System.out.println(e);
+            return false;
         }
     }
 }

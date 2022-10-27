@@ -50,27 +50,20 @@ public class MovieController {
     }
 
     @PostMapping("/api/addMovie")
-    //@GetMapping("/api/addMovie")
-    public String addMovie(@RequestBody Movie movie){
-    //public String addMovie(){
+    public boolean addMovie(@RequestBody Movie movie){
         MovieSQL connector = new MovieSQL();
-        //Movie movie = getMovieById(1);
-        connector.addMovie(movie);
-        String returnString = "Movie added";
-        return returnString;
+        return connector.addMovie(movie);
     }
 
     @PostMapping("/api/SetMovieActivity")
-    public String setMovieActivity(@RequestBody Movie movie){
+    public boolean setMovieActivity(@RequestBody Movie movie){
         MovieSQL connector = new MovieSQL();
-        connector.setMovieActivity(movie);
-        return "Movie " + movie.getId()+ " changed Activity";
+        return connector.setMovieActivity(movie);
     }
     @PostMapping("/api/updateMovie")
-    public String updateMovie(@RequestBody Movie movie){
+    public boolean updateMovie(@RequestBody Movie movie){
         MovieSQL connector = new MovieSQL();
-        connector.updateMovie(movie);
-        return "Movie " + movie.getId()+ " updated";
+        return connector.updateMovie(movie);
     }
 
     @GetMapping("/api/testGetmovieById")

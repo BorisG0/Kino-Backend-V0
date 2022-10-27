@@ -21,6 +21,7 @@ public class BookingController {
         for(int id: bookingCreation.getTicketIds()){
             bookingSQL.setStatusForTicket(new StatusChange(id, 1), bookingId);
         }
+        //TODO sendEmail --> get data via bookingCreation
         return true;
     }
 

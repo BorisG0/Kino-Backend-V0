@@ -23,11 +23,4 @@ public class EmployeeController {
         Employee employee = connector.getEmployeeByMailAdress(mailAdress);
         return employee;
     }
-    @PostMapping("/api/addEmployee")
-    public String addEmployee(@RequestBody Employee employee){
-        EmployeeSQL connector = new EmployeeSQL();
-        connector.addEmployee(employee);
-        String returnString = "Employee added" + connector.getEmployeeByMailAdress(employee.getMailAdress());
-        return returnString;
-    }
 }

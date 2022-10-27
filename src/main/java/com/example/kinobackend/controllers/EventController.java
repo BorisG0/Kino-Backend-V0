@@ -54,17 +54,16 @@ public class EventController {
     }
 
     @PostMapping("/api/updateEvent")
-    public boolean updateEvent(@RequestBody EventForFrontend event){
+    public boolean updateEvent(@RequestBody EventForFrontend event){ //TODO check for existing Events like addEvent
         EventSQL connector = new EventSQL();
-        connector.updateEvent(event.getEvent());
-        return true;
+        return connector.updateEvent(event.getEvent());
     }
     @PostMapping("/api/setEventInactive")
-    public String setEventInactive(@RequestBody int eventId){
+    public boolean setEventInactive(@RequestBody int eventId){
         EventSQL connector = new EventSQL();
-        connector.setEventInactive(eventId);
         System.out.println("set Event inactive "+ eventId);
-        return "Event "+eventId+" set inactive";
+        return connector.setEventInactive(eventId);
+
     }
 }
 

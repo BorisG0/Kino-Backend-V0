@@ -37,13 +37,5 @@ public class EmployeeSQL extends MySqlConnector{
         }
         return employee;
     }
-    public void addEmployee(Employee employee){
-        try {
-            Statement stmt = con.createStatement();
-            stmt.execute("insert into employee (MailAddress, LastName, FirstName, Role, Password ) values (" + putStringIntoApostrophe(employee.getMailAdress())+", "+putStringIntoApostrophe(employee.getLastName())+", "+putStringIntoApostrophe(employee.getFirstName())+", "+putStringIntoApostrophe(employee.getRole())+", "+putStringIntoApostrophe(employee.getPassword()));
-        }catch (Exception e){
-            System.out.println(e);
-        }
-    }
 
 }

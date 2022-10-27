@@ -131,7 +131,7 @@ public final class MovieSQL extends MySqlConnector{
         return data.toArray(new Movie[0]);
     }
 
-    public void addMovie(Movie movie){
+    public boolean addMovie(Movie movie){
         try {
             Statement stmt = con.createStatement();
                 stmt.execute("INSERT INTO movie (Title, Duration, AgeRestriction, imageName, Description, Genre, " +
@@ -142,11 +142,13 @@ public final class MovieSQL extends MySqlConnector{
                         +", "+putStringIntoApostrophe(JavaUtilDateToString(movie.getStartDate()))+", "
                         +putStringIntoApostrophe(movie.getMovieStudio())+", "+putStringIntoApostrophe(movie.getRegie())+", "
                         +putStringIntoApostrophe(movie.getCast())+", "+putStringIntoApostrophe(movie.getTrailerLink())+", true)");
+                return true;
         }catch (Exception e){
             System.out.println(e);
+            return false;
         }
     }
-    public void setMovieActivity(Movie movie){
+    public boolean setMovieActivity(Movie movie){
         if (movie.isActive()){
             movie.setActive(false);
         }else {
@@ -155,12 +157,14 @@ public final class MovieSQL extends MySqlConnector{
         try {
             Statement stmt = con.createStatement();
             stmt.execute("update movie set active="+movie.isActive() +" where idMovie = "+movie.getId());
+            return true;
         }catch (Exception e){
             System.out.println(e);
+            return false;
         }
     }
 
-    public void updateMovie(Movie movie){
+    public boolean updateMovie(Movie movie){
         try {
             Statement stmt = con.createStatement();
             stmt.execute("update movie set Title = "+putStringIntoApostrophe(movie.getTitle())+", Duration = "
@@ -171,8 +175,10 @@ public final class MovieSQL extends MySqlConnector{
                     +putStringIntoApostrophe(movie.getMovieStudio())+", regie= "+putStringIntoApostrophe(movie.getRegie())
                     +", cast= "+putStringIntoApostrophe(movie.getCast())+", trailerLink = "+putStringIntoApostrophe(movie.getTrailerLink())
                     + "where idMovie = "+movie.getId());
+            return true;
         }catch (Exception e){
             System.out.println(e);
+            return false;
         }
     }
 

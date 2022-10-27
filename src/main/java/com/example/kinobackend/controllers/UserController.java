@@ -12,11 +12,9 @@ public class UserController {
 
     @PostMapping("/api/user")
     public User getUserFromLoginData(@RequestBody User user){
-    //public User getUserFromLoginData(){
         System.out.println("getting user");
         UserSQL connector = new UserSQL();
         User returnUser = connector.getUserFromLoginData(user.getMailAdress(), user.getPassword());
-        //return connector.getUserFromLoginData("aberger3@posterous.com", "MiBtueRSa");
         return returnUser;
     }
 
