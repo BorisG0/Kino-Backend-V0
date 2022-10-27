@@ -39,10 +39,10 @@ public class EventController {
     }
 
     @PostMapping("/api/movieEvents")
-    public Event[] getEventsForMovie(@RequestBody int movieId, int days){
+    public Event[] getEventsForMovie(@RequestBody int movieId){
         System.out.println("getting events for Movie");
         EventSQL connector = new EventSQL();
-        Event[] events = connector.getEventsForMovie(movieId, days);
+        Event[] events = connector.getEventsForMovie(movieId, 14);
         return events;
     }
 
