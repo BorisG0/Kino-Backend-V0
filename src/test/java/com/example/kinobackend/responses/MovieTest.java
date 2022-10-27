@@ -84,17 +84,17 @@ class MovieTest {
         assertEquals(setAgeRestriction, testMovie.getAgeRestriction());
     }
 
-//    @Test
-//    void getImageName() {
-//        assertEquals(imageName, testMovie.getImage());
-//    }
-//
-//    @Test
-//    void setImageName() {
-//        String setImageName = "neuesBild.png";
-//        testMovie.setImage(setImageName);
-//        assertEquals(setImageName, testMovie.getImage());
-//    }
+    @Test
+    void getImageName() {
+        assertEquals(imageName, testMovie.getImageName());
+    }
+
+    @Test
+    void setImageName() {
+        String setImageName = "neuesBild.png";
+        testMovie.setImageName(setImageName);
+        assertEquals(setImageName, testMovie.getImageName());
+    }
 
     @Test
     void getDescription() {
@@ -178,6 +178,18 @@ class MovieTest {
         String setTrailerLink = "neuerLink.de";
         testMovie.setTrailerLink(setTrailerLink);
         assertEquals(setTrailerLink, testMovie.getTrailerLink());
+    }
+
+    @Test
+    void isActive(){
+        assertEquals(active, testMovie.isActive());
+    }
+
+    @Test
+    void setActive(){
+        boolean expectedActive = false;
+        testMovie.setActive(expectedActive);
+        assertEquals(expectedActive, testMovie.isActive());
     }
 
     @Test
