@@ -104,13 +104,19 @@ public final class EventSQL extends MySqlConnector {
                     }
                 }
             }
-                stmt.executeQuery("insert into event (Date, Time, Movie_idMovie, Room_idRoom, active) " +
+                stmt.execute("insert into event (Date, Time, Movie_idMovie, Room_idRoom, active) " +
                         "values (" + putStringIntoApostrophe(JavaUtilDateToString(event.getDate()))
                         + ", " + putStringIntoApostrophe(event.getTime().toString())
                         + ", "+ event.getMovieId()
                         + ", " + event.getRoomId() +", true )");
-            Event addedEvent = getEventByDateTimeRoom(event.getDate(),event.getTime(),event.getRoomId());
-            generateTicketsForEvent(addedEvent);
+            rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
+
+            rs.next();
+            int idAddedEvent = rs.getInt(1);
+
+            System.out.println("id = "+ idAddedEvent);
+            event.setId(idAddedEvent);
+            generateTicketsForEvent(event);
 
         }catch (Exception e){
             System.out.println(e);
@@ -127,12 +133,17 @@ public final class EventSQL extends MySqlConnector {
     }
 
     public void generateTicketsForEvent(Event event){
+        ArrayList<Integer> data = new ArrayList<>();
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select idSeat from seat where room_idRoom = "+event.getRoomId());
             while (rs.next()){
-                stmt.executeQuery("insert into ticket (idSeat. idEvent, status, defaultPrice)"
-                                    +"values("+rs.getInt(1)+", "+event.getId()+", 0, 12)");
+                data.add(rs.getInt(1));
+            }
+            Integer[] dataArray = data.toArray(new Integer[data.size()]);
+            for (int idSeat:dataArray) {
+                stmt.execute("insert into ticket (idSeat, idEvent, status, defaultPrice)"
+                        + "values(" + idSeat + ", " + event.getId() + ", 0, 12)");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
