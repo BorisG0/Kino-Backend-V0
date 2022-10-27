@@ -82,7 +82,7 @@ public final class EventSQL extends MySqlConnector {
         return data.toArray(new Event[data.size()]);
     }
 
-    public String addEvent( Event event){
+    public boolean addEvent( Event event){
         try {
             MovieSQL movieSQL = new MovieSQL();
             Movie movieForAddedEvent = movieSQL.getMovieById((int)event.getMovieId());
@@ -93,14 +93,14 @@ public final class EventSQL extends MySqlConnector {
                 if (rs.getTime(1).toLocalTime().isAfter(event.getTime().toLocalTime())){
                     LocalTime endTime = event.getTime().toLocalTime().plusMinutes(movieDuration);
                     if (endTime.isAfter(rs.getTime(1).toLocalTime())){
-                        return "Room is already occupied at timeslot with event: "+rs.getInt(3);
+                        return false;
                     }
                 }
                 else{
                     Movie movieFromExistingEvent = movieSQL.getMovieById(rs.getInt(2));
                     LocalTime endTimeOfExistingEvent = rs.getTime(1).toLocalTime().plusMinutes(movieFromExistingEvent.getDuration());
                     if (endTimeOfExistingEvent.isAfter(event.getTime().toLocalTime())){
-                        return "Room is already occupied at timeslot with event: "+rs.getInt(3);
+                        return false;
                     }
                 }
             }
@@ -121,7 +121,7 @@ public final class EventSQL extends MySqlConnector {
         }catch (Exception e){
             System.out.println(e);
         }
-        return "Event successfully added";
+        return true;
     }
     public void updateEvent(Event event){
         try {
