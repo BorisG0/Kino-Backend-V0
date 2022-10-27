@@ -1,9 +1,6 @@
 package com.example.kinobackend.db_access;
 
-import com.example.kinobackend.responses.BookingCreation;
-import com.example.kinobackend.responses.BookingInfo;
-import com.example.kinobackend.responses.StatusChange;
-import com.example.kinobackend.responses.Ticket;
+import com.example.kinobackend.responses.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -21,7 +18,9 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class BookingSQL extends MySqlConnector{
@@ -134,7 +133,10 @@ public class BookingSQL extends MySqlConnector{
         }
     }
 
-    public void generatePDF(){//BookingInfo bookingInfo
+    public void generatePDF(BookingInfo bookingInfo){
+        MovieSQL movieSQL = new MovieSQL();
+        Movie movie;
+        movie = movieSQL.getMovieByTitle(bookingInfo.getMovieTitle());
         try (PDDocument doc = new PDDocument()) {
 
             PDPage myPage = new PDPage();
@@ -154,26 +156,32 @@ public class BookingSQL extends MySqlConnector{
                 cont.setFont(PDType1Font.TIMES_ROMAN, 12);
                 cont.newLine();
 
-                String line1 = "Film:";
+                String line1 = "Film: " + bookingInfo.getMovieTitle();
                 cont.showText(line1);
                 cont.setLeading(16.5f);
-
                 cont.newLine();
 
-                String line2 = "Saal:";
+                String line2 = "Dauer: " + movie.getDuration() + " Minuten";
                 cont.showText(line2);
                 cont.newLine();
 
-                String line3 = "Dauer:";
+                String line3 = "Saal: "; // TODO getRoom
                 cont.showText(line3);
                 cont.newLine();
 
-                String line4 = "Plätze:";
+                String line4 = "Plätze: ";
+                for (String s:bookingInfo.getSeatPlaces()) {
+                    line4= line4 + s + ", ";
+                }
                 cont.showText(line4);
                 cont.newLine();
 
-                String line5 = "Name:";
+                String line5 = "Preis: " + bookingInfo.getPricePaid();
                 cont.showText(line5);
+                cont.newLine();
+
+                String line6 = "Name: " ;//TODO getName
+                cont.showText(line6);
                 cont.newLine();
 
                 cont.endText();
@@ -187,7 +195,9 @@ public class BookingSQL extends MySqlConnector{
 
     public static void main(String[] args) {
         BookingSQL bookingSQL = new BookingSQL();
-        bookingSQL.generatePDF();
+        String[]seats = {"A3","A4",};
+        BookingInfo bookingInfo = new BookingInfo(1,24,seats,"Batman 2",new Date(2022-12-23), Time.valueOf("14:00:00"));
+        bookingSQL.generatePDF(bookingInfo);
         bookingSQL.sendConfirmationMail();
     }
 }

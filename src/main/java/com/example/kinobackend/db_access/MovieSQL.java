@@ -66,6 +66,22 @@ public final class MovieSQL extends MySqlConnector{
 
         return movie;
     }
+    public Movie getMovieByTitle(String title){
+        Movie movie = null;
+        try{
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from movie where Title = " + putStringIntoApostrophe(title));
+            rs.next();
+            movie = new Movie(rs.getInt(1), rs.getString(2), rs.getInt(3),
+                    rs.getInt(4), rs.getString(5), rs.getString(6),
+                    rs.getString(7), rs.getDate(8), rs.getString(9),
+                    rs.getString(10), rs.getString(11), rs.getString(12),rs.getBoolean(13));
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+        return movie;
+    }
 
     public Movie[] getUpcomingMoviesData( int days ){
         ArrayList<Movie> data = new ArrayList<>();
