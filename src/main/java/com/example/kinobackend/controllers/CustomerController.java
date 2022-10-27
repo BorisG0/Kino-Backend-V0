@@ -29,13 +29,13 @@ public class CustomerController {
         return customer;
     }
     @PostMapping("/api/addCustomer")
-    public String addCustomer(@RequestBody Customer customer){
+    public Customer addCustomer(@RequestBody Customer customer){
         CustomerSQL connector = new CustomerSQL();
         System.out.println("adding Customer");
-        connector.addCustomer(customer);
+        Customer returnCustomer = connector.addCustomer(customer);
         String returnString = "Customer added" + connector.getCustomerByMailAdress(customer.getMailAdress());
         System.out.println(returnString);
-        return returnString;
+        return returnCustomer;
     }
 
 /*    public static void main(String[] args) {
