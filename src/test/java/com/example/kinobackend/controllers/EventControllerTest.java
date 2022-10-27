@@ -61,10 +61,9 @@ class EventControllerTest {
 
     @Test
     void getEventsForMovie2() {
-    /* TODO   int movieId = 3;
-        int days = 9;
-        Event[] actualEvents = testEventController.getEventsForMovie(movieId, days);
-        Event[] expectedEvents = testEventSQL.getEventsForMovie(movieId, days);
-        assertThat(actualEvents).usingRecursiveComparison().isEqualTo(expectedEvents);*/
+        int movieId = 2;
+        Event[] actualEvents = testEventController.getEventsForMovie(movieId);
+        Event[] expectedEvents = testEventSQL.getEventsForMovie(movieId, 7);
+        assertThat(actualEvents).usingRecursiveComparison().isEqualTo(expectedEvents);
     }
 }
