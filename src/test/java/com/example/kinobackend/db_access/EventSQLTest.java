@@ -70,7 +70,15 @@ class EventSQLTest {
     }
 
     @Test
-    void getEventByDateTimeRoom() {
+    void getEventByDateTimeRoom() throws ParseException {
+        String date_string = "07-11-2022";
+        SimpleDateFormat formatterDate = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = formatterDate.parse(date_string);
+        Time time = Time.valueOf("18:00:00");
 
+        Event expectedEvent = new Event(2, date, time, 1, 3);
+        Event actualEvent = testEventSQL.getEventById((int) expectedEvent.getId());
+
+        assertThat(actualEvent).usingRecursiveComparison().isEqualTo(expectedEvent);
     }
 }
