@@ -1,7 +1,7 @@
 package com.example.kinobackend.responses;
 
 public class User {
-    public enum UserType {Employee,Customer,NoUserFound};
+    public enum UserType {Employee,Customer,NoUserFound,UserExists};
     private UserType userType;
     private String mailAdress;
     private String password;
@@ -13,6 +13,10 @@ public class User {
         this.userType = UserType.NoUserFound;
         this.mailAdress = mailAdress;
         this.password = password;
+    }
+    public User(String mailAdress) {
+        this.userType = UserType.UserExists;
+        this.mailAdress = mailAdress;
     }
 
     public User(UserType userType, String mailAdress, String password, String lastName, String firstName) {

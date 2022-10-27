@@ -40,6 +40,10 @@ public final class CustomerSQL extends MySqlConnector{
     public Customer addCustomer(Customer customer){
         CustomerSQL customerSQL = new CustomerSQL();
         try {
+            Customer testCust = customerSQL.getCustomerByMailAdress(customer.getMailAdress());
+            if (testCust!=null){
+                return new Customer(customer.getMailAdress());
+            }
             Statement stmt = con.createStatement();
             stmt.execute("insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) VALUES ("
                     + putStringIntoApostrophe(customer.getMailAdress())+", "+putStringIntoApostrophe(customer.getLastName())+

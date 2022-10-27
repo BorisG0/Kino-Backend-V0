@@ -22,6 +22,9 @@ public class Customer extends User{
         this.countryCode = countryCode;
         this.mobileNumber = mobileNumber;
     }
+    public Customer(String mailAdress){
+        super(mailAdress);
+    }
 
     public Date getBirthDate() {
         return birthDate;
