@@ -1,6 +1,7 @@
 package com.example.kinobackend.db_access;
 
 import com.example.kinobackend.responses.Customer;
+import com.example.kinobackend.responses.Employee;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -39,9 +40,14 @@ public final class CustomerSQL extends MySqlConnector{
 
     public Customer addCustomer(Customer customer){
         CustomerSQL customerSQL = new CustomerSQL();
+        EmployeeSQL employeeSQL = new EmployeeSQL();
         try {
             Customer testCust = customerSQL.getCustomerByMailAdress(customer.getMailAdress());
             if (testCust!=null){
+                return new Customer(customer.getMailAdress());
+            }
+            Employee testEmployee = employeeSQL.getEmployeeByMailAdress(customer.getMailAdress());
+            if (testEmployee!=null){
                 return new Customer(customer.getMailAdress());
             }
             Statement stmt = con.createStatement();
