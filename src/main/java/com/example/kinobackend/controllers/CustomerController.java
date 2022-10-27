@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 public class CustomerController {
 
@@ -29,8 +31,19 @@ public class CustomerController {
     @PostMapping("/api/addCustomer")
     public String addCustomer(@RequestBody Customer customer){
         CustomerSQL connector = new CustomerSQL();
+        System.out.println("adding Customer");
         connector.addCustomer(customer);
         String returnString = "Customer added" + connector.getCustomerByMailAdress(customer.getMailAdress());
+        System.out.println(returnString);
         return returnString;
     }
+
+/*    public static void main(String[] args) {
+        Customer customer = new Customer("a.b@c.d","cd","ab",new Date(120322),12345,6,"a","ab","DE","1234/1234","123");
+        CustomerSQL connector = new CustomerSQL();
+        System.out.println("adding Customer");
+        connector.addCustomer(customer);
+        String returnString = "Customer added" + connector.getCustomerByMailAdress(customer.getMailAdress());
+        System.out.println(returnString);
+    }*/
 }
