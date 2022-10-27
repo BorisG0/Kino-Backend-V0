@@ -173,4 +173,11 @@ class CustomerTest {
         testCustomer = new Customer();
         assertThat(new Customer()).usingRecursiveComparison().isEqualTo(testCustomer);
     }
+
+    @Test
+    void testConstructor3(){
+        String mailAdress = "test@mail.com";
+        testCustomer = new Customer(mailAdress);
+        assertThat(new Customer(mailAdress)).usingRecursiveComparison().isEqualTo(testCustomer);
+    }
 }

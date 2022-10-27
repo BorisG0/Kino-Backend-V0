@@ -101,4 +101,11 @@ class UserTest {
         assertEquals(lastName, testUser.getLastName());
         assertEquals(firstName, testUser.getFirstName());
     }
+
+    @Test
+    void testConstructor3() {
+        User testUser1 = new User(mailAdress);
+        assertEquals(mailAdress, testUser1.getMailAdress());
+        testUser1 = null;
+    }
 }
