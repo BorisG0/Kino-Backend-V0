@@ -37,7 +37,8 @@ public final class CustomerSQL extends MySqlConnector{
         return customer;
     }
 
-    public void addCustomer(Customer customer){
+    public Customer addCustomer(Customer customer){
+        CustomerSQL customerSQL = new CustomerSQL();
         try {
             Statement stmt = con.createStatement();
             stmt.execute("insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) VALUES ("
@@ -46,8 +47,10 @@ public final class CustomerSQL extends MySqlConnector{
                     ", "+customer.getPostalCode()+", "+customer.getHouseNumber()+", "+putStringIntoApostrophe(customer.getLocation())+
                     ", "+putStringIntoApostrophe(customer.getStreet())+", "+putStringIntoApostrophe(customer.getCountryCode())+
                     ", "+putStringIntoApostrophe(customer.getMobileNumber())+", "+putStringIntoApostrophe(customer.getPassword())+")");
+            return  customerSQL.getCustomerByMailAdress(customer.getMailAdress());
         }catch (Exception e){
             System.out.println(e);
         }
+        return new Customer();
     }
 }
