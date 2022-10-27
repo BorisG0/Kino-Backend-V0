@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class MailService {
 
-    public void sendEmail(String to,String subject, String body){
+    public void sendEmail(String to,String subject, Multipart multipart){
         String from = "kinobuchung@gmail.com";
         String password = "zqwhrsqhtcnunefq";
         Properties properties = new Properties();
@@ -31,7 +31,7 @@ public class MailService {
             message.setFrom(new InternetAddress(from));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to,false));
             message.setSubject(subject);
-            message.setText(body);
+            message.setContent(multipart);
             System.out.println(message);
             Transport.send(message);
             System.out.println("message sent");

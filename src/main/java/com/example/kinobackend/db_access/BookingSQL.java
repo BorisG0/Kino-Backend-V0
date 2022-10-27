@@ -4,7 +4,20 @@ import com.example.kinobackend.responses.BookingCreation;
 import com.example.kinobackend.responses.BookingInfo;
 import com.example.kinobackend.responses.StatusChange;
 import com.example.kinobackend.responses.Ticket;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMultipart;
+import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -103,11 +116,78 @@ public class BookingSQL extends MySqlConnector{
     }
     public void sendConfirmationMail(){
         MailService mailService = new MailService();
-        mailService.sendEmail("feelitplays1.0@gmail.com","testEmail","testBody");
+        try {
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText("TestBody"); // needs to be set correctly
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            messageBodyPart = new MimeBodyPart();
+            String filename = "src/main/resources/overview.pdf"; // needs to be name of generated PDF
+            DataSource source = new FileDataSource(filename);
+            messageBodyPart.setDataHandler(new DataHandler(source));
+            messageBodyPart.setFileName(filename);
+            multipart.addBodyPart(messageBodyPart);
+            System.out.println(multipart);
+            mailService.sendEmail("feelitplays1.0@gmail.com","testEmailWithAttachment",multipart); // to needs to be correct customer MailAdress
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void generatePDF(){//BookingInfo bookingInfo
+        try (PDDocument doc = new PDDocument()) {
+
+            PDPage myPage = new PDPage();
+            doc.addPage(myPage);
+
+            try (PDPageContentStream cont = new PDPageContentStream(doc, myPage)) {
+
+                cont.beginText();
+
+                cont.setFont(PDType1Font.TIMES_ROMAN, 22);
+                cont.setLeading(30.5f);
+
+                cont.newLineAtOffset(25, 600);
+                String line0 = "Bestellübersicht";
+                cont.showText(line0);
+
+                cont.setFont(PDType1Font.TIMES_ROMAN, 12);
+                cont.newLine();
+
+                String line1 = "Film:";
+                cont.showText(line1);
+                cont.setLeading(16.5f);
+
+                cont.newLine();
+
+                String line2 = "Saal:";
+                cont.showText(line2);
+                cont.newLine();
+
+                String line3 = "Dauer:";
+                cont.showText(line3);
+                cont.newLine();
+
+                String line4 = "Plätze:";
+                cont.showText(line4);
+                cont.newLine();
+
+                String line5 = "Name:";
+                cont.showText(line5);
+                cont.newLine();
+
+                cont.endText();
+            }
+
+            doc.save("src/main/resources/overview.pdf");
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 
     public static void main(String[] args) {
         BookingSQL bookingSQL = new BookingSQL();
+        bookingSQL.generatePDF();
         bookingSQL.sendConfirmationMail();
     }
 }
