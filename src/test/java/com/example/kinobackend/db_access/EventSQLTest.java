@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 class EventSQLTest {
 
@@ -83,4 +84,16 @@ class EventSQLTest {
     }
 
      */
+
+    @Test
+    void checkOtherEventExistsAtTime() throws ParseException {
+        String date_string = "07-11-2022";
+        SimpleDateFormat formatterDate = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = formatterDate.parse(date_string);
+        Time time = Time.valueOf("18:00:00");
+        Event event = new Event(7, date, time, 10, 5);
+
+        boolean actualOtherEvent = testEventSQL.checkOtherEventExistsAtTime(event);
+        assertEquals(true, actualOtherEvent);
+    }
 }
