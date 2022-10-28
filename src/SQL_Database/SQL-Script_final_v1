@@ -1,0 +1,322 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `mydb` ;
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`booking`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`booking` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`booking` (
+  `idBooking` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(45) NULL DEFAULT NULL,
+  `pricePaid` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`idBooking`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`customer`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`customer` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`customer` (
+  `MailAddress` VARCHAR(45) NOT NULL,
+  `LastName` VARCHAR(45) NULL DEFAULT NULL,
+  `FirstName` VARCHAR(45) NULL DEFAULT NULL,
+  `BirthDate` DATE NULL DEFAULT NULL,
+  `PLZ` INT NULL DEFAULT NULL,
+  `HouseNumber` INT NULL DEFAULT NULL,
+  `Location` VARCHAR(45) NULL DEFAULT NULL,
+  `Street` VARCHAR(45) NULL DEFAULT NULL,
+  `Country` VARCHAR(2) NULL DEFAULT 'DE',
+  `MobileNumber` VARCHAR(45) NULL DEFAULT NULL,
+  `Password` VARCHAR(80) NOT NULL,
+  PRIMARY KEY (`MailAddress`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`employee`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`employee` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`employee` (
+  `MailAddress` VARCHAR(45) NOT NULL,
+  `LastName` VARCHAR(45) NULL DEFAULT NULL,
+  `FirstName` VARCHAR(45) NULL DEFAULT NULL,
+  `Role` VARCHAR(45) NULL DEFAULT NULL,
+  `Password` VARCHAR(80) NOT NULL,
+  PRIMARY KEY (`MailAddress`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`movie`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`movie` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`movie` (
+  `idMovie` INT NOT NULL AUTO_INCREMENT,
+  `Title` VARCHAR(45) NULL DEFAULT NULL,
+  `Duration` INT NULL DEFAULT NULL,
+  `AgeRestriction` INT NULL DEFAULT NULL,
+  `imageName` VARCHAR(45) NULL DEFAULT NULL,
+  `Description` LONGTEXT NULL DEFAULT NULL,
+  `Genre` VARCHAR(100) NULL DEFAULT NULL,
+  `StartDate` DATE NULL DEFAULT NULL,
+  `movieStudio` VARCHAR(100) NULL DEFAULT NULL,
+  `regie` VARCHAR(100) NULL DEFAULT NULL,
+  `cast` VARCHAR(100) NULL DEFAULT NULL,
+  `trailerLink` VARCHAR(100) NULL DEFAULT NULL,
+  `active` TINYINT(1) NULL DEFAULT '1',
+  PRIMARY KEY (`idMovie`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`room`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`room` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`room` (
+  `idRoom` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`idRoom`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`event`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`event` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`event` (
+  `idEvent` INT NOT NULL AUTO_INCREMENT,
+  `Date` DATE NULL DEFAULT NULL,
+  `Time` TIME NULL DEFAULT NULL,
+  `movie_idMovie` INT NULL DEFAULT NULL,
+  `room_idRoom` INT NULL DEFAULT NULL,
+  `active` TINYINT(1) NULL DEFAULT '1',
+  PRIMARY KEY (`idEvent`),
+  INDEX `fk_event_movie_idx` (`movie_idMovie` ASC) VISIBLE,
+  INDEX `fk_event_room1_idx` (`room_idRoom` ASC) VISIBLE,
+  CONSTRAINT `fk_event_movie`
+    FOREIGN KEY (`movie_idMovie`)
+    REFERENCES `mydb`.`movie` (`idMovie`),
+  CONSTRAINT `fk_event_room1`
+    FOREIGN KEY (`room_idRoom`)
+    REFERENCES `mydb`.`room` (`idRoom`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`seat`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`seat` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`seat` (
+  `idSeat` INT NOT NULL AUTO_INCREMENT,
+  `Line` VARCHAR(45) NULL DEFAULT NULL,
+  `NumberInLine` INT NULL DEFAULT NULL,
+  `room_idRoom` INT NOT NULL,
+  PRIMARY KEY (`idSeat`),
+  INDEX `fk_seat_room1_idx` (`room_idRoom` ASC) VISIBLE,
+  CONSTRAINT `fk_seat_room1`
+    FOREIGN KEY (`room_idRoom`)
+    REFERENCES `mydb`.`room` (`idRoom`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`ticket`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`ticket` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`ticket` (
+  `idTicket` INT NOT NULL AUTO_INCREMENT,
+  `seat_idSeat` INT NULL DEFAULT NULL,
+  `event_idEvent` INT NULL DEFAULT NULL,
+  `status` INT NULL DEFAULT NULL,
+  `defaultPrice` INT NULL DEFAULT NULL,
+  `booking_idBooking` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`idTicket`),
+  INDEX `idSeat_idx` (`seat_idSeat` ASC) VISIBLE,
+  INDEX `idEvent_idx` (`event_idEvent` ASC) VISIBLE,
+  INDEX `idBooking_idx` (`booking_idBooking` ASC) VISIBLE,
+  CONSTRAINT `idSeat`
+    FOREIGN KEY (`seat_idSeat`)
+    REFERENCES `mydb`.`seat` (`idSeat`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idEvent`
+    FOREIGN KEY (`event_idEvent`)
+    REFERENCES `mydb`.`event` (`idEvent`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idBooking`
+    FOREIGN KEY (`booking_idBooking`)
+    REFERENCES `mydb`.`booking` (`idBooking`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO movie (idMovie, Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie , cast , trailerLink, active) VALUES   (1, 'Minions: Auf der Suche nach dem Mini-Boss', 88, 6, 'img0.png', 'Als Fan der Superschurkengruppe Vicious 6 heckt Gru einen Plan aus, um böse genug zu werden, um sich ihnen anzuschließen, und wird dabei von seinen Anhängern, den Minions, unterstützt.', ' Animation, Abenteuer, Komödie, Fantasy ', '2022-06-30','Universal Pictures Studio & Illumination Entertainment','Kyle Balda','Steve Carell, Pierre Coffin, Alan Arkin','"https://www.youtube.com/embed/6DxjJzmYsXo"', true);
+INSERT INTO movie (idMovie, Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie , cast , trailerLink, active) VALUES  (2, 'Batman', 176, 12, 'img1.png','Zwei Jahre lang jagte Bruce Wayne als Batman Verbrecher auf der Straße und geriet immer tiefer in die Schattenwelt Gothams. Im korrupten Netzwerk der Beamten und VIPs konnte er nur auf wenige Vertraute zählen, daher verkörperte er bald als Einziger die Rache der Bürger. Als ein Killer es mit einer Vielzahl an sadistischen Machenschaften auf die Elite Gothams abgesehen hat, führt eine Spur aus mysteriösen Hinweisen den weltbesten Detective in die Unterwelt, wo er auf Selina Kyle a.k.a. Catwoman, Oswald Cobblepot a.k.a. der Pinguin, Carmine Falcone und Edward Nashton a.k.a. der Riddler stößt. Mit der Zeit wird das wahre Ausmaß des verbrecherischen Plans klar und die Beweise deuten immer mehr auf einen Kriminellen im näheren Umfeld Batmans hin. Nun muss Batman neue Kontakte knüpfen, den Verbrecher entlarven und den Machtmissbrauch und die Korruption, die Gotham schon lange im Griff haben, gnadenlos niederschlagen.', 'Krimi, Mystery, Thriller', '2022-03-03','Warner Brothers Studio','Matt Reeves','Robert Pattinson, Zoë Kravitz, Jeffrey Wright','"https://www.youtube.com/embed/mqqft2x_Aa4"', true );
+INSERT INTO movie (idMovie, Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie , cast , trailerLink, active) VALUES   (3, 'Spiderman: No Way Home', 135, 12, 'img2.png', 'Peter Parker ist demaskiert und kann sein normales Leben nicht mehr von den hohen Einsätzen als Superheld trennen. Als er Doctor Strange um Hilfe bittet, wird die Lage noch gefährlicher und er muss entdecken, was es wirklich bedeutet, Spider-Man zu sein.', 'Action, Abenteuer, Science Fiction', '2021-12-16','Marvel Entertainment','Kevin Feige, Amy Pascal','Tom Holland, Tobey Marguire, Andrew Garfield, Zendaya','"https://www.youtube.com/embed/JfVOs4VSpmA"', true );
+INSERT INTO movie (idMovie, Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie , cast , trailerLink, active) VALUES  (4, 'Jeeper Creepers', 88, 16, 'img3.png', 'Als Laine gezwungen wird, mit ihrem Freund zu einem Horrorfestival zu reisen, beginnt sie, verstörende Visionen zu haben, die mit der urbanen Legende des Kriechers zusammenhängen. Als das Festival ankommt und die blutgetränkte Unterhaltung sich zu einem Rausch steigert, wird sie zum Mittelpunkt des Geschehens, während etwas Unheimliches herbeigerufen wurde.', 'Horror, Thriller, Mystery' ,'2022-09-15','Black Hangar Studios','Timo Vuorensola','Gary Graham, Dee Wallace, Timo Vuorensola','"https://www.youtube.com/embed/6D0yFgZnmYM"', true);
+INSERT INTO movie (idMovie, Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie , cast , trailerLink, active) VALUES   (5, 'Saw', 103, 18, 'img4.png', 'Ohne die leiseste Ahnung, wie sie in diesen Albtraum geraten sind, erwachen zwei Männer angekettet an gegenüberliegenden Wänden in einem Kellerverlies. Hinterlassen hat ihr Entführer lediglich eine ausgeblutete Leiche und ein Tonband, auf dem er den Gefangenen einen Ausweg anbietet. Wenn sie beweisen, dass sie bereit sind, wirklich alles für ihr überleben zu tun, haben sie die Chance, aus ihrem Verlies zu entkommen. Doch die Spielregeln des Sadisten sind gnadenlos. Wer die Freiheit will, muss sich selbst verstümmeln oder zum Mörder werden...', 'Horror, Mystery, Krimi' ,'2005-02-03','Universal Pictures Studio & Illumination Entertainment','Kyle Balda','Steve Carell, Pierre Coffin, Alan Arkin','"https://www.youtube.com/embed/gzy6ORqE9IY"', true);
+INSERT INTO movie (idMovie, Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie , cast , trailerLink, active) VALUES  (6, 'Bullet Train', 127, 16, 'img5.png', 'Bullet Train: So wird der Shinkansen-Zug auf der Strecke Tokio - Kyoto auch genannt, da er mit unglaublichen 320 Kilometern pro Stunde und ohne Zwischenstopp zwischen den beiden Städten hin und her rast. Aussteigen unmöglich. An Bord des Shinkansen ist auch Ladybug, ein vom Pech verfolgter Auftragskiller, der im Hochgeschwindigkeitszug sein nächstes Opfer erledigen soll. Nach einigen Rückschlägen für Ladybug muss dieses Mal einfach alles gut gehen. Doch auch dieser Auftrag wird nicht einfach, denn mit Tangerine, Prince, Hornet, Lemon und Kimura sind noch fünf weitere Auftragskiller an Bord. Erstaunlicherweise haben es nicht alle auf die gleiche Zielperson abgesehen - und doch scheinen ihre Aufträge miteinander verbunden. Natürlich kommen sich die eiskalten Auftragsmörder in die Quere und im Hochgeschwindigkeitszug entbrennt ein chaotischer Kampf auf Leben und Tod.', 'Action, Komödie, Thriller' ,'2022-08-04','87North','David Leitch','Brad Pitt, Joey King, Aaron Taylor-Johnson','"https://www.youtube.com/embed/0IOsk2Vlc4o"', true );
+INSERT INTO movie (idMovie, Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie , cast , trailerLink, active) VALUES   (7, 'Thor: Love and Thunder', 119, 12, 'img6.png', 'Nachdem sein Ruhestand von Gorr dem Götterschlächter, einem galaktischen Killer, der die Auslöschung der Götter anstrebt, unterbrochen wird, bittet Thor Odinson um die Hilfe von König Walküre, Korg und seiner Ex-Freundin Jane Foster, die nun als Mighty Thor das Mjolnir schwingt. Gemeinsam begeben sie sich auf ein erschütterndes kosmisches Abenteuer, um das Geheimnis der Rache des Götterschlächters zu lüften und ihn aufzuhalten, bevor es zu spät ist.', 'Fantasy, Action, Komödie' ,'2022-07-08','Marvel Entertainment','Taika Waititi','Chris Hemsworth, Natalie Portman, Christian Bale','"https://www.youtube.com/embed/Go8nTmfrQd8"', true);
+INSERT INTO movie (idMovie, Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie , cast , trailerLink, active) VALUES  (8, 'Avatar - The Way of Water', 161, 12, 'img7.png','Jake Sully lebt mit seiner neu gegründeten Familie auf dem Planeten Pandora, als eine vertraute Bedrohung zurückkehrt, die Jake, Neytiri und den Rest der Na''vi-Armee mobilisiert, um ihren Planeten zu schützen.', 'Abenteuer' ,'2022-07-17' ,'20th Century Studios','James Cameron','Sigourney Weaver, Zoe Saldana, Sam Worthington','"https://www.youtube.com/embed/NZrX_ES93JA"', true);
+INSERT INTO movie (idMovie, Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie , cast , trailerLink, active) VALUES   (9, 'Top Gun Maverick', 131, 12, 'img8.png','Aufgrund seiner Probleme mit Autoritäten hat es Flieger-Ass Maverick nie geschafft, die ganz große Karriere in der Navy zu machen. Anstatt Orden konnte er so vielmehr disziplinarische Verfahren sammeln. Nachdem er erneut über das Ziel hinausgeschossen ist, wird er kurzerhand zu seiner alten Elite-Flugschule Top Gun versetzt. Dort soll er die jungen Flieger, unter denen sich auch Rooster, der Sohn seines verstorbenen besten Freundes Goose befindet, auf eine Mission vorbereiten, die eigentlich unmöglich zu bewerkstelligen ist: Das schwer geschützte Nuklearprogramm eines fremden Landes muss zerstört werden. Weniger als drei Wochen bleiben zur Vorbereitung. Maverick hat nun alle Hände voll damit zu tun, die besten Absolventen der vergangenen Jahre zu einem Team zu formen, damit der Einsatz nicht zum Selbstmordkommando verkommt.', 'Action, Drama'  ,'2022-05-26','Paramount Pictures','Joseph Kosinski','Tom Cruise, Jennifer Connelly, Miles Teller','"https://www.youtube.com/embed/3hO--XhlsfU"', true);
+INSERT INTO movie (idMovie, Title, Duration, AgeRestriction, imageName, Description, Genre, StartDate, movieStudio, regie , cast , trailerLink, active) VALUES  (10, 'Avengers: Endgame', 191, 12, 'img9.png','Thanos hat also tatsächlich Wort gehalten, seinen Plan in die Tat umgesetzt und die Hälfte allen Lebens im Universum ausgelöscht. Die Avengers? Machtlos. Iron Man und Nebula sitzen auf dem Planeten Titan fest, während auf der Erde absolutes Chaos herrscht. Doch dann finden Captain America und die anderen überlebenden Helden auf der Erde heraus, dass Nick Fury vor den verheerenden Ereignissen gerade noch ein Notsignal absetzen konnte, um Verstärkung auf den Plan zu rufen. Die Superhelden-Gemeinschaft bekommt mit Captain Marvel kurzerhand tatkräftige Unterstützung im Kampf gegen ihren vermeintlich übermächtigen Widersacher. Und dann ist da auch noch Ant-Man, der wie aus dem Nichts auftaucht und sich der Truppe erneut anschließt, um die ganze Sache womöglich doch noch zu einem guten Ende zu bringen …', 'Abenteuer, Science Fiction, Action' ,'2019-04-24' ,'Marvel Entertainment','Anthony Russo, Joe Russo','Robert Downey Jr., Chris Evans, Mark Rufallo','"https://www.youtube.com/embed/TcMBFSGVi1c"', true);
+
+INSERT INTO room(idRoom)VALUES (1);
+INSERT INTO room(idRoom)VALUES (2);
+INSERT INTO room(idRoom)VALUES (3);
+INSERT INTO room(idRoom)VALUES (4);
+INSERT INTO room(idRoom)VALUES (5);
+
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (1, '2022-07-17', '14:00:00', 1, 1);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (2, '2022-11-07', '18:00:00', 1, 3);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (3, '2022-01-24', '20:30:00', 2, 2);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (4, '2022-06-18', '19:30:00', 1, 2);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (5, '2021-12-06', '18:30:00', 2, 5);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (6, '2022-07-17', '14:00:00', 2, 3);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (7, '2022-11-07', '18:00:00', 10, 5);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (8, '2022-01-25', '20:30:00', 2, 4);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (9, '2022-06-18', '22:45:00', 4, 2);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (10, '2021-12-06', '18:30:00', 2, 4);
+insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (11, '2022-07-17', '14:00:00', 6, 4);
+
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (1, 'A', 1, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (2, 'A', 1, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (3, 'A', 1, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (4, 'A', 1, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (5, 'A', 1, 5);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (6, 'B', 1, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (7, 'B', 1, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (8, 'B', 1, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (9, 'B', 1, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (10, 'B', 1, 5);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (11, 'C', 1, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (12, 'C', 1, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (13, 'C', 1, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (14, 'C', 1, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (15, 'C', 1, 5);
+
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (16, 'A', 2, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (17, 'A', 2, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (18, 'A', 2, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (19, 'A', 2, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (20, 'A', 2, 5);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (21, 'B', 2, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (22, 'B', 2, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (23, 'B', 2, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (24, 'B', 2, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (25, 'B', 2, 5);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (26, 'C', 2, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (27, 'C', 2, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (28, 'C', 2, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (29, 'C', 2, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (30, 'C', 2, 5);
+
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (31, 'A', 3, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (32, 'A', 3, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (33, 'A', 3, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (34, 'A', 3, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (35, 'A', 3, 5);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (36, 'B', 3, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (37, 'B', 3, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (38, 'B', 3, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (39, 'B', 3, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (40, 'B', 3, 5);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (41, 'C', 3, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (42, 'C', 3, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (43, 'C', 3, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (44, 'C', 3, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (45, 'C', 3, 5);
+
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (46, 'A', 4, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (47, 'A', 4, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (48, 'A', 4, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (49, 'A', 4, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (50, 'A', 4, 5);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (51, 'B', 4, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (52, 'B', 4, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (53, 'B', 4, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (54, 'B', 4, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (55, 'B', 4, 5);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (56, 'C', 4, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (57, 'C', 4, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (58, 'C', 4, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (59, 'C', 4, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (60, 'C', 4, 5);
+
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (61, 'A', 5, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (62, 'A', 5, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (63, 'A', 5, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (64, 'A', 5, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (65, 'A', 5, 5);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (66, 'B', 5, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (67, 'B', 5, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (68, 'B', 5, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (69, 'B', 5, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (70, 'B', 5, 5);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (71, 'C', 5, 1);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (72, 'C', 5, 2);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (73, 'C', 5, 3);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (74, 'C', 5, 4);
+insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (75, 'C', 5, 5);
+
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('lisa.schmidt@studentsDHBW.com','Schmidt','Lisa','2005-06-28',9123,23,'Sachsen','Center Place','DE','+49 356 560 4646','123');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('klaus.müller@only.fans','Müller','Klaus','1964-11-26',51149,112,'Nordrhein-Westfalen','Eastwood Hill','DE','+49 902 261 9715','123');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('maxmustermann@muster.edu','Mustermann','Max','2000-03-28',80686,12,'Bayern','Glendale Road','DE','+49 674 504 2593','123');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('ahalewood4@umich.edu', 'Halewood', 'Aloin', '2012-03-28',  '80686', 12, 'Bayern', 'Glendale Road', 'DE', '+49 674 504 2593', '6qwXciqelIwr');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('tburgwyn5@whitehouse.gov', 'Burgwyn', 'Tresa', '2001-05-12', '44369', 15, 'Nordrhein-Westfalen', 'Hanover Point', 'DE', '+49 197 756 5887', 'K4zCOE5TU');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('dsedworth6@xrea.com', 'Sedworth', 'Darn', '1987-10-02',  '01189', 1, 'Sachsen', 'Orin Hill', 'DE', '+49 919 425 0372', 'mieeQE6UH2v');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('llighten7@adobe.com', 'Lighten', 'Lorne', '1999-04-12',  '65191', 8, 'Hessen', 'Hintze Hill', 'DE', '+49 152 508 0397', 'SWXAIDj6Hp');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('mlarrat8@shutterfly.com', 'Larrat', 'Mallorie', '2000-02-16',  '14109', 69, 'Berlin', 'Drewry Parkway', 'DE', '+49 182 399 1477', 'Zk2KJmx4M');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('kleadley9@umn.edu', 'Leadley', 'Krysta', '1964-12-28',  '22179', 100, 'Hamburg', 'Evergreen Circle', 'DE', '+49 135 196 3232', 'Ls2txI');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('agrealeya@who.int', 'Grealey', 'Adrienne', '1964-11-26', '51149', 112, 'Nordrhein-Westfalen', 'Eastwood Hill', 'DE', '+49 902 261 9715', 'LeYfgdoAfznW');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('fmatantsevb@bandcamp.com', 'Matantsev', 'Flint', '1978-02-24', '12169', 27, 'Berlin', 'Hintze Pass', 'DE', '+49 122 219 9202', 'N2ZEUxPzp');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('emaccardlec@tuttocitta.it', 'MacCardle', 'Esmeralda', '1950-01-03',  '22559', 54 , 'Hamburg', 'Dunning Terrace', 'DE', '+49 360 766 5120', 'kInroC7P');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('cskydalld@moonfruit.com',  'Skydall', 'Chalmers', '1982-11-01', '33619', 36, 'Nordrhein-Westfalen', 'Steensland Point', 'DE', '+49 263 292 2594', 'az4oLv');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('psavourye@rambler.ru', 'Savoury', 'Patience', '1990-04-02',  '47239', 42, 'Nordrhein-Westfalen', 'Scoville Plaza', 'DE', '+49 336 703 7610', 'S92TmyY20SG');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('tbradnamf@answers.com', 'Bradnam', 'Tilda', '1995-09-03',  '22179', 4, 'Hamburg', 'Spohn Junction', 'DE', '+49 520 281 2721', '2E4GC3wg9');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('lsemperg@issuu.com', 'Semper', 'Lazarus', '1994-07-05',  '04317', 8, 'Sachsen', 'Londonderry Circle', 'DE', '+49 557 556 1685', 'SBp0pvCguNIe');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('pheadh@google.es', 'Head', 'Peadar', '2006-06-14',  '13409', 6921, 'Berlin', 'Steensland Park', 'DE', '+49 708 198 8187', 'VPUZeka');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('wbieveri@slate.com', 'Biever', 'Wat', '2000-08-17',  '20359', 9, 'Hamburg', 'Ronald Regan Park', 'DE', '+49 718 718 1720', 'm4DCsSy2i');
+insert into customer (MailAddress, LastName, FirstName, BirthDate, PLZ, HouseNumber, Location, Street, Country, MobileNumber, Password) values ('gchaplynj@ezinearticles.com', 'Chaplyn', 'Guendolen', '1999-06-19',  '90411', 12, 'Bayern', '5th Street', 'DE', '+49 745 117 4164', 'iNcd2ly8S9');
+
+insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('karl.marx@komm.com','Karl','Marx','Chef','123');
+insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('jseeks1@mediafire.com', 'Pheby', 'Cunégonde', 'Kontrolleur', '1hgsK13B');
+insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('regalton2@privacy.gov.au', 'Dwane', 'Agnès', 'SnackVerkäufer', '9WIrhk9a52u');
+insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('jburgher3@state.gov', 'Denniston', 'Loïs', 'Kontrolleur', 'fEBNPoX');
+insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('osilk4@nationalgeographic.com', 'Byrcher', 'Gaëlle', 'Manager', '1aGSxKVP');
+insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('etebbit5@google.com.au', 'Merritt', 'Marie-thérèse', 'Manager', '0O5fYu');
+insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('bgreenalf6@oakley.com', 'Luxen', 'Edmée', 'TicketVerkäufer', 'CawJOR');
+insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('mkesterton7@ftc.gov', 'Fosh', 'Lorène', 'Manager', 'Djxl2gru');
+insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('jbraddick8@php.net', 'Laydon', 'Maëline', 'TicketVerkäufer', 'aJumewz075BX');
+insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('ncalven9@ask.com', 'Gibbe', 'Ráo', 'Manager', 'At1FXj');
+
+INSERT INTO ticket VALUES (1,16,3,0,12,null),(2,17,3,0,12,null),(3,18,3,0,12,null),(4,19,3,0,12,null),(5,20,3,0,12,null),(6,21,3,0,12,null),(7,22,3,0,12,null),(8,23,3,0,12,null),(9,24,3,0,12,null),(10,25,3,0,12,null),(11,26,3,0,12,null),(12,27,3,0,12,null),(13,28,3,0,12,null),(14,29,3,0,12,null),(15,30,3,0,12,null),(16,16,4,0,12,null),(17,17,4,0,12,null),(18,18,4,0,12,null),(19,19,4,0,12,null),(20,20,4,0,12,null),(21,21,4,0,12,null),(22,22,4,0,12,null),(23,23,4,0,12,null),(24,24,4,0,12,null),(25,25,4,0,12,null),(26,26,4,0,12,null),(27,27,4,0,12,null),(28,28,4,0,12,null),(29,29,4,0,12,null),(30,30,4,0,12,null);
+
