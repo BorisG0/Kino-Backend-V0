@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 class EventSQLTest {
 
@@ -69,7 +70,7 @@ class EventSQLTest {
         assertThat(actualEvent).usingRecursiveComparison().isEqualTo(expectedEvent);
     }
 
-    @Test
+    /*@Test
     void getEventByDateTimeRoom() throws ParseException {
         String date_string = "07-11-2022";
         SimpleDateFormat formatterDate = new SimpleDateFormat("dd-MM-yyyy");
@@ -77,8 +78,22 @@ class EventSQLTest {
         Time time = Time.valueOf("18:00:00");
 
         Event expectedEvent = new Event(2, date, time, 1, 3);
-        Event actualEvent = testEventSQL.getEventById((int) expectedEvent.getId());
+        Event actualEvent = testEventSQL.getEventByDateTimeRoom(expectedEvent.getDate(), expectedEvent.getTime(), expectedEvent.getRoomId());
 
         assertThat(actualEvent).usingRecursiveComparison().isEqualTo(expectedEvent);
+    }
+
+     */
+
+    @Test
+    void checkOtherEventExistsAtTime() throws ParseException {
+        String date_string = "07-11-2022";
+        SimpleDateFormat formatterDate = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = formatterDate.parse(date_string);
+        Time time = Time.valueOf("18:00:00");
+        Event event = new Event(7, date, time, 10, 5);
+
+        boolean actualOtherEvent = testEventSQL.checkOtherEventExistsAtTime(event);
+        assertEquals(true, actualOtherEvent);
     }
 }
