@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`booking` (
                                                         REFERENCES `mydb`.`employee` (`MailAddress`),
                                                 CONSTRAINT CK_booking_CustomerEmployee CHECK (
                                                      CASE WHEN customer_email IS NULL THEN 0 ELSE 1 END +
-                                                     CASE WHEN employee_email  IS NULL THEN 0 ELSE 1 END = 1)
+                                                     CASE WHEN employee_email  IS NULL THEN 0 ELSE 1 END = 1 )
     )
     ENGINE = InnoDB;
 
