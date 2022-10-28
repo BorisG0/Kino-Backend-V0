@@ -94,6 +94,6 @@ class EventSQLTest {
         Event event = new Event(7, date, time, 10, 5);
 
         boolean actualOtherEvent = testEventSQL.checkOtherEventExistsAtTime(event);
-        assertEquals(true, actualOtherEvent);
+        assertEquals(false, actualOtherEvent);
     }
 }
