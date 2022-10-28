@@ -27,7 +27,7 @@ class EmployeeSQLTest {
     void getEmployeeData() {
         Employee Employees[] = testEmployeeSQL.getEmployeeData();
         Employee actualEmployee = Employees[0];
-        Employee expectedEmployee = new Employee("bgreenalf6@oakley.com", "Luxen", "Edmée", "TicketVerkäufer", "CawJOR");
+        Employee expectedEmployee = new Employee("etebbit5@google.com.au", "Merritt", "Marie-thérèse", "Manager", "0O5fYu");
         assertThat(actualEmployee).usingRecursiveComparison().isEqualTo(expectedEmployee);
     }
 

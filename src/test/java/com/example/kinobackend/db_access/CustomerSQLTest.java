@@ -31,10 +31,10 @@ class CustomerSQLTest {
     void getCustomerData() throws ParseException {
         Customer[] customers = testCustomerSQL.getCustomerData();
         Customer actualCustomer = customers[4];
-        String date_string = "1987-10-02";
+        String date_string = "1999-06-19";
         SimpleDateFormat formatterDate = new SimpleDateFormat("yyyy-MM-dd");
         Date birthDate = formatterDate.parse(date_string);
-        Customer expectedCustomer = new Customer("dsedworth6@xrea.com", "Sedworth", "Darn", birthDate, 1189, 1, "Sachsen", "Orin Hill", "DE", "+49 919 425 0372", "mieeQE6UH2v");
+        Customer expectedCustomer = new Customer("gchaplynj@ezinearticles.com", "Chaplyn", "Guendolen", birthDate, 90411, 12, "Bayern", "5th Street", "DE", "+49 745 117 4164", "iNcd2ly8S9");
         assertThat(actualCustomer).usingRecursiveComparison().isEqualTo(expectedCustomer);
     }
 
