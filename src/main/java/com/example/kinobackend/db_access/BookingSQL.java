@@ -26,11 +26,19 @@ import java.util.Date;
 public class BookingSQL extends MySqlConnector{
     public int addBooking(String email, int pricePaid){
         int id = 0;
+        CustomerSQL customerSQL = new CustomerSQL();
+        EmployeeSQL employeeSQL = new EmployeeSQL();
         try {
             Statement stmt = con.createStatement();
-            stmt.execute("INSERT INTO booking (customer_email, pricePaid) VALUES ('" + email +"', " + pricePaid + ");");
-
-            stmt = con.createStatement();
+            User user = customerSQL.getCustomerByMailAdress(email);
+            if (user!=null) {
+                stmt.execute("INSERT INTO booking (customer_email, pricePaid) VALUES (" + putStringIntoApostrophe(email) + ", " + pricePaid + ");");
+            }else {
+                user = employeeSQL.getEmployeeByMailAdress(email);
+                if (user!=null){
+                    stmt.execute("INSERT INTO booking (employee_email, pricePaid) VALUES (" + putStringIntoApostrophe(email) + ", " + pricePaid + ");");
+                }
+            }
             ResultSet rs = stmt.executeQuery("select idBooking from booking order by idBooking desc limit 1");
             rs.next();
             id = rs.getInt(1);
@@ -65,7 +73,7 @@ public class BookingSQL extends MySqlConnector{
 
         try{
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from booking where customer_email = " + putStringIntoApostrophe(email));
+            ResultSet rs = stmt.executeQuery("select * from booking where customer_email = " + putStringIntoApostrophe(email) + " or employee_email = " + putStringIntoApostrophe(email));
 
             while(rs.next()){
 
@@ -77,7 +85,7 @@ public class BookingSQL extends MySqlConnector{
 
                 rs2.next();
 
-                BookingInfo b = new BookingInfo(rs.getInt(1), rs.getInt(3), null,
+                BookingInfo b = new BookingInfo(rs.getInt(1), rs.getInt(4), null,
                         rs2.getString(4), rs2.getDate(5), rs2.getTime(6));
 
                 ArrayList<String> seatPlacesAL = new ArrayList<>();
@@ -151,12 +159,15 @@ public class BookingSQL extends MySqlConnector{
     public void generatePDF(BookingCreation bookingCreation){
     BookingSQL bookingSQL = new BookingSQL();
     CustomerSQL customerSQL = new CustomerSQL();
+    EmployeeSQL employeeSQL = new EmployeeSQL();
     MovieSQL movieSQL = new MovieSQL();
     EventSQL eventSQL = new EventSQL();
     SeatSQL seatSQL = new SeatSQL();
 
-    Customer customer = customerSQL.getCustomerByMailAdress(bookingCreation.getEmail());
-
+    User user = customerSQL.getCustomerByMailAdress(bookingCreation.getEmail());
+    if (user == null){
+        user = employeeSQL.getEmployeeByMailAdress(bookingCreation.getEmail());
+    }
     int[]ticketIds = bookingCreation.getTicketIds();
     DBTicket[]tickets = new DBTicket[ticketIds.length];
     for (int i = 0; i< tickets.length;i++){
@@ -225,7 +236,7 @@ public class BookingSQL extends MySqlConnector{
                 cont.showText(line7);
                 cont.newLine();
 
-                String line8 = "Name: " + customer.getFirstName() + " "+customer.getLastName();
+                String line8 = "Name: " + user.getFirstName() + " "+user.getLastName();
                 cont.showText(line8);
                 cont.newLine();
 

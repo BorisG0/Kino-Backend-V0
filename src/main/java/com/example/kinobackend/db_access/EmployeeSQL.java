@@ -29,9 +29,10 @@ public class EmployeeSQL extends MySqlConnector{
         Employee employee = null;
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from employee where MailAddress = "+putStringIntoApostrophe(mailAdress));
-            rs.next();
-            employee = new Employee(rs.getString(1),rs.getString(2), rs.getString(3),rs.getString(4), rs.getString(5));
+            ResultSet rs = stmt.executeQuery("select * from employee where MailAddress = " + putStringIntoApostrophe(mailAdress));
+            if (rs.next()) {
+                employee = new Employee(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+            }
         }catch (Exception e){
             System.out.println(e);
         }

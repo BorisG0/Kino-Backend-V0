@@ -25,14 +25,18 @@ public final class CustomerSQL extends MySqlConnector{
 
         return data.toArray(new Customer[0]);
     }
+
     public Customer getCustomerByMailAdress(String mailAdress){
         Customer customer = null;
         try {
             Statement stmt = con.createStatement();
+            System.out.println("Trying to get customer");
             ResultSet rs = stmt.executeQuery("select * from customer where MailAddress = "+putStringIntoApostrophe(mailAdress));
-            rs.next();
-            customer = new Customer(rs.getString(1),rs.getString(2),rs.getString(3),rs.getDate(4), rs.getInt(5),rs.getInt(6),rs.getString(7), rs.getString(8), rs.getString(9),rs.getString(10),rs.getString(11));
-        }catch (Exception e){
+            if (rs.next()) {
+                System.out.println("Customer found");
+                return customer = new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDate(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11));
+            }
+            }catch (Exception e){
             System.out.println(e);
         }
         System.out.println("getting customer by Mail Adress");
