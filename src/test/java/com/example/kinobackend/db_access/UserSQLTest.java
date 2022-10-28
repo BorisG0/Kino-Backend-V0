@@ -40,13 +40,13 @@ class UserSQLTest {
 
     @Test
     void getCustomerFromLoginData() throws ParseException {
-        String mailAddress = "ldunbabin2@digg.com";
-        String password = "fBu73M";
+        String mailAddress = "lisa.schmidt@studentsDHBW.com";
+        String password = "123";
         User actualUser = testUserSQL.getUserFromLoginData(mailAddress, password);
         String date_string = "30-04-1980";
         SimpleDateFormat formatterDate = new SimpleDateFormat("dd-MM-yyyy");
         Date birthDate = formatterDate.parse(date_string);
-        Customer expectedCustomer = new Customer(mailAddress, "Dunbabin", "Lolita", birthDate, 9116, 86, "Sachsen", "Monterey Place", "DE", "+49 390 982 5080", password);
+        Customer expectedCustomer = new Customer(mailAddress, "Schmidt", "Lisa", birthDate, 9116, 86, "Sachsen", "Monterey Place", "DE", "+49 390 982 5080", password);
         assertThat(actualUser).usingRecursiveComparison().isEqualTo(expectedCustomer);
     }
 

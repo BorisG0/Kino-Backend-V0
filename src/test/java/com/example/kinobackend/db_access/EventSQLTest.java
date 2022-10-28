@@ -77,7 +77,7 @@ class EventSQLTest {
         Time time = Time.valueOf("18:00:00");
 
         Event expectedEvent = new Event(2, date, time, 1, 3);
-        Event actualEvent = testEventSQL.getEventById((int) expectedEvent.getId());
+        Event actualEvent = testEventSQL.getEventByDateTimeRoom(expectedEvent.getDate(), expectedEvent.getTime(), expectedEvent.getRoomId());
 
         assertThat(actualEvent).usingRecursiveComparison().isEqualTo(expectedEvent);
     }
