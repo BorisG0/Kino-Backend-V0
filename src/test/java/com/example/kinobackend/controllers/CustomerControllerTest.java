@@ -43,7 +43,4 @@ class CustomerControllerTest {
         assertThat(expectedCustomer).usingRecursiveComparison().isEqualTo(actualCustomer);
     }
 
-    @Test
-    void addCustomer() {
-    }
 }

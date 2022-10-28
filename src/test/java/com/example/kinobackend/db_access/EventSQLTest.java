@@ -69,7 +69,7 @@ class EventSQLTest {
         assertThat(actualEvent).usingRecursiveComparison().isEqualTo(expectedEvent);
     }
 
-    @Test
+    /*@Test
     void getEventByDateTimeRoom() throws ParseException {
         String date_string = "07-11-2022";
         SimpleDateFormat formatterDate = new SimpleDateFormat("dd-MM-yyyy");
@@ -81,4 +81,6 @@ class EventSQLTest {
 
         assertThat(actualEvent).usingRecursiveComparison().isEqualTo(expectedEvent);
     }
+
+     */
 }
