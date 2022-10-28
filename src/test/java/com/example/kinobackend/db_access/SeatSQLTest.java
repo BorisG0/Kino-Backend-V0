@@ -31,16 +31,13 @@ class SeatSQLTest {
         assertThat(actualSeat).usingRecursiveComparison().isEqualTo(expectedSeat);
     }
 
-    @Test
+    /*@Test
     void getSeatsForEventId() {
         int eventId = 2;
         SeatInEvent[] testSeatInEventArray = testSeatSQL.getSeatsForEventId(eventId);
         SeatInEvent actualSeatInEvent = testSeatInEventArray[3];
         SeatInEvent expectedSeatInEvent = new SeatInEvent("A", 4, 0,4,eventId);
         assertThat(actualSeatInEvent).usingRecursiveComparison().isEqualTo(expectedSeatInEvent);
-    }
+    }*/
 
-    @Test
-    void setSeatInEventStatus() {
-    }
 }

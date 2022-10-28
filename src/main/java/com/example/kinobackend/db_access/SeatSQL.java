@@ -26,6 +26,20 @@ public final class SeatSQL extends MySqlConnector {
         return data.toArray(new Seat[0]);
     }
 
+    public Seat getSeatById(int seatId){
+        Seat seat = null;
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from seat where idSeat = "+seatId);
+            rs.next();
+            seat = new Seat(rs.getLong(1), rs.getString(2), rs.getInt(3), rs.getLong(4));
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return seat;
+    }
+
     public SeatInEvent[] getSeatsForEventId(int eventId){
         ArrayList<SeatInEvent> data = new ArrayList<>();
 

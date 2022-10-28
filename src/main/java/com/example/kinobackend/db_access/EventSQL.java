@@ -84,53 +84,41 @@ public final class EventSQL extends MySqlConnector {
 
     public boolean addEvent( Event event){
         try {
-            MovieSQL movieSQL = new MovieSQL();
-            Movie movieForAddedEvent = movieSQL.getMovieById((int)event.getMovieId());
-            int movieDuration = movieForAddedEvent.getDuration();
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select Time, movie_idMovie, idEvent from event where Date = "+putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + " and room_idRoom = "+event.getRoomId() + " and active = true");
-            while (rs.next()){
-                if (rs.getTime(1).toLocalTime().isAfter(event.getTime().toLocalTime())){
-                    LocalTime endTime = event.getTime().toLocalTime().plusMinutes(movieDuration);
-                    if (endTime.isAfter(rs.getTime(1).toLocalTime())){
-                        return false;
-                    }
-                }
-                else{
-                    Movie movieFromExistingEvent = movieSQL.getMovieById(rs.getInt(2));
-                    LocalTime endTimeOfExistingEvent = rs.getTime(1).toLocalTime().plusMinutes(movieFromExistingEvent.getDuration());
-                    if (endTimeOfExistingEvent.isAfter(event.getTime().toLocalTime())){
-                        return false;
-                    }
-                }
+            EventSQL eventSQL = new EventSQL();
+            if (eventSQL.checkOtherEventExistsAtTime(event)){
+                return false;
             }
+            Statement stmt = con.createStatement();
                 stmt.execute("insert into event (Date, Time, Movie_idMovie, Room_idRoom, active) " +
                         "values (" + putStringIntoApostrophe(JavaUtilDateToString(event.getDate()))
                         + ", " + putStringIntoApostrophe(event.getTime().toString())
                         + ", "+ event.getMovieId()
                         + ", " + event.getRoomId() +", true )");
-            rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
-
+            ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
             rs.next();
             int idAddedEvent = rs.getInt(1);
-
             System.out.println("id = "+ idAddedEvent);
             event.setId(idAddedEvent);
             generateTicketsForEvent(event);
-
         }catch (Exception e){
             System.out.println(e);
+            return false;
         }
         return true;
     }
     public boolean updateEvent(Event event){
         try {
+            EventSQL eventSQL = new EventSQL();
+            if (eventSQL.checkOtherEventExistsAtTime(event)){
+                return false;
+            }
             Statement stmt = con.createStatement();
             stmt.execute("update event set Date = "+putStringIntoApostrophe(JavaUtilDateToString(event.getDate()))+", Time = "+putStringIntoApostrophe(event.getTime().toString())+", Movie_idMovie = "+event.getMovieId()+", Room_idRoom = "+event.getRoomId()+" where idEvent = "+event.getId());
         }catch (Exception e){
             System.out.println(e);
+            return false;
         }
-        return true;//TODO
+        return true;
     }
 
     public void generateTicketsForEvent(Event event){
@@ -143,7 +131,7 @@ public final class EventSQL extends MySqlConnector {
             }
             Integer[] dataArray = data.toArray(new Integer[data.size()]);
             for (int idSeat:dataArray) {
-                stmt.execute("insert into ticket (idSeat, idEvent, status, defaultPrice)"
+                stmt.execute("insert into ticket (seat_idSeat, event_idEvent, status, defaultPrice)"
                         + "values(" + idSeat + ", " + event.getId() + ", 0, 12)");
             }
         } catch (SQLException e) {
@@ -171,7 +159,7 @@ public final class EventSQL extends MySqlConnector {
         int freeSeats=0;
         try {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT count(status) from ticket where idEvent = "+ eventId + " and status = 0");
+            ResultSet rs = stmt.executeQuery("SELECT count(status) from ticket where event_idEvent = "+ eventId + " and status = 0");
             rs.next();
             freeSeats = rs.getInt(1);
         }catch (Exception e){
@@ -189,5 +177,33 @@ public final class EventSQL extends MySqlConnector {
             System.out.println(e);
             return false;
         }
+    }
+    public boolean checkOtherEventExistsAtTime(Event event){
+        try {
+            MovieSQL movieSQL = new MovieSQL();
+            Movie movieForAddedEvent = movieSQL.getMovieById((int) event.getMovieId());
+            int movieDuration = movieForAddedEvent.getDuration();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select Time, movie_idMovie from event where Date = " + putStringIntoApostrophe(JavaUtilDateToString(event.getDate())) + " and room_idRoom = " + event.getRoomId() + " and active = true");
+            while (rs.next()) {
+                if (rs.getTime(1).toLocalTime().isAfter(event.getTime().toLocalTime())) {
+                    LocalTime endTime = event.getTime().toLocalTime().plusMinutes(movieDuration);
+                    if (endTime.isAfter(rs.getTime(1).toLocalTime())) {
+                        System.out.println("Other event exists");
+                        return true;
+                    }
+                } else {
+                    Movie movieFromExistingEvent = movieSQL.getMovieById(rs.getInt(2));
+                    LocalTime endTimeOfExistingEvent = rs.getTime(1).toLocalTime().plusMinutes(movieFromExistingEvent.getDuration());
+                    if (endTimeOfExistingEvent.isAfter(event.getTime().toLocalTime())) {
+                        System.out.println("other event exists");
+                        return true;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }

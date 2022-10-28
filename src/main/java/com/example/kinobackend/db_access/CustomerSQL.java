@@ -35,6 +35,7 @@ public final class CustomerSQL extends MySqlConnector{
         }catch (Exception e){
             System.out.println(e);
         }
+        System.out.println("getting customer by Mail Adress");
         return customer;
     }
 

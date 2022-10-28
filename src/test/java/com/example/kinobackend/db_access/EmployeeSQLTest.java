@@ -25,9 +25,15 @@ class EmployeeSQLTest {
 
     @Test
     void getEmployeeData() {
-        Employee Employees[] = testEmployeeSQL.getEmployeeData();
-        Employee actualEmployee = Employees[0];
+        Employee employees[] = testEmployeeSQL.getEmployeeData();
         Employee expectedEmployee = new Employee("etebbit5@google.com.au", "Merritt", "Marie-thérèse", "Manager", "0O5fYu");
+        Employee actualEmployee = new Employee();
+        for(int i = 0; i < employees.length; i++){
+            actualEmployee = employees[i];
+            if(actualEmployee.getMailAdress().equals(expectedEmployee.getMailAdress())){
+                break;
+            }
+        }
         assertThat(actualEmployee).usingRecursiveComparison().isEqualTo(expectedEmployee);
     }
 
@@ -38,7 +44,4 @@ class EmployeeSQLTest {
         assertThat(actualEmployee).usingRecursiveComparison().isEqualTo(expectedEmployee);
     }
 
-    @Test
-    void addEmployee() {
-    }
 }
