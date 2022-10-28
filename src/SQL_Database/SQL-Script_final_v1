@@ -12,21 +12,8 @@ DROP SCHEMA IF EXISTS `mydb` ;
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8;
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8mb3 ;
 USE `mydb` ;
-
--- -----------------------------------------------------
--- Table `mydb`.`booking`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`booking` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`booking` (
-  `idBooking` INT NOT NULL AUTO_INCREMENT,
-  `email` VARCHAR(45) NULL DEFAULT NULL,
-  `pricePaid` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`idBooking`))
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `mydb`.`customer`
@@ -34,19 +21,38 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`customer` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`customer` (
-  `MailAddress` VARCHAR(45) NOT NULL,
-  `LastName` VARCHAR(45) NULL DEFAULT NULL,
-  `FirstName` VARCHAR(45) NULL DEFAULT NULL,
-  `BirthDate` DATE NULL DEFAULT NULL,
-  `PLZ` INT NULL DEFAULT NULL,
-  `HouseNumber` INT NULL DEFAULT NULL,
-  `Location` VARCHAR(45) NULL DEFAULT NULL,
-  `Street` VARCHAR(45) NULL DEFAULT NULL,
-  `Country` VARCHAR(2) NULL DEFAULT 'DE',
-  `MobileNumber` VARCHAR(45) NULL DEFAULT NULL,
-  `Password` VARCHAR(80) NOT NULL,
-  PRIMARY KEY (`MailAddress`))
-ENGINE = InnoDB;
+                                                 `MailAddress` VARCHAR(45) NOT NULL,
+                                                 `LastName` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `FirstName` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `BirthDate` DATE NULL DEFAULT NULL,
+                                                 `PLZ` INT NULL DEFAULT NULL,
+                                                 `HouseNumber` INT NULL DEFAULT NULL,
+                                                 `Location` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `Street` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `Country` VARCHAR(2) NULL DEFAULT 'DE',
+                                                 `MobileNumber` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `Password` VARCHAR(80) NOT NULL,
+                                                 PRIMARY KEY (`MailAddress`))
+    ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`booking`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`booking` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`booking` (
+                                                `idBooking` INT NOT NULL AUTO_INCREMENT,
+                                                `customer_email` VARCHAR(45) NOT NULL,
+                                                `pricePaid` INT NULL DEFAULT NULL,
+                                                PRIMARY KEY (`idBooking`),
+                                                INDEX `MailAddress_idx` (`customer_email` ASC) VISIBLE,
+                                                CONSTRAINT `customer_MailAddress`
+                                                    FOREIGN KEY (`customer_email`)
+                                                        REFERENCES `mydb`.`customer` (`MailAddress`)
+                                                        ON DELETE NO ACTION
+                                                        ON UPDATE NO ACTION)
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -55,13 +61,13 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`employee` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`employee` (
-  `MailAddress` VARCHAR(45) NOT NULL,
-  `LastName` VARCHAR(45) NULL DEFAULT NULL,
-  `FirstName` VARCHAR(45) NULL DEFAULT NULL,
-  `Role` VARCHAR(45) NULL DEFAULT NULL,
-  `Password` VARCHAR(80) NOT NULL,
-  PRIMARY KEY (`MailAddress`))
-ENGINE = InnoDB;
+                                                 `MailAddress` VARCHAR(45) NOT NULL,
+                                                 `LastName` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `FirstName` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `Role` VARCHAR(45) NULL DEFAULT NULL,
+                                                 `Password` VARCHAR(80) NOT NULL,
+                                                 PRIMARY KEY (`MailAddress`))
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -70,21 +76,21 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`movie` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`movie` (
-  `idMovie` INT NOT NULL AUTO_INCREMENT,
-  `Title` VARCHAR(45) NULL DEFAULT NULL,
-  `Duration` INT NULL DEFAULT NULL,
-  `AgeRestriction` INT NULL DEFAULT NULL,
-  `imageName` VARCHAR(45) NULL DEFAULT NULL,
-  `Description` LONGTEXT NULL DEFAULT NULL,
-  `Genre` VARCHAR(100) NULL DEFAULT NULL,
-  `StartDate` DATE NULL DEFAULT NULL,
-  `movieStudio` VARCHAR(100) NULL DEFAULT NULL,
-  `regie` VARCHAR(100) NULL DEFAULT NULL,
-  `cast` VARCHAR(100) NULL DEFAULT NULL,
-  `trailerLink` VARCHAR(100) NULL DEFAULT NULL,
-  `active` TINYINT(1) NULL DEFAULT '1',
-  PRIMARY KEY (`idMovie`))
-ENGINE = InnoDB;
+                                              `idMovie` INT NOT NULL AUTO_INCREMENT,
+                                              `Title` VARCHAR(45) NULL DEFAULT NULL,
+                                              `Duration` INT NULL DEFAULT NULL,
+                                              `AgeRestriction` INT NULL DEFAULT NULL,
+                                              `imageName` VARCHAR(45) NULL DEFAULT NULL,
+                                              `Description` LONGTEXT NULL DEFAULT NULL,
+                                              `Genre` VARCHAR(100) NULL DEFAULT NULL,
+                                              `StartDate` DATE NULL DEFAULT NULL,
+                                              `movieStudio` VARCHAR(100) NULL DEFAULT NULL,
+                                              `regie` VARCHAR(100) NULL DEFAULT NULL,
+                                              `cast` VARCHAR(100) NULL DEFAULT NULL,
+                                              `trailerLink` VARCHAR(100) NULL DEFAULT NULL,
+                                              `active` TINYINT(1) NULL DEFAULT '1',
+                                              PRIMARY KEY (`idMovie`))
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -93,9 +99,9 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`room` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`room` (
-  `idRoom` INT NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`idRoom`))
-ENGINE = InnoDB;
+                                             `idRoom` INT NOT NULL AUTO_INCREMENT,
+                                             PRIMARY KEY (`idRoom`))
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -104,22 +110,22 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`event` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`event` (
-  `idEvent` INT NOT NULL AUTO_INCREMENT,
-  `Date` DATE NULL DEFAULT NULL,
-  `Time` TIME NULL DEFAULT NULL,
-  `movie_idMovie` INT NULL DEFAULT NULL,
-  `room_idRoom` INT NULL DEFAULT NULL,
-  `active` TINYINT(1) NULL DEFAULT '1',
-  PRIMARY KEY (`idEvent`),
-  INDEX `fk_event_movie_idx` (`movie_idMovie` ASC) VISIBLE,
-  INDEX `fk_event_room1_idx` (`room_idRoom` ASC) VISIBLE,
-  CONSTRAINT `fk_event_movie`
-    FOREIGN KEY (`movie_idMovie`)
-    REFERENCES `mydb`.`movie` (`idMovie`),
-  CONSTRAINT `fk_event_room1`
-    FOREIGN KEY (`room_idRoom`)
-    REFERENCES `mydb`.`room` (`idRoom`))
-ENGINE = InnoDB;
+                                              `idEvent` INT NOT NULL AUTO_INCREMENT,
+                                              `Date` DATE NULL DEFAULT NULL,
+                                              `Time` TIME NULL DEFAULT NULL,
+                                              `movie_idMovie` INT NOT NULL,
+                                              `room_idRoom` INT NOT NULL,
+                                              `active` TINYINT(1) NULL DEFAULT '1',
+                                              PRIMARY KEY (`idEvent`),
+                                              INDEX `fk_event_movie_idx` (`movie_idMovie` ASC) VISIBLE,
+                                              INDEX `fk_event_room1_idx` (`room_idRoom` ASC) VISIBLE,
+                                              CONSTRAINT `fk_event_movie`
+                                                  FOREIGN KEY (`movie_idMovie`)
+                                                      REFERENCES `mydb`.`movie` (`idMovie`),
+                                              CONSTRAINT `fk_event_room1`
+                                                  FOREIGN KEY (`room_idRoom`)
+                                                      REFERENCES `mydb`.`room` (`idRoom`))
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -128,16 +134,16 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`seat` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`seat` (
-  `idSeat` INT NOT NULL AUTO_INCREMENT,
-  `Line` VARCHAR(45) NULL DEFAULT NULL,
-  `NumberInLine` INT NULL DEFAULT NULL,
-  `room_idRoom` INT NOT NULL,
-  PRIMARY KEY (`idSeat`),
-  INDEX `fk_seat_room1_idx` (`room_idRoom` ASC) VISIBLE,
-  CONSTRAINT `fk_seat_room1`
-    FOREIGN KEY (`room_idRoom`)
-    REFERENCES `mydb`.`room` (`idRoom`))
-ENGINE = InnoDB;
+                                             `idSeat` INT NOT NULL AUTO_INCREMENT,
+                                             `Line` VARCHAR(45) NULL DEFAULT NULL,
+                                             `NumberInLine` INT NULL DEFAULT NULL,
+                                             `room_idRoom` INT NOT NULL,
+                                             PRIMARY KEY (`idSeat`),
+                                             INDEX `fk_seat_room1_idx` (`room_idRoom` ASC) VISIBLE,
+                                             CONSTRAINT `fk_seat_room1`
+                                                 FOREIGN KEY (`room_idRoom`)
+                                                     REFERENCES `mydb`.`room` (`idRoom`))
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -146,33 +152,26 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`ticket` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`ticket` (
-  `idTicket` INT NOT NULL AUTO_INCREMENT,
-  `seat_idSeat` INT NULL DEFAULT NULL,
-  `event_idEvent` INT NULL DEFAULT NULL,
-  `status` INT NULL DEFAULT NULL,
-  `defaultPrice` INT NULL DEFAULT NULL,
-  `booking_idBooking` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`idTicket`),
-  INDEX `idSeat_idx` (`seat_idSeat` ASC) VISIBLE,
-  INDEX `idEvent_idx` (`event_idEvent` ASC) VISIBLE,
-  INDEX `idBooking_idx` (`booking_idBooking` ASC) VISIBLE,
-  CONSTRAINT `idSeat`
-    FOREIGN KEY (`seat_idSeat`)
-    REFERENCES `mydb`.`seat` (`idSeat`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `idEvent`
-    FOREIGN KEY (`event_idEvent`)
-    REFERENCES `mydb`.`event` (`idEvent`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `idBooking`
-    FOREIGN KEY (`booking_idBooking`)
-    REFERENCES `mydb`.`booking` (`idBooking`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
+                                               `idTicket` INT NOT NULL AUTO_INCREMENT,
+                                               `seat_idSeat` INT NOT NULL,
+                                               `event_idEvent` INT NOT NULL,
+                                               `status` INT NULL DEFAULT NULL,
+                                               `defaultPrice` INT NULL DEFAULT NULL,
+                                               `booking_idBooking` INT NULL,
+                                               PRIMARY KEY (`idTicket`),
+                                               INDEX `idSeat_idx` (`seat_idSeat` ASC) VISIBLE,
+                                               INDEX `idEvent_idx` (`event_idEvent` ASC) VISIBLE,
+                                               INDEX `idBooking_idx` (`booking_idBooking` ASC) VISIBLE,
+                                               CONSTRAINT `idBooking`
+                                                   FOREIGN KEY (`booking_idBooking`)
+                                                       REFERENCES `mydb`.`booking` (`idBooking`),
+                                               CONSTRAINT `idEvent`
+                                                   FOREIGN KEY (`event_idEvent`)
+                                                       REFERENCES `mydb`.`event` (`idEvent`),
+                                               CONSTRAINT `idSeat`
+                                                   FOREIGN KEY (`seat_idSeat`)
+                                                       REFERENCES `mydb`.`seat` (`idSeat`))
+    ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
