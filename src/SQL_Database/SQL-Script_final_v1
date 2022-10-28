@@ -43,15 +43,21 @@ DROP TABLE IF EXISTS `mydb`.`booking` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`booking` (
                                                 `idBooking` INT NOT NULL AUTO_INCREMENT,
-                                                `customer_email` VARCHAR(45) NOT NULL,
+                                                `customer_email` VARCHAR(45)  NULL,
+                                                `employee_email` VARCHAR(45)  NULL,
                                                 `pricePaid` INT NULL DEFAULT NULL,
                                                 PRIMARY KEY (`idBooking`),
                                                 INDEX `MailAddress_idx` (`customer_email` ASC) VISIBLE,
                                                 CONSTRAINT `customer_MailAddress`
                                                     FOREIGN KEY (`customer_email`)
-                                                        REFERENCES `mydb`.`customer` (`MailAddress`)
-                                                        ON DELETE NO ACTION
-                                                        ON UPDATE NO ACTION)
+                                                        REFERENCES `mydb`.`customer` (`MailAddress`),
+                                                CONSTRAINT `employee_MailAddress`
+                                                    FOREIGN KEY (`employee_email`)
+                                                        REFERENCES `mydb`.`employee` (`MailAddress`),
+                                                CONSTRAINT CK_booking_CustomerEmployee CHECK (
+                                                     CASE WHEN customer_email IS NULL THEN 0 ELSE 1 END +
+                                                     CASE WHEN employee_email  IS NULL THEN 0 ELSE 1 END = 1)
+    )
     ENGINE = InnoDB;
 
 
