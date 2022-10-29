@@ -55,9 +55,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`booking` (
                                                     FOREIGN KEY (`employee_email`)
                                                         REFERENCES `mydb`.`employee` (`MailAddress`),
                                                 CONSTRAINT CK_booking_CustomerEmployee CHECK (
-                                                     CASE WHEN customer_email IS NULL THEN 0 ELSE 1 END +
-                                                     CASE WHEN employee_email  IS NULL THEN 0 ELSE 1 END = 1 )
-    )
+                                                            CASE WHEN customer_email IS NULL THEN 0 ELSE 1 END +
+                                                            CASE WHEN employee_email  IS NULL THEN 0 ELSE 1 END = 1)
+)
     ENGINE = InnoDB;
 
 
@@ -200,7 +200,8 @@ INSERT INTO room(idRoom)VALUES (3);
 INSERT INTO room(idRoom)VALUES (4);
 INSERT INTO room(idRoom)VALUES (5);
 
-insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (1, '2022-07-17', '14:00:00', 1, 1);
+/*
+    insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (1, '2022-07-17', '14:00:00', 1, 1);
 insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (2, '2022-11-07', '18:00:00', 1, 3);
 insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (3, '2022-01-24', '20:30:00', 2, 2);
 insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (4, '2022-06-18', '19:30:00', 1, 2);
@@ -211,6 +212,7 @@ insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (8, '
 insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (9, '2022-06-18', '22:45:00', 4, 2);
 insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (10, '2021-12-06', '18:30:00', 2, 4);
 insert into event (idEvent, Date, Time, movie_idMovie, room_idRoom) values (11, '2022-07-17', '14:00:00', 6, 4);
+    */
 
 insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (1, 'A', 1, 1);
 insert into seat (idSeat, Line, room_idRoom, NumberInLine)values (2, 'A', 1, 2);
@@ -323,5 +325,33 @@ insert into employee (MailAddress, LastName, FirstName, Role, Password ) values 
 insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('jbraddick8@php.net', 'Laydon', 'Maëline', 'TicketVerkäufer', 'aJumewz075BX');
 insert into employee (MailAddress, LastName, FirstName, Role, Password ) values ('ncalven9@ask.com', 'Gibbe', 'Ráo', 'Manager', 'At1FXj');
 
-INSERT INTO ticket VALUES (1,16,3,0,12,null),(2,17,3,0,12,null),(3,18,3,0,12,null),(4,19,3,0,12,null),(5,20,3,0,12,null),(6,21,3,0,12,null),(7,22,3,0,12,null),(8,23,3,0,12,null),(9,24,3,0,12,null),(10,25,3,0,12,null),(11,26,3,0,12,null),(12,27,3,0,12,null),(13,28,3,0,12,null),(14,29,3,0,12,null),(15,30,3,0,12,null),(16,16,4,0,12,null),(17,17,4,0,12,null),(18,18,4,0,12,null),(19,19,4,0,12,null),(20,20,4,0,12,null),(21,21,4,0,12,null),(22,22,4,0,12,null),(23,23,4,0,12,null),(24,24,4,0,12,null),(25,25,4,0,12,null),(26,26,4,0,12,null),(27,27,4,0,12,null),(28,28,4,0,12,null),(29,29,4,0,12,null),(30,30,4,0,12,null);
-
+/*INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (1,16,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (2,17,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (3,18,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (4,19,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (5,20,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (6,21,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (7,22,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (8,23,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (9,24,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (10,25,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (11,26,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (12,27,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (13,28,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (14,29,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (15,30,3,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (16,16,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (17,17,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (18,18,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (19,19,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (20,20,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (21,21,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (22,22,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (23,23,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (24,24,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (25,25,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES(26,26,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (27,27,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES(28,28,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (29,29,4,0,12,null);
+INSERT INTO ticket (idTicket, seat_idSeat, event_idEvent, status, defaultPrice, booking_idBooking) VALUES (30,30,4,0,12,null); */
