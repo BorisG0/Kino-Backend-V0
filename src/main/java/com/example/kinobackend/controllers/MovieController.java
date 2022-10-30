@@ -66,10 +66,4 @@ public class MovieController {
         return connector.updateMovie(movie);
     }
 
-    @GetMapping("/api/testGetmovieById")
-    public Movie testGetMovieById(){
-        System.out.println("Getting Movie with id: 1" );
-        MovieSQL connector = new MovieSQL();
-        return connector.getMovieById(1);
-    }
-    }
+}

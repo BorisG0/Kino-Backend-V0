@@ -247,12 +247,4 @@ public class BookingSQL extends MySqlConnector{
             System.out.println(e);
         }
     }
-
-    public static void main(String[] args) {
-        BookingSQL bookingSQL = new BookingSQL();
-        String[]seats = {"A3","A4",};
-        //BookingInfo bookingInfo = new BookingInfo(1,24,seats,"Batman 2",new Date(2022-12-23), Time.valueOf("14:00:00"));
-        //bookingSQL.generatePDF(bookingInfo);
-        //bookingSQL.sendConfirmationMail();
-    }
 }

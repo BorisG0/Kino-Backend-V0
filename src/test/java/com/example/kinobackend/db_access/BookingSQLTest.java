@@ -1,5 +1,6 @@
 package com.example.kinobackend.db_access;
 
+import com.example.kinobackend.responses.BookingCreation;
 import com.example.kinobackend.responses.BookingInfo;
 import com.example.kinobackend.responses.DBTicket;
 import com.example.kinobackend.responses.Ticket;
@@ -51,5 +52,12 @@ class BookingSQLTest {
         DBTicket actualTickets = testBookingSQL.getTicketById(id);
         DBTicket expectedTickets = new DBTicket(1, 16, 3, 0, 12, 0);
         assertThat(actualTickets).usingRecursiveComparison().isEqualTo(expectedTickets);
+    }
+
+    @Test
+    void generatePDF(){
+        int[] tickets = {1};
+        BookingCreation bookingCreation = new BookingCreation("test@test.com", tickets);
+        testBookingSQL.generatePDF(bookingCreation);
     }
 }

@@ -139,22 +139,6 @@ public final class EventSQL extends MySqlConnector {
         }
     }
 
-    public Event getEventByDateTimeRoom(Date date, Time time, long roomId){
-        Event event = null;
-        try {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from event where Date = " + putStringIntoApostrophe(JavaUtilDateToString(date))
-                                                +" and Time = "+putStringIntoApostrophe(date.toString())
-                                                +" and room_idRoom = "+roomId
-                                                +" and active = true");
-            rs.next();
-            event = new Event(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getInt(4), rs.getInt(5));
-        }catch (Exception e){
-            System.out.println(e);
-        }
-        return event;
-    }
-
     public int getFreeSeatsForEvent(long eventId){
         int freeSeats=0;
         try {
