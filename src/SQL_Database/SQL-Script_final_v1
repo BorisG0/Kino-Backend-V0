@@ -245,8 +245,6 @@ insert into seat (Line, room_idRoom, NumberInLine)values ('C', 1, 11);
 insert into seat (Line, room_idRoom, NumberInLine)values ('C', 1, 12);
 insert into seat (Line, room_idRoom, NumberInLine)values ('C', 1, 13);
 insert into seat (Line, room_idRoom, NumberInLine)values ('C', 1, 14);
-insert into seat (Line, room_idRoom, NumberInLine)values ('C', 1, 15);
-insert into seat (Line, room_idRoom, NumberInLine)values ('C', 1, 16);
 
 insert into seat (Line, room_idRoom, NumberInLine)values ('A', 2, 1);
 insert into seat (Line, room_idRoom, NumberInLine)values ('A', 2, 2);
