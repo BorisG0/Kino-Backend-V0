@@ -3,7 +3,6 @@ package com.example.kinobackend.responses;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,7 +1,6 @@
 package com.example.kinobackend.db_access;
 
 import com.example.kinobackend.responses.Seat;
-import com.example.kinobackend.responses.SeatInEvent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,14 +29,5 @@ class SeatSQLTest {
         Seat expectedSeat = new Seat(10, "B", 2, 1);
         assertThat(actualSeat).usingRecursiveComparison().isEqualTo(expectedSeat);
     }
-
-    /*@Test
-    void getSeatsForEventId() {
-        int eventId = 2;
-        SeatInEvent[] testSeatInEventArray = testSeatSQL.getSeatsForEventId(eventId);
-        SeatInEvent actualSeatInEvent = testSeatInEventArray[3];
-        SeatInEvent expectedSeatInEvent = new SeatInEvent("A", 4, 0,4,eventId);
-        assertThat(actualSeatInEvent).usingRecursiveComparison().isEqualTo(expectedSeatInEvent);
-    }*/
 
 }

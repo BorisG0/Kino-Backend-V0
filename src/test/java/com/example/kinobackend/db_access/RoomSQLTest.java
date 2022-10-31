@@ -1,6 +1,5 @@
 package com.example.kinobackend.db_access;
 
-import com.example.kinobackend.responses.Customer;
 import com.example.kinobackend.responses.Room;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
