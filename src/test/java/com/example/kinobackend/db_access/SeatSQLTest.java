@@ -27,7 +27,7 @@ class SeatSQLTest {
     void getSeatData() {
         Seat Seats[] = testSeatSQL.getSeatData();
         Seat actualSeat = Seats[9];
-        Seat expectedSeat = new Seat(10, "B", 5, 1);
+        Seat expectedSeat = new Seat(10, "B", 2, 1);
         assertThat(actualSeat).usingRecursiveComparison().isEqualTo(expectedSeat);
     }
 
