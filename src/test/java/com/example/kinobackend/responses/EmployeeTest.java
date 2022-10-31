@@ -65,8 +65,6 @@ class EmployeeTest {
     @Test
     void testConstructor() {
         assertEquals(mailAdress, testEmployee.getMailAdress());
-        //assertEquals(lastname, testEmployee.getLastname());
-        //assertEquals(firstname, testEmployee.getFirstname());
         assertEquals(role, testEmployee.getRole());
         assertEquals(password, testEmployee.getPassword());
     }

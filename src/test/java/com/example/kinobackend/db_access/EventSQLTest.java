@@ -70,21 +70,6 @@ class EventSQLTest {
         assertThat(actualEvent).usingRecursiveComparison().isEqualTo(expectedEvent);
     }
 
-    /*@Test
-    void getEventByDateTimeRoom() throws ParseException {
-        String date_string = "07-11-2022";
-        SimpleDateFormat formatterDate = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = formatterDate.parse(date_string);
-        Time time = Time.valueOf("18:00:00");
-
-        Event expectedEvent = new Event(2, date, time, 1, 3);
-        Event actualEvent = testEventSQL.getEventByDateTimeRoom(expectedEvent.getDate(), expectedEvent.getTime(), expectedEvent.getRoomId());
-
-        assertThat(actualEvent).usingRecursiveComparison().isEqualTo(expectedEvent);
-    }
-
-     */
-
     @Test
     void checkOtherEventExistsAtTime() throws ParseException {
         String date_string = "07-11-2022";
